@@ -20,18 +20,18 @@ def init():
     init_list = []
     for battler in battlers:
         active_name = battler
-        r = active_name
-        if 'slow' in r['statuses']:
-            r['init_mod'] = r['speed'] - 20 + randint(0, 20)
-        elif 'haste' in r['statuses']:
-            r['init_mod'] = r['speed'] + 20 + randint(0, 20)
-        elif 'KO' in r['statuses']:
-            r['init_mod'] = 0
+        an = active_name
+        if 'KO' in an['statuses']:
+            an['init_mod'] = an['init_mod'] = 0
+        elif 'haste' in an['statuses']:
+            an['init_mod'] = an['speed'] + 20 + randint(0, 20)
+        elif 'slow' in an['statuses']:
+            an['init_mod'] = an['speed'] - 20 + randint(0, 20)
         else:
-            r['init_mod'] = r['speed'] * 2 / 1.5 + randint(0, 20)
-        r['init_mod'] = r['init_mod'].__round__()
-        r['init'] = r['init_mod']
-        data = r['name'], r['init'], r['statuses']
+            an['init_mod'] = an['speed'] * 2 / 1.5 + randint(0, 20)
+        an['init_mod'] = an['init_mod'].__round__()
+        an['init'] = an['init_mod']
+        data = an['name'], an['init'], an['statuses']
         init_list.append(data)
     else:
         init_list = sorted(init_list, key=operator.itemgetter(1),
@@ -71,6 +71,7 @@ def active_turn():
 # should be made to handle the choices player characters and enemies will make \
 # and that can call this one when needed
 def battle_turn(active_turn_list):
+    i = 0
     condition = True
     while condition:
         for i in range(len(active_turn_list)):
@@ -82,7 +83,7 @@ def battle_turn(active_turn_list):
             print(bd[cr]['name'], "'s HP: ", bd[cr]['current_HP'], sep="")
             if 'KO' in bd[cr]['statuses']:
                 print(bd[cr]['name'], 'is knocked out!')
-                break
+                continue
             else:
                 damage = randint(25, 75) - bd[cr]['defence']
                 if damage < 0:
@@ -98,11 +99,11 @@ def battle_turn(active_turn_list):
                     print(bd[cr]['name'], 'now has', bd[cr]['current_HP'],
                           'HP!')
                 input(">>>")
-            i += 1
-            if i == len(active_turn_list):
-                print()
-                condition = False
-                print_stats(active_turn_list)
+        i += 1
+        if i == len(active_turn_list):
+            print()
+            condition = False
+            print_stats(active_turn_list)
 
 
 # This is a debugging function to check changes to stats are being applied, \
@@ -145,7 +146,7 @@ def print_statuses(active_turn_list):
             else:
                 statuses_list += (str.ljust(
                     "{0}'s statuses: ".format(bd[ref]['name']), 30),
-                    statuses)
+                                  statuses)
         except IndexError:
             continue
         except KeyError:
