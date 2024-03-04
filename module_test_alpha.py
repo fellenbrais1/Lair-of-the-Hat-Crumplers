@@ -14,24 +14,31 @@ from random import randint
 import operator
 
 
+def main_loop():
+    while True:
+        init()
+        active_turn()
+        battle_turn(active_turn_list="")
+        print_stats(active_turn_list="")
+        print_statuses(active_turn_list="")
+
+
 # This function assigns initiative values to each participant in the battle
 def init():
     print_string = ""
     init_list = []
     for battler in battlers:
-        active_name = battler
-        an = active_name
-        if 'KO' in an['statuses']:
-            an['init_mod'] = an['init_mod'] = 0
-        elif 'haste' in an['statuses']:
-            an['init_mod'] = an['speed'] + 20 + randint(0, 20)
-        elif 'slow' in an['statuses']:
-            an['init_mod'] = an['speed'] - 20 + randint(0, 20)
+        if 'KO' in battler['statuses']:
+            battler['init_mod'] = 0
+        elif 'haste' in battler['statuses']:
+            battler['init_mod'] = (battler['speed'] + 20) + randint(0, 20)
+        elif 'slow' in battler['statuses']:
+            battler['init_mod'] = (battler['speed'] - 20) + randint(0, 20)
         else:
-            an['init_mod'] = an['speed'] * 2 / 1.5 + randint(0, 20)
-        an['init_mod'] = an['init_mod'].__round__()
-        an['init'] = an['init_mod']
-        data = an['name'], an['init'], an['statuses']
+            battler['init_mod'] = ((battler['speed'] * 2) / 1.5) + randint(0, 20)
+        battler['init_mod'] = battler['init_mod'].__round__()
+        battler['init'] = battler['init_mod']
+        data = battler['name'], battler['init'], battler['statuses']
         init_list.append(data)
     else:
         init_list = sorted(init_list, key=operator.itemgetter(1),
@@ -44,10 +51,8 @@ def init():
             elif 'slow' in item[2]:
                 print_string += "{0} is slowed!\n".format(item[0])
             elif 'haste' in item[2]:
-                print_string += "{0}, is moving fast!\n".format(item[0])
-    for item in print_string:
-        print(item, end="")
-    else:
+                print_string += "{0} is moving fast!\n".format(item[0])
+        print(print_string)
         active_turn()
 
 
@@ -160,4 +165,4 @@ def print_statuses(active_turn_list):
 
 # This function starts the process for now, but in future it would all be \
 # called by the central game engine
-init()
+main_loop()
