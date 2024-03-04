@@ -3,7 +3,7 @@ from random import randint
 import operator
 
 
-def init():
+def init(battlers):
     print_string = ""
     init_list = []
     for battler in battlers:
@@ -20,9 +20,9 @@ def init():
         data = battler['name'], battler['init'], battler['statuses']
         init_list.append(data)
     else:
-        battlers_battle = sorted(battlers, key=operator.itemgetter('init'),
-                                 reverse=True)
-        for battler in battlers_battle:
+        battlers = sorted(battlers, key=operator.itemgetter('init'),
+                          reverse=True)
+        for battler in battlers:
             print_string += str.ljust(battler['name'] + "'s initiative: ", 30) \
                             + str(battler['init']) + "\n"
             if 'KO' in battler['statuses']:
@@ -32,11 +32,10 @@ def init():
             elif 'haste' in battler['statuses']:
                 print_string += "{0} is moving fast!\n".format(battler['name'])
         print(print_string)
-        battle_turn(battlers_battle)
+        return battlers
 
 
-def battle_turn(battlers_battle):
-    battlers = battlers_battle
+def battle_turn(battlers):
     for battler in battlers:
         print("\nThe active character is: ", battler['name'])
         input(">>>")
@@ -62,7 +61,7 @@ def battle_turn(battlers_battle):
             input(">>>")
     else:
         print()
-        print_stats(battlers)
+        return battlers
 
 
 def print_stats(battlers):
@@ -79,7 +78,7 @@ def print_stats(battlers):
         for line in stat_list:
             print(line)
     print()
-    print_statuses(battlers)
+    return battlers
 
 
 def print_statuses(battlers):
@@ -91,12 +90,18 @@ def print_statuses(battlers):
         else:
             statuses_list += (str.ljust(
                 "{0}'s statuses: ".format(battler['name']), 30),
-                                  statuses)
+                              statuses)
     else:
         for line in statuses_list:
             print(line)
     print("\nNext turn!\n")
-    init()
+    return battlers
 
 
-init()
+battlers_sorted = []
+
+while True:
+    init(battlers)
+    battle_turn(battlers)
+    print_stats(battlers)
+    print_statuses(battlers)

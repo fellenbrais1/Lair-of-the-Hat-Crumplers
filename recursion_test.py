@@ -2,19 +2,21 @@
 # so far none of these methods work, please comment out others to try each one /
 # out
 
+# I have actually solved the issue now in 'module_test_beta.py'
+
 from data_test import battlers
 from random import randint
 import operator
 
 
-def main_loop(functions=()):
+def main_loop():
     # METHOD ONE, DOESN'T WORK
     # Just continuously runs init() and then prints "Next turn!" from /
     # print_statuses() for some reason without calling the other functions
 
     while True:
         init()
-        battle_turn(battlers_battle="")
+        battle_turn(battlers_sorted="")
         print_stats(battlers="")
         print_statuses(battlers="")
 
@@ -39,7 +41,11 @@ def main_loop(functions=()):
 
     # METHOD THREE, DOESN'T WORK
     # This was a recommended solution online, but I must not be using it /
-    # correctly as it triggers my first actual stack overflow! Hooray!
+    # correctly as it triggers my first actual stack overflow! Hooray! I /
+    # got this not to overflow, but it just does the same as the other two /
+    # methods so far. I have tried about twenty different suggested ways to /
+    # fix this but all with no good results, it looks like the formatting of /
+    # functions is wrong, and it can't be easily iterated through.
 
     # functions = (
     #     init(),
@@ -48,7 +54,8 @@ def main_loop(functions=()):
     #     print_statuses(battlers=""),
     # )
     # while True:
-    #     main_loop(functions)
+    #     for function in functions:
+    #         function()
 
 
 def init():
@@ -68,9 +75,9 @@ def init():
         data = battler['name'], battler['init'], battler['statuses']
         init_list.append(data)
     else:
-        battlers_battle = sorted(battlers, key=operator.itemgetter('init'),
+        battlers_sorted = sorted(battlers, key=operator.itemgetter('init'),
                                  reverse=True)
-        for battler in battlers_battle:
+        for battler in battlers_sorted:
             print_string += str.ljust(battler['name'] + "'s initiative: ", 30) \
                             + str(battler['init']) + "\n"
             if 'KO' in battler['statuses']:
@@ -80,11 +87,11 @@ def init():
             elif 'haste' in battler['statuses']:
                 print_string += "{0} is moving fast!\n".format(battler['name'])
         print(print_string)
-        return battlers_battle
+        return battlers_sorted
 
 
-def battle_turn(battlers_battle):
-    battlers = battlers_battle
+def battle_turn(battlers_sorted):
+    battlers = battlers_sorted
     for battler in battlers:
         print("\nThe active character is: ", battler['name'])
         input(">>>")
