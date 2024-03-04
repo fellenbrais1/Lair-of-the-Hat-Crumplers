@@ -69,17 +69,12 @@ def print_stats(battlers):
     stat_list = []
     for battler in battlers:
         stats = []
-        try:
-            for k, v in battler.items():
-                add = k, v
-                stats.append(add)
-            else:
-                stat_list += (str.ljust(
-                    "{0}'s stats: ".format(battler['name']), 30), stats,)
-        except IndexError:
-            continue
-        except KeyError:
-            continue
+        for k, v in battler.items():
+            add = k, v
+            stats.append(add)
+        else:
+            stat_list += (str.ljust(
+                "{0}'s stats: ".format(battler['name']), 30), stats,)
     else:
         for line in stat_list:
             print(line)
@@ -91,17 +86,12 @@ def print_statuses(battlers):
     statuses_list = []
     for battler in battlers:
         statuses = []
-        try:
-            for v in battler['statuses']:
-                statuses += [v]
-            else:
-                statuses_list += (str.ljust(
-                    "{0}'s statuses: ".format(battler['name']), 30),
+        for v in battler['statuses']:
+            statuses += [v]
+        else:
+            statuses_list += (str.ljust(
+                "{0}'s statuses: ".format(battler['name']), 30),
                                   statuses)
-        except IndexError:
-            continue
-        except KeyError:
-            continue
     else:
         for line in statuses_list:
             print(line)
