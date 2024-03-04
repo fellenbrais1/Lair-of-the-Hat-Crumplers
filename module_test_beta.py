@@ -34,8 +34,6 @@ def init(battlers):
 
 
 def print_init(battlers):
-    # battlers = sorted(battlers, key=operator.itemgetter('init'),
-    #                   reverse=True)
     print_string = ""
     for battler in battlers:
         print_string += str.ljust(battler['name'] + "'s initiative: ", 30) \
@@ -51,8 +49,6 @@ def print_init(battlers):
 
 
 def battle_turn(battlers):
-    # battlers = sorted(battlers, key=operator.itemgetter('init'),
-    #                   reverse=True)
     for battler in battlers:
         print("\nThe active character is: ", battler['name'])
         input(">>>")
