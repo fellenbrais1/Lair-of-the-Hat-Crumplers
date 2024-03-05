@@ -16,7 +16,8 @@ import operator
 
 def main_loop():
     while True:
-        init()
+        init_list = init()
+        print_init_list(init_list)
         active_turn()
         battle_turn(active_turn_list="")
         print_stats(active_turn_list="")
@@ -25,7 +26,6 @@ def main_loop():
 
 # This function assigns initiative values to each participant in the battle
 def init():
-    print_string = ""
     init_list = []
     for battler in battlers:
         if 'KO' in battler['statuses']:
@@ -40,20 +40,23 @@ def init():
         battler['init'] = battler['init_mod']
         data = battler['name'], battler['init'], battler['statuses']
         init_list.append(data)
-    else:
-        init_list = sorted(init_list, key=operator.itemgetter(1),
+    init_list = sorted(init_list, key=operator.itemgetter(1),
                            reverse=True)
-        for item in init_list:
-            print_string += str.ljust(item[0] + "'s initiative: ", 30) \
-                            + str(item[1]) + "\n"
-            if 'KO' in item[2]:
-                print_string += "{0} is KOed!\n".format(item[0])
-            elif 'slow' in item[2]:
-                print_string += "{0} is slowed!\n".format(item[0])
-            elif 'haste' in item[2]:
-                print_string += "{0} is moving fast!\n".format(item[0])
-        print(print_string)
-        active_turn()
+    return init_list
+
+
+def print_init_list(init_list):
+    print_string = ""
+    for item in init_list:
+        print_string += str.ljust(item[0] + "'s initiative: ", 30) \
+                        + str(item[1]) + "\n"
+        if 'KO' in item[2]:
+            print_string += "{0} is KOed!\n".format(item[0])
+        elif 'slow' in item[2]:
+            print_string += "{0} is slowed!\n".format(item[0])
+        elif 'haste' in item[2]:
+            print_string += "{0} is moving fast!\n".format(item[0])
+    print(print_string)
 
 
 # This function sorts the 'active_turn_list' based on the initiative values \
