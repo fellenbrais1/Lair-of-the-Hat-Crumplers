@@ -23,6 +23,8 @@ character_base_data = {
     'init': 0,
     'init_mod': 0,
     'statuses': ['fine', ],
+    'EXP': 0,
+    'level_up_EXP': 100,
 }
 
 # Master dictionary that can be referenced using a 'name' value
@@ -31,7 +33,7 @@ party_data = {
         'ref': 'c_1',
         'number': 1,
         'name': 'Johnny Johns',
-        'class': '',
+        'class': 'Crimper',
         'level': 1,
         'max_HP': 100,
         'current_HP': 100,
@@ -44,12 +46,14 @@ party_data = {
         'init': 0,
         'init_mod': 0,
         'statuses': ['fine', ],
+        'EXP': 0,
+        'level_up_EXP': 100,
     },
     'c_2': {
         'ref': 'c_2',
         'number': 2,
         'name': 'Bibbs',
-        'class': '',
+        'class': 'Fitter',
         'level': 1,
         'max_HP': 100,
         'current_HP': 100,
@@ -62,12 +66,14 @@ party_data = {
         'init': 0,
         'init_mod': 0,
         'statuses': ['fine', ],
+        'EXP': 0,
+        'level_up_EXP': 100,
     },
     'c_3': {
         'ref': 'c_3',
         'number': 3,
         'name': 'Chobby Bobba',
-        'class': '',
+        'class': 'Trichomancer',
         'level': 1,
         'max_HP': 100,
         'current_HP': 100,
@@ -80,6 +86,8 @@ party_data = {
         'init': 0,
         'init_mod': 0,
         'statuses': ['fine', 'slow', ],
+        'EXP': 0,
+        'level_up_EXP': 100,
     }
 }
 
@@ -101,6 +109,7 @@ e_1 = {
     'init': 0,
     'init_mod': 0,
     'statuses': ['fine', 'haste', ],
+    'EXP_granted': 50,
 }
 
 # I created this list to allow better referencing of values during battle \
@@ -111,7 +120,7 @@ battlers_data = {
         'ref': 'c_1',
         'number': 1,
         'name': 'Johnny Johns',
-        'class': '',
+        'class': 'Crimper',
         'level': 1,
         'max_HP': 100,
         'current_HP': 100,
@@ -124,12 +133,14 @@ battlers_data = {
         'init': 0,
         'init_mod': 0,
         'statuses': ['fine', ],
+        'EXP': 0,
+        'level_up_EXP': 100,
     },
     'c_2': {
         'ref': 'c_2',
         'number': 2,
         'name': 'Bibbs',
-        'class': '',
+        'class': 'Fitter',
         'level': 1,
         'max_HP': 100,
         'current_HP': 100,
@@ -142,12 +153,14 @@ battlers_data = {
         'init': 0,
         'init_mod': 0,
         'statuses': ['fine', ],
+        'EXP': 0,
+        'level_up_EXP': 100,
     },
     'c_3': {
         'ref': 'c_3',
         'number': 3,
         'name': 'Chobby Bobba',
-        'class': '',
+        'class': 'Trichomancer',
         'level': 1,
         'max_HP': 100,
         'current_HP': 100,
@@ -160,6 +173,8 @@ battlers_data = {
         'init': 10,
         'init_mod': 0,
         'statuses': ['fine', 'slow', ],
+        'EXP': 0,
+        'level_up_EXP': 100,
     },
     'e_1': {
         'ref': 'e_1',
@@ -178,13 +193,14 @@ battlers_data = {
         'init': 0,
         'init_mod': 0,
         'statuses': ['fine', 'haste', ],
+        'EXP_granted': 50,
     },
 }
 
 # 'battlers' is a collection of the dictionaries that represent who will be \
 # participating in the battle, when enemies are killed they can be removed \
 # from this list
-battlers = [
+initial_battlers = [
     battlers_data['c_1'],
     battlers_data['c_2'],
     battlers_data['c_3'],

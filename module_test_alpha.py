@@ -9,7 +9,7 @@
 # argument back to another function somewhere else that handles the ending of \
 # battles
 
-from data_test import battlers, battlers_data as bd
+from data_test import initial_battlers, battlers_data as bd
 from random import randint
 import operator
 
@@ -27,7 +27,7 @@ def main_loop():
 def init():
     print_string = ""
     init_list = []
-    for battler in battlers:
+    for battler in initial_battlers:
         if 'KO' in battler['statuses']:
             battler['init_mod'] = 0
         elif 'haste' in battler['statuses']:
@@ -35,7 +35,8 @@ def init():
         elif 'slow' in battler['statuses']:
             battler['init_mod'] = (battler['speed'] - 20) + randint(0, 20)
         else:
-            battler['init_mod'] = ((battler['speed'] * 2) / 1.5) + randint(0, 20)
+            battler['init_mod'] = ((battler['speed'] * 2) / 1.5) \
+                                  + randint(0, 20)
         battler['init_mod'] = battler['init_mod'].__round__()
         battler['init'] = battler['init_mod']
         data = battler['name'], battler['init'], battler['statuses']
@@ -60,7 +61,7 @@ def init():
 # generated in the prior function
 def active_turn():
     active_turn_list = []
-    for battler in battlers:
+    for battler in initial_battlers:
         battler_initiative = battler['ref'], battler['name'], \
                              battler['init'], battler['init_mod'], \
                              battler['statuses']
@@ -119,7 +120,7 @@ def print_stats(active_turn_list):
     for i in range(len(active_turn_list) + 1):
         stats = []
         try:
-            ref = battlers[i]['ref']
+            ref = initial_battlers[i]['ref']
             for k, v in bd[ref].items():
                 add = k, v
                 stats.append(add)
@@ -145,7 +146,7 @@ def print_statuses(active_turn_list):
     for i in range(len(active_turn_list) + 1):
         statuses = []
         try:
-            ref = battlers[i]['ref']
+            ref = initial_battlers[i]['ref']
             for v in bd[ref]['statuses']:
                 statuses += [v]
             else:

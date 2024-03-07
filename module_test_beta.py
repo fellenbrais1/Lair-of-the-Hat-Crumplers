@@ -1,22 +1,23 @@
-from data_test import battlers
+from data_test import initial_battlers
 from random import randint
 import operator
 
 
-def main_loop(battlers):
+def main_loop(initial_battlers):
     while True:
-        init(battlers)
-        battlers = sorted(battlers, key=operator.itemgetter('init'),
-                          reverse=True)
-        print_init(battlers)
-        battle_turn(battlers)
-        print_stats(battlers)
-        print_statuses(battlers)
+        init(initial_battlers)
+        initial_battlers = sorted(initial_battlers,
+                                  key=operator.itemgetter('init'),
+                                  reverse=True)
+        print_init(initial_battlers)
+        battle_turn(initial_battlers)
+        print_stats(initial_battlers)
+        print_statuses(initial_battlers)
 
 
-def init(battlers):
+def init(initial_battlers):
     init_list = []
-    for battler in battlers:
+    for battler in initial_battlers:
         if 'KO' in battler['statuses']:
             battler['init_mod'] = 0
         elif 'haste' in battler['statuses']:
@@ -30,14 +31,14 @@ def init(battlers):
         data = battler['name'], battler['init'], battler['statuses']
         init_list.append(data)
     else:
-        return battlers
+        return initial_battlers
 
 
-def print_init(battlers):
+def print_init(initial_battlers):
     print_string = ""
-    for battler in battlers:
+    for battler in initial_battlers:
         print_string += str.ljust(battler['name'] + "'s initiative: ", 30) \
-                            + str(battler['init']) + "\n"
+                        + str(battler['init']) + "\n"
         if 'KO' in battler['statuses']:
             print_string += "{0} is KOed!\n".format(battler['name'])
         elif 'slow' in battler['statuses']:
@@ -45,11 +46,11 @@ def print_init(battlers):
         elif 'haste' in battler['statuses']:
             print_string += "{0} is moving fast!\n".format(battler['name'])
     print(print_string)
-    return battlers
+    return initial_battlers
 
 
-def battle_turn(battlers):
-    for battler in battlers:
+def battle_turn(initial_battlers):
+    for battler in initial_battlers:
         print("\nThe active character is: ", battler['name'])
         input(">>>")
         print(battler['name'], "'s HP: ", battler['current_HP'], sep="")
@@ -74,12 +75,12 @@ def battle_turn(battlers):
             input(">>>")
     else:
         print()
-        return battlers
+        return initial_battlers
 
 
-def print_stats(battlers):
+def print_stats(initial_battlers):
     stat_list = []
-    for battler in battlers:
+    for battler in initial_battlers:
         stats = []
         for k, v in battler.items():
             add = k, v
@@ -91,12 +92,12 @@ def print_stats(battlers):
         for line in stat_list:
             print(line)
     print()
-    return battlers
+    return initial_battlers
 
 
-def print_statuses(battlers):
+def print_statuses(initial_battlers):
     statuses_list = []
-    for battler in battlers:
+    for battler in initial_battlers:
         statuses = []
         for v in battler['statuses']:
             statuses += [v]
@@ -108,9 +109,9 @@ def print_statuses(battlers):
         for line in statuses_list:
             print(line)
     print("\nNext turn!\n")
-    return battlers
+    return initial_battlers
 
 
 battlers_sorted = []
 
-main_loop(battlers)
+main_loop(initial_battlers)
