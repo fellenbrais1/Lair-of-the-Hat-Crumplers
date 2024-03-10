@@ -1,12 +1,12 @@
 # These dictionaries and master dictionaries are used in \
-# 'new_turn_generator_2.py'
+# 'new_turn_generator_2.py'.
 
 # For now, only 'ref', 'name', 'init', and 'init_mod' are being made use of
 # 'init' refers to initiative, or relative speed in this case, and the \
 # 'init_mod' is a modifier that determines 'init' reassignment between rounds \
-# of fighting
+# of fighting.
 
-# Base dictionary that could be used to generate class objects later
+# Base dictionary that could be used to generate class objects later.
 character_base_data = {
     'character_number': 0,
     'name': '',
@@ -27,7 +27,7 @@ character_base_data = {
     'level_up_EXP': 100,
 }
 
-# Master dictionary that can be referenced using a 'name' value
+# Master dictionary that can be referenced using a 'name' value.
 party_data = {
     'c_1': {
         'ref': 'c_1',
@@ -91,7 +91,7 @@ party_data = {
     }
 }
 
-# Generic 'enemy' dictionary
+# Generic 'enemy' dictionary.
 e_1 = {
     'ref': 'e_1',
     'number': 0,
@@ -114,7 +114,7 @@ e_1 = {
 
 # I created this list to allow better referencing of values during battle \
 # processing, I think this dictionary could be populated anew every time an \
-# instance of a battle started in the game and expunged afterwards
+# instance of a battle started in the game and expunged afterwards.
 battlers_data = {
     'c_1': {
         'ref': 'c_1',
@@ -199,7 +199,7 @@ battlers_data = {
 
 # 'battlers' is a collection of the dictionaries that represent who will be \
 # participating in the battle, when enemies are killed they can be removed \
-# from this list
+# from this list.
 initial_battlers = [
     battlers_data['c_1'],
     battlers_data['c_2'],

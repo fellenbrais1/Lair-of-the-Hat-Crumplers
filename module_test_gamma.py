@@ -25,7 +25,7 @@ def start(party_list):
                        "2. Use initialised data\n"
                        ": ")
         if choice == "1":
-            # Choice 1 does not work yet as I am not sure how to do it now
+            # Choice 1 does not work yet as I am not sure how to do it now.
             print("This choice does not work yet, please check back later.")
             # party = data_import(save_data.csv)
             # return party
@@ -39,7 +39,7 @@ def start(party_list):
             continue
 
 
-# Not sure how this works yet, but just an idea for now
+# Not sure how this works yet, but just an idea for now.
 def data_import(accessed_file):
     file = accessed_file
     try:
