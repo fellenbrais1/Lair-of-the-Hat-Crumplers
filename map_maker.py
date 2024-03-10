@@ -243,7 +243,10 @@ map_03_snake_temple = [
 # 'map_printer()' looks at the map provided to it and generates a string to /
 # print for each line of all the rooms in a row. Then it prints this and moves /
 # on until all parts of the rooms in a row are printed, then it will move on /
-# the next row until finished
+# to the next row until finished
+
+# I am not actually sure about the 'i <= 3' condition, but it got me the /
+# results I wanted, i.e. not leaving a new line between each row of rooms
 
 
 def map_printer(map_provided, map_id_provided):
