@@ -7,6 +7,8 @@
 # Tab these out if you need to see how they look next to one another.
 top_wall = " ---------"
 top_wall_open = " ---   ---"
+bottom_wall = " ---------"
+bottom_wall_open = " ---   ---"
 side_wall = "|         |"
 side_wall_open_left = "          |"
 side_wall_open_both = "           "
@@ -17,6 +19,8 @@ room_null = "          "
 room_components = [
     top_wall,
     top_wall_open,
+    bottom_wall,
+    bottom_wall_open,
     side_wall,
     side_wall_open_left,
     side_wall_open_both,
@@ -31,7 +35,7 @@ closed = [
     side_wall,
     side_wall,
     side_wall,
-    top_wall
+    bottom_wall,
 ]
 
 open_top = [
@@ -39,7 +43,7 @@ open_top = [
     side_wall,
     side_wall,
     side_wall,
-    top_wall,
+    bottom_wall,
 ]
 
 open_left = [
@@ -47,7 +51,7 @@ open_left = [
     side_wall,
     side_wall_open_left,
     side_wall,
-    top_wall
+    bottom_wall,
 ]
 
 open_right = [
@@ -55,7 +59,7 @@ open_right = [
     side_wall,
     side_wall_open_right,
     side_wall,
-    top_wall,
+    bottom_wall,
 ]
 
 open_bottom = [
@@ -63,7 +67,7 @@ open_bottom = [
     side_wall,
     side_wall,
     side_wall,
-    top_wall_open,
+    bottom_wall_open,
 ]
 
 open_top_left = [
@@ -71,7 +75,7 @@ open_top_left = [
     side_wall,
     side_wall_open_left,
     side_wall,
-    top_wall,
+    bottom_wall,
 ]
 
 open_top_right = [
@@ -79,7 +83,7 @@ open_top_right = [
     side_wall,
     side_wall_open_right,
     side_wall,
-    top_wall,
+    bottom_wall,
 ]
 
 open_top_bottom = [
@@ -87,7 +91,7 @@ open_top_bottom = [
     side_wall,
     side_wall,
     side_wall,
-    top_wall_open
+    bottom_wall_open,
 ]
 
 open_top_left_right = [
@@ -95,7 +99,7 @@ open_top_left_right = [
     side_wall,
     side_wall_open_both,
     side_wall,
-    top_wall
+    bottom_wall,
 ]
 
 open_top_left_bottom = [
@@ -103,7 +107,7 @@ open_top_left_bottom = [
     side_wall,
     side_wall_open_left,
     side_wall,
-    top_wall_open
+    bottom_wall_open,
 ]
 
 open_top_right_bottom = [
@@ -111,7 +115,7 @@ open_top_right_bottom = [
     side_wall,
     side_wall_open_right,
     side_wall,
-    top_wall_open
+    bottom_wall_open,
 ]
 
 open_left_right = [
@@ -119,7 +123,7 @@ open_left_right = [
     side_wall,
     side_wall_open_both,
     side_wall,
-    top_wall,
+    bottom_wall,
 ]
 
 open_left_bottom = [
@@ -127,7 +131,7 @@ open_left_bottom = [
     side_wall,
     side_wall_open_left,
     side_wall,
-    top_wall_open
+    bottom_wall_open,
 ]
 
 open_left_right_bottom = [
@@ -135,7 +139,7 @@ open_left_right_bottom = [
     side_wall,
     side_wall_open_both,
     side_wall,
-    top_wall_open
+    bottom_wall_open,
 ]
 
 open_right_bottom = [
@@ -143,7 +147,7 @@ open_right_bottom = [
     side_wall,
     side_wall_open_right,
     side_wall,
-    top_wall_open,
+    bottom_wall_open,
 ]
 
 open_all = [
@@ -151,7 +155,7 @@ open_all = [
     side_wall,
     side_wall_open_both,
     side_wall,
-    top_wall_open
+    bottom_wall_open,
 ]
 
 null_room = [
