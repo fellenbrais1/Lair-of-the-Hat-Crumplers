@@ -30,12 +30,15 @@ room_components = [
 
 # These are lists of the components each type of room is made out of, all /
 # needed possibilities are represented here.
+# Index item 6 can be used to determine which directions it is possible to go /
+# in while in any specific room.
 closed = [
     top_wall,
     side_wall,
     side_wall,
     side_wall,
     bottom_wall,
+    [],
 ]
 
 open_top = [
@@ -44,6 +47,7 @@ open_top = [
     side_wall,
     side_wall,
     bottom_wall,
+    ['up', ],
 ]
 
 open_left = [
@@ -52,6 +56,7 @@ open_left = [
     side_wall_open_left,
     side_wall,
     bottom_wall,
+    ['left', ],
 ]
 
 open_right = [
@@ -60,6 +65,7 @@ open_right = [
     side_wall_open_right,
     side_wall,
     bottom_wall,
+    ['right', ],
 ]
 
 open_bottom = [
@@ -68,6 +74,7 @@ open_bottom = [
     side_wall,
     side_wall,
     bottom_wall_open,
+    ['down', ],
 ]
 
 open_top_left = [
@@ -76,6 +83,7 @@ open_top_left = [
     side_wall_open_left,
     side_wall,
     bottom_wall,
+    ['up', 'left', ],
 ]
 
 open_top_right = [
@@ -84,6 +92,7 @@ open_top_right = [
     side_wall_open_right,
     side_wall,
     bottom_wall,
+    ['up', 'right', ],
 ]
 
 open_top_bottom = [
@@ -92,6 +101,7 @@ open_top_bottom = [
     side_wall,
     side_wall,
     bottom_wall_open,
+    ['up', 'down', ],
 ]
 
 open_top_left_right = [
@@ -100,6 +110,7 @@ open_top_left_right = [
     side_wall_open_both,
     side_wall,
     bottom_wall,
+    ['up', 'left', 'right', ],
 ]
 
 open_top_left_bottom = [
@@ -108,6 +119,7 @@ open_top_left_bottom = [
     side_wall_open_left,
     side_wall,
     bottom_wall_open,
+    ['up', 'left', 'down', ],
 ]
 
 open_top_right_bottom = [
@@ -116,6 +128,7 @@ open_top_right_bottom = [
     side_wall_open_right,
     side_wall,
     bottom_wall_open,
+    ['up', 'right', 'down', ],
 ]
 
 open_left_right = [
@@ -124,6 +137,7 @@ open_left_right = [
     side_wall_open_both,
     side_wall,
     bottom_wall,
+    ['left', 'right', ],
 ]
 
 open_left_bottom = [
@@ -132,6 +146,7 @@ open_left_bottom = [
     side_wall_open_left,
     side_wall,
     bottom_wall_open,
+    ['left', 'down', ],
 ]
 
 open_left_right_bottom = [
@@ -140,6 +155,7 @@ open_left_right_bottom = [
     side_wall_open_both,
     side_wall,
     bottom_wall_open,
+    ['left', 'right', 'down', ],
 ]
 
 open_right_bottom = [
@@ -148,6 +164,7 @@ open_right_bottom = [
     side_wall_open_right,
     side_wall,
     bottom_wall_open,
+    ['right', 'down', ],
 ]
 
 open_all = [
@@ -156,6 +173,7 @@ open_all = [
     side_wall_open_both,
     side_wall,
     bottom_wall_open,
+    ['up', 'left', 'right', 'down', ],
 ]
 
 null_room = [
@@ -164,17 +182,18 @@ null_room = [
     room_null,
     room_null,
     room_null,
+    [],
 ]
 
 # As examples of what some of these look like:
 print("'closed' room:")
-for item in closed:
+for item in closed[0:5]:
     print(item)
 print("'open_all' room:")
-for item in open_all:
+for item in open_all[0:5]:
     print(item)
 print("'null_room' room:")
-for item in null_room:
+for item in null_room[0:5]:
     print(item)
 
 # A list of all available room types that could be imported etc.
