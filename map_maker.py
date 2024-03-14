@@ -13,6 +13,10 @@ side_wall = "|         |"
 side_wall_open_left = "          |"
 side_wall_open_both = "           "
 side_wall_open_right = "|          "
+side_wall_here = "|    X    |"
+side_wall_open_left_here = "     X    |"
+side_wall_open_both_here = "     X     "
+side_wall_open_right_here = "|    X     "
 room_null = "          "
 
 # A list of the room components that could be imported etc.
@@ -261,6 +265,13 @@ map_03_row_4 = open_top, null_room, null_room,
 map_03_composition = map_03_row_0, map_03_row_1, map_03_row_2, map_03_row_3, \
                      map_03_row_4
 
+# map_04: "test map"
+map_04_row_0 = null_room, open_bottom, null_room,
+map_04_row_1 = open_right, open_all, open_left,
+map_04_row_2 = null_room, open_top, null_room,
+
+map_04_composition = map_04_row_0, map_04_row_1, map_04_row_2,
+
 # Creating dictionaries where multiple bits of data can be accessed later /
 # more can be added later like the enemies present etc. as needed, not all of /
 # this would be accessed by 'map_printer()' but could be used for other /
@@ -289,12 +300,22 @@ map_03 = {
     'weather': [],
 }
 
+map_04 = {
+    'id': "test map",
+    'composition': map_04_composition,
+    'danger': "None",
+    'enemies': [],
+    'weather': [],
+}
+
 # A list of maps for reference and for iterating through if needed.
 map_list = [
     map_01,
     map_02,
     map_03,
+    map_04,
 ]
+
 
 # 'map_printer()' looks at the map provided to it and generates a string to /
 # print for each line of all the rooms in a row. Then it prints this and moves /
@@ -303,6 +324,32 @@ map_list = [
 
 # I am not actually sure about the 'i <= 3' condition, but it got me the /
 # results I wanted, i.e. not leaving a new line between each row of rooms.
+
+
+def display_position(provided_map, provided_y, provided_x):
+    altered_map = provided_map.copy()
+    print("altered:", altered_map)
+    print("provided:", provided_map)
+    position = altered_map["composition"][provided_y][provided_x]
+    position_object = position[2]
+    if position_object == side_wall:
+        position_object = side_wall_here
+    elif position_object == side_wall_open_left:
+        position_object = side_wall_open_left_here
+    elif position_object == side_wall_open_right:
+        position_object = side_wall_open_right_here
+    else:
+        position_object = side_wall_open_both_here
+
+    altered_map["composition"][provided_y][provided_x][2] = position_object
+    return altered_map
+
+
+def clear_display_position(
+    provided_map,
+):
+    reset_map = provided_map
+    return reset_map
 
 
 def map_printer(
@@ -334,38 +381,36 @@ def map_printer(
 #     map_printer(item['composition'], item['id'], item['danger'])
 
 # Or call 'map_printer()' with the specified map you want:
-map_printer(map_03['composition'], map_03['id'], map_03['danger'])
 # map_printer(map_01['composition'], map_01['id'], map_01['danger'])
 # map_printer(map_02['composition'], map_02['id'], map_02['danger'])
-
-
-# def calc_coordinates(provided_room):
-#     current_y =
+# map_printer(map_03['composition'], map_03['id'], map_03['danger'])
+map_printer(map_04['composition'], map_04['id'], map_04['danger'])
 
 
 def display_available(
         provided_room,
 ):
     print("The following directions are available:")
+    # TODO: Fix the last comma appearing with the '.join' method
     for direction in provided_room[5]:
-        print(direction)
+        print(direction, end=", ")
 
 
-# TODO: Fix this program, it seems to be wrapping around the index values /
-# TODO: which I do not want at all.
 def choose_direction(
         provided_room,
         provided_map,
-        provided_x,
         provided_y,
+        provided_x,
 ):
     choice = True
     directions = "up", "left", "right", "down",
+    new_room = []
     while choice:
         display_available(
             provided_room,
         )
-        print("Which direction would you like to go in?")
+        print("\nWhich direction would you like to go in?\n"
+              "Or, type 'map' to see the map.")
         chosen_direction = input(">>>: ")
         chosen_direction = chosen_direction.casefold()
         if chosen_direction in directions:
@@ -375,76 +420,63 @@ def choose_direction(
                     provided_y -= 1
                     new_room = \
                         provided_map["composition"][provided_y][provided_x]
-                    choice = False
+                    break
                 elif chosen_direction == "left":
                     provided_x -= 1
                     new_room = \
                         provided_map["composition"][provided_y][provided_x]
-                    choice = False
+                    break
                 elif chosen_direction == "right":
                     provided_x += 1
                     new_room = \
                         provided_map["composition"][provided_y][provided_x]
-                    choice = False
+                    break
                 elif chosen_direction == "down":
                     provided_y += 1
                     new_room = \
                         provided_map["composition"][provided_y][provided_x]
-                    choice = False
+                    break
             else:
                 print("A solid wall blocks your progress in that direction!.")
+        elif chosen_direction == "map":
+            altered_map = display_position(provided_map, provided_y, provided_x)
+            map_printer(
+                altered_map['composition'],
+                provided_map['id'],
+                provided_map['danger'],
+            )
+            provided_map = clear_display_position(provided_map)
+            continue
         else:
             print("That is not a valid direction.")
-    else:
-        return new_room
+    return new_room, provided_y, provided_x
 
 
-# snake temple
-# current_map = map_03
-# current_y = 0
-# current_x = 0
-# current_room = current_map["composition"][current_y][current_x]
-# print(current_map["composition"][current_y][current_x])
-# input(">>>: ")
-# current_x += 1
-# print(current_map["composition"][current_y][current_x])
-# input(">>>: ")
-# current_x += 1
-# print(current_map["composition"][current_y][current_x])
-# input(">>>: ")
-# current_y += 1
-# print(current_map["composition"][current_y][current_x])
-# input(">>>: ")
-# current_y += 1
-# print(current_map["composition"][current_y][current_x])
-# current_room = current_map["composition"][current_y][current_x]
+def main_loop(
+        provided_room,
+        provided_y,
+        provided_x,
+):
+    while True:
+        provided_room, provided_y, provided_x \
+            = choose_direction(
+                provided_room,
+                current_map,
+                provided_y,
+                provided_x,
+            )
+        print(current_room)
+        print("Current_y is:", provided_y)
+        print("Current_x is:", provided_x)
 
-current_map = map_03
-current_y = 0
-current_x = 0
+
+current_map = map_04
+current_y = 1
+current_x = 1
 current_room = current_map["composition"][current_y][current_x]
-while True:
-    current_room = choose_direction(
-        current_room,
-        current_map,
-        current_y,
-        current_x
-    )
-    input(">>>: ")
 
-# map_03_row_0 = open_right, open_left_right, open_left_bottom,
-# map_03_row_1 = null_room, null_room, open_top_bottom,
-# map_03_row_2 = null_room, open_right_bottom, open_top_left,
-# map_03_row_3 = open_right_bottom, open_top_left, null_room,
-# map_03_row_4 = open_top, null_room, null_room,
-#
-# map_03_composition = map_03_row_0, map_03_row_1, map_03_row_2, map_03_row_3, \
-#                      map_03_row_4
-#
-# map_03 = {
-#     'id': "snake temple",
-#     'composition': map_03_composition,
-#     'danger': "High",
-#     'enemies': [],
-#     'weather': [],
-# }
+main_loop(
+    current_room,
+    current_y,
+    current_x,
+)
