@@ -2,6 +2,9 @@
 # more functionality would be added so that the room the player is in means /
 # something.
 
+import copy
+# from random import randint
+
 # These are the components all rooms are made of, they are not very readable /
 # yet but this could be improved in the future.
 # Tab these out if you need to see how they look next to one another.
@@ -17,6 +20,10 @@ side_wall_here = "|    X    |"
 side_wall_open_left_here = "     X    |"
 side_wall_open_both_here = "     X     "
 side_wall_open_right_here = "|    X     "
+side_wall_foe_here = "|    !    |"
+side_wall_open_left_foe_here = "     !    |"
+side_wall_open_both_foe_here = "     !     "
+side_wall_open_right_foe_here = "|    !     "
 room_null = "          "
 
 # A list of the room components that could be imported etc.
@@ -272,14 +279,22 @@ map_04_row_2 = null_room, open_top, null_room,
 
 map_04_composition = map_04_row_0, map_04_row_1, map_04_row_2,
 
+# map_05: 'murder mansion'
+map_05_row_0 = null_room, open_bottom, null_room,
+map_05_row_1 = open_right, open_all, open_left,
+map_05_row_2 = null_room, open_top, null_room,
+
+map_05_composition = map_05_row_0, map_05_row_1, map_05_row_2,
 # Creating dictionaries where multiple bits of data can be accessed later /
 # more can be added later like the enemies present etc. as needed, not all of /
 # this would be accessed by 'map_printer()' but could be used for other /
 # functions later.
+
 map_01 = {
     'id': "understruts",
     'composition': map_01_composition,
     'danger': "Low",
+    'start_pos': [3, 3],
     'enemies': [],
     'weather': [],
 }
@@ -308,12 +323,20 @@ map_04 = {
     'weather': [],
 }
 
+map_05 = {
+    'id': "murder mansion",
+    'composition': map_05_composition,
+    'danger': "Impending",
+    'enemies': [],
+    'weather': [],
+}
 # A list of maps for reference and for iterating through if needed.
 map_list = [
     map_01,
     map_02,
     map_03,
     map_04,
+    map_05,
 ]
 
 
@@ -327,9 +350,9 @@ map_list = [
 
 
 def display_position(provided_map, provided_y, provided_x):
-    altered_map = provided_map.copy()
-    print("altered:", altered_map)
-    print("provided:", provided_map)
+    altered_map = copy.deepcopy(provided_map)
+    # print("altered:", altered_map)
+    # print("provided:", provided_map)
     position = altered_map["composition"][provided_y][provided_x]
     position_object = position[2]
     if position_object == side_wall:
@@ -345,11 +368,66 @@ def display_position(provided_map, provided_y, provided_x):
     return altered_map
 
 
-def clear_display_position(
-    provided_map,
-):
-    reset_map = provided_map
-    return reset_map
+# To be run with the altered map from 'display_position()' later
+# def display_foes_position(provided_map, provided_foe_y, provided_foe_x):
+#     altered_map = provided_map
+#     # print("altered:", altered_map)
+#     # print("provided:", provided_map)
+#     position = altered_map["composition"][provided_foe_y][provided_foe_x]
+#     position_object = position[2]
+#     if position_object == side_wall:
+#         position_object = side_wall_foe_here
+#     elif position_object == side_wall_open_left:
+#         position_object = side_wall_open_left_foe_here
+#     elif position_object == side_wall_open_right:
+#         position_object = side_wall_open_right_foe_here
+#     else:
+#         position_object = side_wall_open_both_foe_here
+#
+#     altered_map["composition"][provided_foe_y][provided_foe_x][2] \
+#         = position_object
+#     return altered_map
+#
+#
+# def foe_behave(provided_map, foe_y, foe_x):
+#     foe_room = provided_map["composition"][foe_y][foe_x]
+#     available_directions = len(foe_room[5])
+#     foe_choice = randint(0, available_directions)
+#     print("The mysterious foe decides to go, ", foe_choice, "!", sep="")
+#     while True:
+#         if foe_choice == "up":
+#             foe_y -= 1
+#             new_foe_room = \
+#                 provided_map["composition"][foe_y][foe_x]
+#             break
+#         elif foe_choice == "left":
+#             foe_x -= 1
+#             new_foe_room = \
+#                 provided_map["composition"][foe_y][foe_x]
+#             break
+#         elif foe_choice == "right":
+#             foe_x += 1
+#             new_foe_room = \
+#                 provided_map["composition"][foe_y][foe_x]
+#             break
+#         elif foe_choice == "down":
+#             foe_y += 1
+#             new_foe_room = \
+#                 provided_map["composition"][foe_y][foe_x]
+#             break
+#     return new_foe_room
+#
+#
+# def caught():
+#     if current_room == foe_room:
+#         print("The mysterious foe catches up to you!")
+
+# TODO: Mothballed code for now, not really needed at the moment
+# def clear_display_position(
+#     provided_map,
+# ):
+#     reset_map = provided_map
+#     return reset_map
 
 
 def map_printer(
@@ -375,6 +453,7 @@ def map_printer(
     print("-----------------------------------------------------------------")
 
 
+# TODO: Commented out for now, demonstration code
 # Iterate through all items from 'map_list' if you need to, this would /
 # probably be done only for debugging, and so never be done in the game:
 # for item in map_list:
@@ -437,15 +516,19 @@ def choose_direction(
                         provided_map["composition"][provided_y][provided_x]
                     break
             else:
-                print("A solid wall blocks your progress in that direction!.")
+                print("A solid wall blocks your progress in that direction!")
         elif chosen_direction == "map":
-            altered_map = display_position(provided_map, provided_y, provided_x)
+            altered_map = display_position(
+                provided_map,
+                provided_y,
+                provided_x
+            )
             map_printer(
                 altered_map['composition'],
                 provided_map['id'],
                 provided_map['danger'],
             )
-            provided_map = clear_display_position(provided_map)
+            new_room = provided_map["composition"][provided_y][provided_x]
             continue
         else:
             print("That is not a valid direction.")
@@ -470,9 +553,9 @@ def main_loop(
         print("Current_x is:", provided_x)
 
 
-current_map = map_04
-current_y = 1
-current_x = 1
+current_map = map_01
+current_y = current_map["start_pos"][1]
+current_x = current_map["start_pos"][2]
 current_room = current_map["composition"][current_y][current_x]
 
 main_loop(
