@@ -20,7 +20,9 @@ def how_to_play():
           "'left' - go left if possible.\n"
           "'right' - go right if possible.\n"
           "'down' - go down if possible.\n"
-          "'quit' - exits the game.\n")
+          "'quit' - exits the game.")
+    input(">>>:")
+    print("\n")
 
 
 # Allows the user to specify "developer" mode or not, which displays /
@@ -46,7 +48,7 @@ def developer_mode():
 def choose_game(
         provided_map_list
 ):
-    print("Which map would you like to play on?\n")
+    print("\nWhich map would you like to play on?\n")
     i = 1
     choices = []
     for item in provided_map_list:
@@ -79,7 +81,6 @@ def choose_game(
             if choice.casefold() == "x":
                 print("Okay, see you some other time!")
                 exit()
-
     return chosen_map
 
 
@@ -90,7 +91,8 @@ def initialize_map(
     initial_y = provided_current_map["start_pos"][0]
     initial_x = provided_current_map["start_pos"][1]
     initial_room = provided_current_map["composition"][initial_y][initial_x]
-    return initial_room, initial_y, initial_x
+    initial_foe_appear = provided_current_map["foe_appear"]
+    return initial_room, initial_y, initial_x, initial_foe_appear
 
 
 # Displays some examples of what rooms should look like in "developer" mode.
@@ -116,6 +118,8 @@ def iterate_maps(
         provided_map_list,
         provided_foe_y,
         provided_foe_x,
+        provided_turn_count,
+        provided_foe_appear,
 ):
     if provided_mode == "developer":
         for item in provided_map_list:
@@ -127,6 +131,8 @@ def iterate_maps(
                 current_x,
                 provided_foe_y,
                 provided_foe_x,
+                provided_turn_count,
+                provided_foe_appear,
             )
 
 
@@ -140,6 +146,8 @@ def main_loop(
         provided_map_list,
         provided_foe_y,
         provided_foe_x,
+        provided_turn_count,
+        provided_foe_appear,
 ):
     # The following functions only produce output in "developer" mode.
     example_maps(
@@ -150,6 +158,8 @@ def main_loop(
         provided_map_list,
         provided_foe_y,
         provided_foe_x,
+        provided_turn_count,
+        provided_foe_appear,
     )
     # Main list, some of these have "developer" mode diagnostics.
     # 'caught()' is run both after the player's turn and the foe's turn to /
@@ -163,27 +173,40 @@ def main_loop(
                 provided_x,
                 provided_foe_y,
                 provided_foe_x,
+                provided_turn_count,
+                provided_foe_appear,
             )
-        provided_y, provided_x, caught_flag = caught(
-            provided_y,
-            provided_x,
-            provided_foe_y,
-            provided_foe_x,
-            current_map,
+        if provided_turn_count >= provided_foe_appear:
+            provided_y, provided_x, caught_flag = caught(
+                provided_y,
+                provided_x,
+                provided_foe_y,
+                provided_foe_x,
+                current_map,
+            )
+            provided_foe_y, provided_foe_x = foe_behave(
+                current_map,
+                provided_foe_y,
+                provided_foe_x,
+                mode,
+                caught_flag,
+            )
+            provided_y, provided_x, caught_flag = caught(
+                provided_y,
+                provided_x,
+                provided_foe_y,
+                provided_foe_x,
+                current_map,
+            )
+        else:
+            pass
+        # Turn count updater.
+        provided_turn_count = turn_counter(
+            provided_turn_count
         )
-        provided_foe_y, provided_foe_x = foe_behave(
-            current_map,
-            provided_foe_y,
-            provided_foe_x,
-            mode,
-            caught_flag,
-        )
-        provided_y, provided_x, caught_flag = caught(
-            provided_y,
-            provided_x,
-            provided_foe_y,
-            provided_foe_x,
-            current_map,
+        foe_appearance(
+            provided_turn_count,
+            provided_foe_appear,
         )
         if provided_mode == "developer":
             print(current_room)
@@ -201,6 +224,8 @@ def choose_direction(
         provided_x,
         provided_foe_y,
         provided_foe_x,
+        provided_turn_count,
+        provided_foe_appear,
 ):
     directions = "up", "left", "right", "down",
     while True:
@@ -220,6 +245,8 @@ def choose_direction(
             chosen_direction = "right"
         if chosen_direction == "d":
             chosen_direction = "down"
+        if chosen_direction == "m":
+            chosen_direction = "map"
         if chosen_direction == "w":
             chosen_direction = "wait"
         if chosen_direction == "q":
@@ -258,6 +285,8 @@ def choose_direction(
                 provided_x,
                 provided_foe_y,
                 provided_foe_x,
+                provided_turn_count,
+                provided_foe_appear,
             )
         elif chosen_direction == "wait":
             new_room = provided_map["composition"][provided_y][provided_x]
@@ -290,11 +319,16 @@ def position_check(
         working_x,
         provided_foe_y,
         provided_foe_x,
+        provided_turn_count,
+        provided_foe_appear,
 ):
     if provided_y == working_y and provided_x == working_x:
         middle_room_object = "X"
     elif provided_foe_y == working_y and provided_foe_x == working_x:
-        middle_room_object = "!"
+        if provided_turn_count >= provided_foe_appear:
+            middle_room_object = "!"
+        else:
+            middle_room_object = " "
     else:
         middle_room_object = " "
     return middle_room_object
@@ -310,11 +344,20 @@ def map_printer(
         provided_x,
         provided_foe_y,
         provided_foe_x,
+        provided_turn_count,
+        provided_foe_appear,
 ):
-    print("\nYou take a look at your map...")
-    print("-----------------------------------------------------------------")
-    print("You are in the", provided_map_id.title())
-    print("The danger level is:", provided_danger_level, "\n")
+    if provided_turn_count == 0:
+        print("Welcome to the ", provided_map_id.title(), sep="")
+        print("---------------------------------------------------------------"
+              "--------------------")
+        print("The danger level is:", provided_danger_level, "\n")
+    else:
+        print("\nYou take a look at your map...")
+        print("---------------------------------------------------------------"
+              "--------------------")
+        print("You are in the", provided_map_id.title())
+        print("The danger level is:", provided_danger_level, "\n")
     for index, row in enumerate(provided_map):
         room_print = ""
         working_y = index
@@ -333,6 +376,8 @@ def map_printer(
                             working_x,
                             provided_foe_y,
                             provided_foe_x,
+                            provided_turn_count,
+                            provided_foe_appear,
                         )
                     new_room_object = room_object[i][:5] + middle_object \
                         + room_object[i][5:]
@@ -344,7 +389,8 @@ def map_printer(
                 room_print = room_print + "\n"
         else:
             print(room_print)
-    print("-----------------------------------------------------------------")
+    print("-------------------------------------------------------------------"
+          "----------------")
     return current_y, current_x
 
 
@@ -358,6 +404,22 @@ def initialize_foe_position(
     initial_foe_y = provided_map['foe_start'][0]
     initial_foe_x = provided_map['foe_start'][1]
     return initial_foe_y, initial_foe_x
+
+
+# Allows the foe to appear in the game with a message to the player.
+def foe_appearance(
+        provided_turn_count,
+        provided_foe_appear
+):
+    if provided_turn_count < provided_foe_appear:
+        return
+    elif provided_turn_count == provided_foe_appear:
+        print("\nYour mysterious foe returns to the crime scene!")
+        print("Don't let them catch up to you!")
+        input(">>>:")
+        return
+    else:
+        return
 
 
 # Determines the direction the foe takes each turn and ensures it is a valid /
@@ -432,7 +494,11 @@ def caught(
         if caught_chance == 1:
             print("But you manage to slip away!")
             provided_y, provided_x \
-                = forced_move(provided_map, provided_y, provided_x)
+                = forced_move(
+                    provided_map,
+                    provided_y,
+                    provided_x,
+                )
             caught_flag = 1
         else:
             print("You cannot get away!")
@@ -473,7 +539,11 @@ def forced_move(
     return provided_y, provided_x
 
 
-# TODO: Add a 'turns_taken' function to determine things about foe behavior.
+def turn_counter(
+        provided_turn_count
+):
+    provided_turn_count += 1
+    return provided_turn_count
 
 
 # RTP, this code calls the functions to set up the game and get it going.
@@ -481,13 +551,14 @@ mode = developer_mode()
 current_map = choose_game(
     map_list
 )
-current_room, current_y, current_x = initialize_map(
+current_room, current_y, current_x, foe_appear = initialize_map(
     current_map
 )
 foe_y, foe_x = initialize_foe_position(
     current_map
 )
 how_to_play()
+turn_count = 0
 map_printer(
     current_map['composition'],
     current_map['id'],
@@ -496,6 +567,8 @@ map_printer(
     current_x,
     foe_y,
     foe_x,
+    turn_count,
+    foe_appear,
 )
 main_loop(
     current_room,
@@ -505,4 +578,6 @@ main_loop(
     map_list,
     foe_y,
     foe_x,
+    turn_count,
+    foe_appear,
 )
