@@ -456,7 +456,7 @@ def forced_move(
     panic_choice = int(random_float * available_directions)
     choice_made = danger_room[5][panic_choice]
 
-    print("You manage to run ", choice_made, "!", sep="")
+    print("You run ", choice_made, "!", sep="")
     while True:
         if choice_made == "up":
             provided_y -= 1
