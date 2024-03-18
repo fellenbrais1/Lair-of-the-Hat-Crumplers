@@ -2,16 +2,29 @@
 # the ability to move around the map and track the player's position.
 
 # Functions have been ordered in the loose order they are called by the program.
-import random
-
+from random import random
 from game_maps_test import *
 
-# TODO: Uncomment this later for use in the 'foe_system'.
-# from random import randint
+
+# Displays instructions to the player at game start.
+def how_to_play():
+    print("\nHOW TO PLAY:")
+    print("In this game you are investigating a series of grizzly murders in"
+          " several high-profile locations.")
+    print("Find the evidence, without being discovered by the mysterious "
+          "killer!")
+    print("The following controls are available:\n"
+          "'map' - displays the map.\n"
+          "'wait' - don't move for one turn.\n"
+          "'up' - go up if possible.\n"
+          "'left' - go left if possible.\n"
+          "'right' - go right if possible.\n"
+          "'down' - go down if possible.\n"
+          "'quit' - exits the game.\n")
 
 
-# Allowing the user to specify "developer" mode or not, which displays /
-# diagnostic information.
+# Allows the user to specify "developer" mode or not, which displays /
+# diagnostic information in some functions.
 def developer_mode():
     while True:
         print("Would you like to run in developer mode? Y/ N")
@@ -29,8 +42,10 @@ def developer_mode():
 
 
 # TODO: Add the option to choose a game type on each map when this is ready.
-# Allowing the user to choose what map/ game type they want to play.
-def choose_game(provided_map_list):
+# Allows the user to choose what map/ game type they want to play.
+def choose_game(
+        provided_map_list
+):
     print("Which map would you like to play on?\n")
     i = 1
     choices = []
@@ -69,7 +84,9 @@ def choose_game(provided_map_list):
 
 
 # Sets up the map and starting co-ordinates when the game starts.
-def initialize_map(provided_current_map):
+def initialize_map(
+        provided_current_map
+):
     initial_y = provided_current_map["start_pos"][0]
     initial_x = provided_current_map["start_pos"][1]
     initial_room = provided_current_map["composition"][initial_y][initial_x]
@@ -77,9 +94,11 @@ def initialize_map(provided_current_map):
 
 
 # Displays some examples of what rooms should look like in "developer" mode.
-def example_maps(provided_mode):
+def example_maps(
+        provided_mode
+):
     if provided_mode == "developer":
-        # As examples of what some of these look like:
+        print("Some examples of what some of the rooms look like:")
         print("'closed' room:")
         for item in closed[:5]:
             print(item)
@@ -111,7 +130,7 @@ def iterate_maps(
             )
 
 
-# TODO: Add win, lose, exit conditions to allow an end to the game.
+# TODO: Add a win condition to allow an end to the game.
 # Allows the game to run until a win, lose, or exit condition has been met.
 def main_loop(
         provided_room,
@@ -122,7 +141,7 @@ def main_loop(
         provided_foe_y,
         provided_foe_x,
 ):
-    # The following functions only run in "developer" mode.
+    # The following functions only produce output in "developer" mode.
     example_maps(
         provided_mode,
     )
@@ -133,6 +152,8 @@ def main_loop(
         provided_foe_x,
     )
     # Main list, some of these have "developer" mode diagnostics.
+    # 'caught()' is run both after the player's turn and the foe's turn to /
+    # cover all possible situations where they inhabit the same room.
     while True:
         provided_room, provided_y, provided_x \
             = choose_direction(
@@ -143,10 +164,26 @@ def main_loop(
                 provided_foe_y,
                 provided_foe_x,
             )
+        provided_y, provided_x, caught_flag = caught(
+            provided_y,
+            provided_x,
+            provided_foe_y,
+            provided_foe_x,
+            current_map,
+        )
         provided_foe_y, provided_foe_x = foe_behave(
             current_map,
             provided_foe_y,
             provided_foe_x,
+            mode,
+            caught_flag,
+        )
+        provided_y, provided_x, caught_flag = caught(
+            provided_y,
+            provided_x,
+            provided_foe_y,
+            provided_foe_x,
+            current_map,
         )
         if provided_mode == "developer":
             print(current_room)
@@ -168,15 +205,6 @@ def choose_direction(
 ):
     directions = "up", "left", "right", "down",
     while True:
-        map_printer(
-            provided_map['composition'],
-            provided_map['id'],
-            provided_map['danger'],
-            provided_y,
-            provided_x,
-            provided_foe_y,
-            provided_foe_x,
-        )
         display_available(
             provided_room,
         )
@@ -219,8 +247,10 @@ def choose_direction(
                 provided_foe_y,
                 provided_foe_x,
             )
+        elif chosen_direction == "wait":
             new_room = provided_map["composition"][provided_y][provided_x]
-            continue
+            print("You decide to hide in this room and wait a while...")
+            break
         elif chosen_direction == "quit":
             print("See you soon!")
             exit()
@@ -239,9 +269,8 @@ def display_available(
         print(direction, end=", ")
 
 
-# This function streamlines 'display_position()' in previous builds and can /
-# later be used to display the enemy position as well.
-# EDIT: Jesus Christ this was a pain to do.
+# Streamlines 'display_position()' in previous builds and can also be used to /
+# display the enemy position as well.
 def position_check(
         provided_y,
         provided_x,
@@ -252,7 +281,6 @@ def position_check(
 ):
     if provided_y == working_y and provided_x == working_x:
         middle_room_object = "X"
-        # TODO: Add this to display the foe's position later.
     elif provided_foe_y == working_y and provided_foe_x == working_x:
         middle_room_object = "!"
     else:
@@ -260,10 +288,8 @@ def position_check(
     return middle_room_object
 
 
-# 'map_printer()' looks at the map provided to it and generates a string to /
-# print for each line of all the rooms in a row. Then it prints this and moves /
-# on until all parts of the rooms in a row are printed, then it will move on /
-# to the next row until finished.
+# Prints a map by adding rows of room elements to a print string for each row /
+# of rooms in the current map.
 def map_printer(
         provided_map,
         provided_map_id,
@@ -313,49 +339,126 @@ def map_printer(
 # TODO: Make and implement the 'foe_system'
 
 
-def initialize_foe_position(provided_map):
+# Provides co-ordinates for where the foe start the game on each map.
+def initialize_foe_position(
+        provided_map
+):
     initial_foe_y = provided_map['foe_start'][0]
     initial_foe_x = provided_map['foe_start'][1]
     return initial_foe_y, initial_foe_x
 
 
-# To be run with the altered map from 'display_position()' later
-# def foe_position(provided_map):
-#     foe_current_y = provided_map['composition'][]
-
-
-# TODO: Something not working here, test and fix
-def foe_behave(provided_map, provided_foe_y, provided_foe_x):
+# Determines the direction the foe takes each turn and ensures it is a valid /
+# direction, the foe does not move directly after a player escape.
+def foe_behave(
+        provided_map,
+        provided_foe_y,
+        provided_foe_x,
+        provided_mode,
+        caught_flag,
+):
     foe_room = provided_map["composition"][provided_foe_y][provided_foe_x]
-    try:
-        available_directions = len([foe_room[5]])
-        foe_choice = random.randrange(0, available_directions)
-        choice_made = foe_room[5][foe_choice]
-        print(available_directions)
-        print(choice_made)
-        print("The mysterious foe decides to go, ", choice_made, "!", sep="")
-        while True:
-            if choice_made == "up":
-                provided_foe_y -= 1
-                break
-            elif choice_made == "left":
-                provided_foe_x -= 1
-                break
-            elif choice_made == "right":
-                provided_foe_x += 1
-                break
-            elif choice_made == "down":
-                provided_foe_y += 1
-                break
-        # return provided_foe_y, provided_foe_x
-    except IndexError:
+    if caught_flag != 1:
+        try:
+            available_directions = len(foe_room[5])
+            if provided_mode == "developer":
+                random_float = random()
+                foe_choice = int(random_float * available_directions)
+                for i in range(11):
+                    random_float = random()
+                    foe_choice = int(random_float * available_directions)
+                    print(foe_choice)
+                else:
+                    print(available_directions)
+                    print(len(foe_room[5]))
+                    print(foe_room[5])
+                    print(foe_choice)
+                    choice_made = foe_room[5][foe_choice]
+                    print(choice_made)
+
+            random_float = random()
+            foe_choice = int(random_float * available_directions)
+            choice_made = foe_room[5][foe_choice]
+
+            print("The mysterious foe decides to go ", choice_made, "!", sep="")
+            while True:
+                if choice_made == "up":
+                    provided_foe_y -= 1
+                    break
+                elif choice_made == "left":
+                    provided_foe_x -= 1
+                    break
+                elif choice_made == "right":
+                    provided_foe_x += 1
+                    break
+                elif choice_made == "down":
+                    provided_foe_y += 1
+                    break
+        except IndexError:
+            print("The mysterious foe bides their time...")
+    else:
         print("The mysterious foe bides their time...")
     return provided_foe_y, provided_foe_x
 
 
-# def caught():
-#     if current_room == foe_room:
-#         print("The mysterious foe catches up to you!")
+# Handles situations where the player and foe end up in the same place, the /
+# player either dies or gets away from the foe.
+def caught(
+        provided_y,
+        provided_x,
+        provided_foe_y,
+        provided_foe_x,
+        provided_map,
+):
+    caught_flag = 0
+    if provided_y == provided_foe_y and provided_x == provided_foe_x:
+        print("The mysterious foe catches up to you!")
+        input(">>>:")
+        print("They reach out their hands...")
+        input(">>>:")
+        caught_chance = random().__round__()
+        if caught_chance == 1:
+            print("But you manage to slip away!")
+            provided_y, provided_x \
+                = forced_move(provided_map, provided_y, provided_x)
+            caught_flag = 1
+        else:
+            print("You cannot get away!")
+            print("The mysterious foe chokes the life out of you!\n")
+            input(">>>:")
+            print("GAME OVER!")
+            exit()
+    return provided_y, provided_x, caught_flag
+
+
+# Forcibly moves the player by one valid space if they manage to get away from /
+# the foe, the foe does not move again that turn in this case.
+def forced_move(
+        provided_map,
+        provided_y,
+        provided_x,
+):
+    danger_room = provided_map["composition"][provided_y][provided_x]
+    available_directions = len(danger_room[5])
+    random_float = random()
+    panic_choice = int(random_float * available_directions)
+    choice_made = danger_room[5][panic_choice]
+
+    print("You manage to run ", choice_made, "!", sep="")
+    while True:
+        if choice_made == "up":
+            provided_y -= 1
+            break
+        elif choice_made == "left":
+            provided_x -= 1
+            break
+        elif choice_made == "right":
+            provided_x += 1
+            break
+        elif choice_made == "down":
+            provided_y += 1
+            break
+    return provided_y, provided_x
 
 
 # TODO: Add a 'turns_taken' function to determine things about foe behavior.
@@ -363,9 +466,25 @@ def foe_behave(provided_map, provided_foe_y, provided_foe_x):
 
 # RTP, this code calls the functions to set up the game and get it going.
 mode = developer_mode()
-current_map = choose_game(map_list)
-current_room, current_y, current_x = initialize_map(current_map)
-foe_y, foe_x = initialize_foe_position(current_map)
+current_map = choose_game(
+    map_list
+)
+current_room, current_y, current_x = initialize_map(
+    current_map
+)
+foe_y, foe_x = initialize_foe_position(
+    current_map
+)
+how_to_play()
+map_printer(
+    current_map['composition'],
+    current_map['id'],
+    current_map['danger'],
+    current_y,
+    current_x,
+    foe_y,
+    foe_x,
+)
 main_loop(
     current_room,
     current_y,
