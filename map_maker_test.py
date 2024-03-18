@@ -193,7 +193,6 @@ def main_loop(
             continue
 
 
-# TODO: Make this work with the first letter of each direction as well
 # Allows the player to move around between the rooms of a map.
 def choose_direction(
         provided_room,
@@ -212,6 +211,19 @@ def choose_direction(
               "Or, type 'map' to see the map.")
         chosen_direction = input(">>>: ")
         chosen_direction = chosen_direction.casefold()
+        # Converting single letter strings into valid choices for processing.
+        if chosen_direction == "u":
+            chosen_direction = "up"
+        if chosen_direction == "l":
+            chosen_direction = "left"
+        if chosen_direction == "r":
+            chosen_direction = "right"
+        if chosen_direction == "d":
+            chosen_direction = "down"
+        if chosen_direction == "w":
+            chosen_direction = "wait"
+        if chosen_direction == "q":
+            chosen_direction = "quit"
         if chosen_direction in directions:
             if chosen_direction in provided_room[5]:
                 print("You decide to go ", chosen_direction, ".", sep="")
