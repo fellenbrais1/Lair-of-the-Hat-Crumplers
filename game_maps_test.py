@@ -13,6 +13,8 @@ side_wall_open_both = "         "
 side_wall_open_right = "|         "
 room_null = "        "
 
+# -----------------------------------------------------------------------------
+
 # A list of the room components that could be imported etc.
 room_components = [
     top_wall,
@@ -26,6 +28,8 @@ room_components = [
     side_wall_open_right,
     room_null,
 ]
+
+# -----------------------------------------------------------------------------
 
 # These are lists of the components each type of room is made out of, all /
 # needed possibilities are represented here.
@@ -184,6 +188,8 @@ null_room = [
     [],
 ]
 
+# -----------------------------------------------------------------------------
+
 # A list of all available room types that could be imported etc.
 available_rooms = [
     closed,
@@ -205,6 +211,8 @@ available_rooms = [
     null_room,
 ]
 
+# -----------------------------------------------------------------------------
+
 # The map building process:
 # Each row of the map has to be built out of the different rooms.
 # Each row has to have the same number of rooms otherwise it stops working.
@@ -223,6 +231,20 @@ map_01_row_3 = null_room, open_top_right, open_left_right, open_top_left,
 # A composition of the rows in 'map_01' for 'map_printer()' to use.
 map_01_composition = map_01_row_0, map_01_row_1, map_01_row_2, map_01_row_3
 
+# map_01_d: discoverable "understruts"
+# Definition of which rooms a row consists of from left to right for 'map_01_d'.
+# These will be used to print an empty map that will be updated as you go.
+map_01_row_0_d = null_room, null_room, null_room, null_room,
+map_01_row_1_d = null_room, null_room, null_room, null_room,
+map_01_row_2_d = null_room, null_room, null_room, null_room,
+map_01_row_3_d = null_room, null_room, null_room, open_top_left,
+
+# A composition of the rows in 'map_01_d' for 'map_printer()' to use.
+map_01_d_composition = map_01_row_0_d, map_01_row_1_d, map_01_row_2_d, \
+                       map_01_row_3_d
+
+# -----------------------------------------------------------------------------
+
 # map_02: "hat factory"
 map_02_row_0 = open_bottom, open_bottom, null_room, open_bottom,
 map_02_row_1 = open_top_bottom, open_top_bottom, open_bottom, open_top_bottom
@@ -235,6 +257,18 @@ map_02_row_4 = open_top_right, open_left_right, open_left_right, open_top_left
 map_02_composition = map_02_row_0, map_02_row_1, map_02_row_2, map_02_row_3, \
                      map_02_row_4
 
+# map_02_d: discoverable "hat factory"
+map_02_row_0_d = null_room, null_room, null_room, null_room,
+map_02_row_1_d = null_room, null_room, null_room, null_room
+map_02_row_2_d = null_room, null_room, null_room, null_room
+map_02_row_3_d = null_room, null_room, null_room, null_room
+map_02_row_4_d = open_top_right, null_room, null_room, null_room
+
+map_02_d_composition = map_02_row_0_d, map_02_row_1_d, map_02_row_2_d, \
+                       map_02_row_3_d, map_02_row_4_d
+
+# -----------------------------------------------------------------------------
+
 # map_03: "snake temple"
 map_03_row_0 = open_right, open_left_right, open_left_bottom,
 map_03_row_1 = null_room, null_room, open_top_bottom,
@@ -245,12 +279,33 @@ map_03_row_4 = open_top, null_room, null_room,
 map_03_composition = map_03_row_0, map_03_row_1, map_03_row_2, map_03_row_3, \
                      map_03_row_4
 
+# map_03_d: discoverable "snake temple"
+map_03_row_0_d = null_room, null_room, null_room,
+map_03_row_1_d = null_room, null_room, null_room,
+map_03_row_2_d = null_room, null_room, null_room,
+map_03_row_3_d = null_room, null_room, null_room,
+map_03_row_4_d = open_top, null_room, null_room,
+
+map_03_d_composition = map_03_row_0_d, map_03_row_1_d, map_03_row_2_d, \
+                       map_03_row_3_d, map_03_row_4_d
+
+# -----------------------------------------------------------------------------
+
 # map_04: "test map"
 map_04_row_0 = null_room, open_bottom, null_room,
 map_04_row_1 = open_right, open_all, open_left,
 map_04_row_2 = null_room, open_top, null_room,
 
 map_04_composition = map_04_row_0, map_04_row_1, map_04_row_2,
+
+# map_04_d: discoverable "test map"
+map_04_row_0_d = null_room, null_room, null_room,
+map_04_row_1_d = null_room, open_all, null_room,
+map_04_row_2_d = null_room, null_room, null_room,
+
+map_04_d_composition = map_04_row_0_d, map_04_row_1_d, map_04_row_2_d,
+
+# -----------------------------------------------------------------------------
 
 # map_05: 'murder mansion'
 map_05_row_0 = open_bottom, null_room, null_room, null_room, \
@@ -273,10 +328,7 @@ map_05_row_6 = null_room, null_room, null_room, open_top_bottom, null_room, \
 map_05_composition = map_05_row_0, map_05_row_1, map_05_row_2, map_05_row_3, \
                      map_05_row_4, map_05_row_5, map_05_row_6
 
-# TODO: Work on this discoverable map system and make it work in 'map_maker.py'
-# murder mansion discoverable map
-# The intention for this map is to show the player and then update this map \
-# with new rooms by updating it from map_05
+# map_05_d: discoverable 'murder mansion'
 map_05_row_0_d = null_room, null_room, null_room, null_room, null_room, \
                  null_room, null_room
 map_05_row_1_d = null_room, null_room, null_room, null_room, null_room, \
@@ -296,10 +348,13 @@ map_05_d_composition = map_05_row_0_d, map_05_row_1_d, map_05_row_2_d, \
                        map_05_row_3_d, map_05_row_4_d, map_05_row_5_d, \
                        map_05_row_6_d
 
+# -----------------------------------------------------------------------------
+
 # Creating dictionaries where multiple bits of data can be accessed later
 map_01 = {
     'id': "understruts",
     'composition': map_01_composition,
+    'discoverable': map_01_d_composition,
     'danger': "Low",
     'start_pos': [3, 3],
     'foe_start': [0, 0],
@@ -311,6 +366,7 @@ map_01 = {
 map_02 = {
     'id': "hat factory",
     'composition': map_02_composition,
+    'discoverable': map_02_d_composition,
     'danger': "Medium",
     'start_pos': [4, 0],
     'foe_start': [0, 0],
@@ -322,6 +378,7 @@ map_02 = {
 map_03 = {
     'id': "snake temple",
     'composition': map_03_composition,
+    'discoverable': map_03_d_composition,
     'start_pos': [4, 0],
     'foe_start': [0, 0],
     'foe_appear': 2,
@@ -333,6 +390,7 @@ map_03 = {
 map_04 = {
     'id': "test map",
     'composition': map_04_composition,
+    'discoverable': map_04_d_composition,
     'start_pos': [1, 1],
     'foe_start': [1, 2],
     'foe_appear': 1,
@@ -352,6 +410,9 @@ map_05 = {
     'enemies': [],
     'weather': [],
 }
+
+# -----------------------------------------------------------------------------
+
 # A list of maps for reference and for iterating through if needed.
 map_list = [
     map_01,
@@ -359,4 +420,72 @@ map_list = [
     map_03,
     map_04,
     map_05,
+]
+
+# -----------------------------------------------------------------------------
+
+# TODO: Finish building the clues for use in the game.
+clue_1_picture = """
+          .
+         / \\
+         [ ]
+         [ ]
+         [ ]
+       .-----.
+          M
+          M
+"""
+
+clue_1 = {
+    'name': 'Sacrificial Knife',
+    'description': clue_1_picture,
+}
+
+# TODO: Change the art for 'clue_2_picture'.
+clue_2_picture = """
+          .
+         / \\
+         [ ]
+         [ ]
+         [ ]
+       .-----.
+          M
+          M
+"""
+
+clue_2 = {
+    'name': 'Secret Documents',
+    'description': clue_2_picture,
+}
+
+# TODO: Change the art for 'clue_3_picture'.
+clue_3_picture = """
+          .
+         / \\
+         [ ]
+         [ ]
+         [ ]
+       .-----.
+          M
+          M
+"""
+
+clue_3 = {
+    'name': 'Cultist Garb',
+    'description': clue_3_picture,
+}
+
+# A list of all clues in the game.
+clues_list = [
+    clue_1,
+    clue_2,
+    clue_3,
+]
+
+# A list that can be deleted from as clues are collected, when empty, the /
+# player is ready to win the game.
+clues_to_collect_list = [
+    clue_1,
+    clue_2,
+    clue_3,
 ]
