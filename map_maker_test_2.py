@@ -143,6 +143,8 @@ def iterate_maps(
 
 
 # TODO: Add a win condition to allow an end to the game.
+# TODO: Route 'evidence_list' / 'collected_list' into any other functions that
+#  need them.
 # Allows the game to run until a win, lose, or exit condition has been met.
 def main_loop(
         provided_room,
@@ -158,6 +160,8 @@ def main_loop(
         provided_last_move,
         provided_foe_status,
         provided_reappear_count,
+        provided_evidence_list,
+        provided_found_list,
 ):
     # The following functions only produce output in "developer" mode.
     example_maps(
@@ -751,20 +755,137 @@ def map_discover(
     return altered_d_map
 
 
-# TODO: Add the rest of the clues_system to the game.
-# - Assign clues to random rooms avoiding player start and null rooms.
-# - Add a condition to check if a room is a clue room and change its status.
-# - Add a function that adds clues to your list and removes from 'remaining'.
+# TODO: Add the rest of the 'evidence_system' to the game.
+# - Add a condition to see if a room is an evidence room and allow finding.
+# - Add a function that removes evidence from the master list and adds them to /
+#   the found list.
 # - Add function to be able to display collected clues and inspect.
 # - Add function to check if all clues are gathered and trigger end conditions.
 
+# Assigns evidence to three non-starting or null rooms in the map and stores /
+# the co-ordinates to the list of lists 'evidence_yx'
+def assign_evidence(
+        provided_evidence_list,
+        provided_map,
+        provided_mode,
+):
+    initial_evidence_yx = []
+    if provided_mode == 'developer':
+        for item in provided_evidence_list:
+            print(item['name'])
+        for item in provided_evidence_list:
+            print(item['yx'])
+    while True:
+        for item in provided_evidence_list:
+            while True:
+                item['yx'] = []
+                evidence_y = randint(0, len(provided_map['composition']) - 1)
+                evidence_x \
+                    = randint(0, len(provided_map['composition'][evidence_y])
+                              - 1)
+                item['yx'].append(evidence_y)
+                item['yx'].append(evidence_x)
+                working_y = item['yx'][0]
+                working_x = item['yx'][1]
+                if item['yx'] == provided_map['start_pos']:
+                    continue
+                if item['yx'] in initial_evidence_yx:
+                    continue
+                if provided_map['composition'][working_y][working_x]\
+                        == null_room:
+                    continue
+                if provided_mode == 'developer':
+                    print(item['name'], item['yx'])
+                initial_evidence_yx.append(item['yx'])
+                break
+        else:
+            break
+    if provided_mode == 'developer':
+        print(initial_evidence_yx)
+        for item in provided_evidence_list:
+            print(item['yx'])
+    return provided_evidence_list
 
-# TODO: Fit this with the rest of the program to create a win condition.
-# Initialize the clues to be used in the game from 'game_maps_test.py'.
-def initialize_clues():
-    game_clues = clues_list
-    game_remaining_clues = clues_to_collect_list
-    return game_clues, game_remaining_clues
+
+# TODO: Integrate with the other functions and test.
+# This function should show you the evidence when you enter the same room as /
+# it, and delete that piece of evidence from the 'provided_evidence_list' so /
+# that it cannot be 'found' again.
+def find_evidence(
+        provided_current_y,
+        provided_current_x,
+        provided_evidence_list,
+        provided_found_evidence,
+):
+    working_yx = [provided_current_y, provided_current_x]
+    for item in provided_evidence_list:
+        target_yx = item['yx']
+        if working_yx == target_yx:
+            print("You find something in the room, a {0}!".format(item['name']))
+            art_printer(item['picture'])
+            print(item['description'])
+            provided_found_evidence.append(item)
+            filtered_evidence_list \
+                = delete_by_yx(provided_evidence_list.copy(), target_yx)
+            return filtered_evidence_list, provided_found_evidence
+        else:
+            continue
+    else:
+        return provided_evidence_list, provided_found_evidence
+
+
+# Called by 'find_evidence()' to delete the evidence found from the findable /
+# list by filtering it out by its matching ['yx'] value.
+def delete_by_yx(provided_evidence_list, provided_target_yx):
+    return list(filter(lambda d: d.get('yx')
+                != provided_target_yx, provided_evidence_list))
+
+
+# Initialize the evidence to be used in the game from 'game_maps_test.py'.
+def initialize_evidence():
+    game_evidence = evidence_list
+    initial_collected_evidence = evidence_collected_list
+    return game_evidence, initial_collected_evidence
+
+
+# TODO: Integrate into choose direction and test.
+# Allows inspection of player collected evidence items.
+def evidence_inspect(provided_found_list):
+    choice_list = []
+    print("Which piece of collected evidence would you like to inspect?")
+    for index, item in enumerate(provided_found_list):
+        print("{0}. {1}".format(index + 1, item['name']))
+        choice_list.append(index)
+    while True:
+        print("Type a number to inspect the item you want, 'd' to display again"
+              " or 'x' to exit this menu.")
+        choice = input(">>>: ")
+        choice = choice.casefold()
+        if choice in choice_list:
+            evidence_to_view = provided_found_list[choice]
+            print(evidence_to_view['name'])
+            print(evidence_to_view['picture'])
+            print(evidence_to_view['description'])
+        elif choice == 'd':
+            continue
+        elif choice == 'x':
+            break
+        else:
+            print("That is not a valid choice, please enter again.")
+            continue
+
+
+# TODO: Integrate with other functions to allow end game to trigger.
+# Returns a 'win_condition' value of 1 if the 'found_list' is at len 4.
+def evidence_count(provided_found_list):
+    while True:
+        if len(provided_found_list) == 4:
+            win_condition = 1
+            break
+        else:
+            win_condition = 0
+            break
+    return win_condition
 
 
 def art_printer(provided_art):
@@ -784,6 +905,12 @@ def game_initialize():
         )
     i_foe_y, i_foe_x = initialize_foe_position(
         i_current_map,
+    )
+    i_game_evidence, i_game_found_evidence = initialize_evidence()
+    i_evidence_list = assign_evidence(
+        i_game_evidence,
+        i_current_map,
+        i_mode,
     )
     art_printer(game_art)
     how_to_play()
@@ -805,14 +932,15 @@ def game_initialize():
     i_reappear_count = 999999999999999
     return i_mode, i_current_map, i_current_room, i_current_y, i_current_x, \
         i_foe_appear, i_d_map, i_foe_y, i_foe_x, i_turn_count, \
-        i_initial_last_move, i_foe_status, i_reappear_count
+        i_initial_last_move, i_foe_status, i_reappear_count, i_evidence_list, \
+        i_game_found_evidence
 
 
 # RTP, this code calls the functions to set up the game and get it going.
 mode, current_map, current_room, current_y, current_x, foe_appear, \
-        d_map, foe_y, foe_x, turn_count, initial_last_move, foe_status, \
-        initial_reappear_count \
-        = game_initialize()
+    d_map, foe_y, foe_x, turn_count, initial_last_move, foe_status, \
+    initial_reappear_count, game_evidence_list, game_found_evidence \
+    = game_initialize()
 main_loop(
     current_room,
     current_y,
@@ -827,4 +955,6 @@ main_loop(
     initial_last_move,
     foe_status,
     initial_reappear_count,
+    game_evidence_list,
+    game_found_evidence,
 )

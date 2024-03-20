@@ -424,85 +424,162 @@ map_list = [
 
 # -----------------------------------------------------------------------------
 
-# TODO: Finish building the clues for use in the game.
-clue_1_picture = """
-                  ╓╓@⌐
-                ╙╢▒▒▒▌
-                  ]████
-                   ▀████
-                    ▀████
-                     ╙████⌐
-                      ╘████▄
-                       ▐▀▒░▒╢╣@@
-                       ╓▒▒▒▒▒▄╜`
-                      ]╫▓Ñ▓▓▓▓▌
-                           ▓╣▓▓▒
-                            ▓▓▓▓╖
-                             ▓▓▓▓▓
-                              ╙▓▓▓▌
-                               ▐▓▓▓▄
-                                `▓▓▓▓
-                                  ▓▓▓L
-                                   ▓▓▓.
-                                    ╙▓▓W
-                                     ▐▓▓
-                                      ╚▓▌
-                                        ▓▌
-                                         `
+# The pocket book is always in your inventory to make the list of collected /
+# evidence non-empty.
+pocket_book_picture = """
+▒▒▒▒▒▒▒▒▒▒▒▒▒░░░▒▒░░░▒▒▒▒▒▒▒░▒▒░░░░░  `░░░░░░░▒░░░░▒▒░░░░░░░
+▒▒▒▒▒▒▒▒▒▒▒▒▒▒░▒▒▒▒░▒▒░░░▒░▒░░▒░░░    ░░░░░░░░░░░░░░░░░░▒░░░
+▒▒▒▒▒▒▒▒▒▒▒▒▒░░▒░▒▒▒▒▒███▄░▒░░▒▒░    , ░░░░░░░░▒▒▒▒▒▒▒░░░▒▒▒
+▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒███▀░▀██▄░▒▒░  ░ ░░░░░░▒▒▒░▒▒▒▒▒▒▒▒▒░▒▒▒
+▒▒▒▒▒▒▒▒▒▒▒▒▒╢╢╣╢▒██████▄░░▀██▄▒▒░░░░░░▒░░░▒▒▒▒▒░▒▒▒▒▒▒▒▒▒▒▒
+▒▒▒▒▒▒▒▒▒╢▒▒╫╣▓▓██████▀███▄░░▀██▄▒▒░▒░▒▒▒░▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+▒▒▒▒▒▒▒▒╣╢╢╢▓▓████████▄"▀███▄░░░██▄▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒
+▒▒▒▒▒╣╢╢╢╢╫▓███████▓║▀██▄░▀████░▒░▀█▄▄▒▒▒▒▒▒▒▒▒▒░░░░▒░▒▒▒░░░
+▒╢▒▒╣╢╢╫╢██████████▄▓▓▓╣██▄/╙▀███▄▄██▌   ~ `╙▒▒▒▒▒▒▒▒▒░░▒▒░░
+▒▒╣╢╢▓╢██████████████▄╙▓▓╜▀██▄░███████▄▄▄     "   "▄▒▒░░░▒▒░
+▒╣╢╣╫▓█████████████████▄,,╫▓▀███████████████▄▄▄   ▓██▀▒▒░░░░
+╢╣╢╢╬▓╫███████████████████▓  ▄████████████████████▓█▀▒▒░▒░░░
+╢╢╫╣▓▓▓▓▓▓██████████████████████▀▒▓╣▒▀▀██████▀██▀▓▓M░▒▒▒▒░░░
+╣╣╢╣╫╣▓▓▓▓▓▓███████████████████████▌      ▀▀██▀╜╣█▀▒▒▒░▒▒░░░
+╢╣╣╢╣╣╢╢▓▓▓▓▓▓████████████████████████▄▄   ╓▓▓∩▄▌▄▄▄░░░▒▒▒░░
+╣╣╢╣╢╣╢╢╣▓╣╢╢▓▓▓███████████████████████████▓▓╠▓██▒▒░█░░░░░▒▒
+▒╢╢╢╣╢╢╣╢╢╢╣▒╢▒╢╢▓▓████████████████████████╜▒▓▒╣▒▀▀▀░▒░░░░░▒
+╣╢╣▒╢▒▒▒╣▒╣╢▒▒▒▒▒▒▒▒▒▓████████████████████`,▓▒▒▒▒▒▒▒▒▒▒░░░░░
+▒▒▒▒▒▒▒▒▒╢▒╣▒▒▒▒▒▒▒▒▒▒▒▒╢▓██████████████▌ ╓▒▒▒▒▒▒▒▒▒░░▒▒░░░░
+╢▒▒▒▒▒▒▒▒▒╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢▒▓████████▓╖╔▒▒▒▒▒▒▒▒▒▒░░░░░░░░
+▒▒▒▒▒╢▒▒▒▒╢╫╢╢▒╢▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒╢▒╢▓████▓▓▒▒▒▒▒▒▒▒▒▒▒▒░░░░░░░
+▒▒▒╢╣╢▒▒▒▒▒╢╣╣╣╣╢▒▒▒▒▒Ü▒▒▒▒▒▒▒▒▒▒╢╢╢╢╢▒▒▒▒▒▒▒▒░▒▒▒▒▒░░.░░,░▒
+╢╢╣▒╢╣╣▒╢▒▒╢▒╣╢╢╣╢╣▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒▒░ ░░▒
 """
 
-clue_1 = {
+pocket_book = {
+    'name': 'Pocket Book',
+    'picture': pocket_book_picture,
+    'description': "This little pocket book has been through a lot, from your "
+                   "first case up to this terrible mansion.\nGood for jotting "
+                   "down all kinds of clues and nefarious details.",
+    'yx': [],
+}
+
+evidence_1_picture = """
+      ╓╓@⌐
+    ╙╢▒▒▒▌
+      ]████
+        ▀████
+         ╙████⌐
+          ╘████▄
+           ▐▀▒░▒╢╣@@
+           ╓▒▒▒▒▒▄╜`
+          ]╫▓Ñ▓▓▓▓▌
+               ▓╣▓▓▒
+                ▓▓▓▓╖
+                 ▓▓▓▓▓
+                  ╙▓▓▓▌
+                   ▐▓▓▓▄
+                    `▓▓▓▓
+                      ▓▓▓L
+                       ▓▓▓.
+                        ╙▓▓W
+                         ▐▓▓
+                          ╚▓▌
+                            ▓▌
+                             `
+"""
+
+evidence_1 = {
     'name': 'Sacrificial Knife',
-    'description': clue_1_picture,
+    'picture': evidence_1_picture,
+    'description': "This knife has seen some use, and recently at that.\nThe"
+                   "edges have been dulled through action and sticky black dots"
+                   "adorn the blade.",
+    'yx': [],
 }
 
-# TODO: Change the art for 'clue_2_picture'.
-clue_2_picture = """
-          .
-         / \\
-         [ ]
-         [ ]
-         [ ]
-       .-----.
-          M
-          M
+evidence_2_picture = """
+
+                                 ▄█████▄
+                              ████████████L
+                            ▄██▓Ñ╙▓▓╢███████
+                           ▓▀▒░  ▒╜  ████████
+                          ╢╙    `    ]████████
+                         r ░         ╓█████████
+                                  µ████████████▄
+                               ,▓██▀      ██████
+                           ╓░▓██▀            ▀███⌐
+                          ╓██-       ,,         ██▌
+                          █         ▀███▀`        ▐█
+                         █U          ██▌           █
+                         └█           ██░          ▐
+                          █▄           ╙Ñ         ,
+    ,           ▄█Ñ        █▄                    ╓▓▄               
+    ▀▄       ,╓╖            █        @╖         ╓╜▒▒╫██            █
+     ▀█▄╓@▓▓w╙╙              █  ]╖    ░        ╓░░▒╣╢██████████, ██▀
+       ╙▀██▓h╖               ⌠   ╙▓▄,,         █▒▄▄▓█▀▓███████████
+         ╓*]╩ `               ╩p,  ╙▀█▓@∩       ▀██▀░▒▓Ñ▓███████▌
+    ,  ,╥░∩` `                  ╝▓▄w╓╖ "`     ,╓╬╜,░╓████████▌███▄
+     ▐▀▐▐▒▓█▀▀▓▓▀▓▓g▒ⁿ═w▄ç   ╙╖,   ╙▀▓▓▓▄@µµ@Ñ╜ ,███████████████████
+                  ╨▄▓██████▌▄  ╙╨@,     ╙╜╙  ▄▄█████████
+                    ▀███████████▄╓ ╙╨H, ,╥████████████
+                    
 """
 
-clue_2 = {
-    'name': 'Secret Documents',
-    'description': clue_2_picture,
-}
-
-# TODO: Change the art for 'clue_3_picture'.
-clue_3_picture = """
-          .
-         / \\
-         [ ]
-         [ ]
-         [ ]
-       .-----.
-          M
-          M
-"""
-
-clue_3 = {
+evidence_2 = {
     'name': 'Cultist Garb',
-    'description': clue_3_picture,
+    'picture': evidence_2_picture,
+    'description': 'A shady hood for a set of exquisite black robes, not '
+                   'exactly evening wear.\nIt seems to have been stashed in a'
+                   ' hurry.',
+    'yx': [],
+}
+
+evidence_3_picture = """
+
+        ╟▓▓▓▓▓▓▓▓▓▓▀▓▓█▓█▓▀▀█▓▓▓█████▓
+       j▓▓▓▓▓▓▓▀▄▓▓▓▓▓▓]▓▓▓▓▓▓▓██▌██▓▓▌
+       ║▓▓▓▓█▌▓█▓▓▓▓▓█▓]╫█▓▓▓▓▓██████▓▓
+       ╢▐╣▓▓▓▓╗▓▄▓▀█▓█▌~▓▓▓▀▓▓▓█▓█▓█▓▓▓
+        ╟▓▓▓▓ █▓▄▒▀▀╠▓▓▓▓▓▓▒▄▄▓▓█W▓▓▓▓
+        ╟▓▓▌▓▌▐▓▓▓██▌▐▓╙▐▓▀██▓▓╫▌▓▓▓▓▓
+        ]╣▓▓▓█┐▀▓▓███▄▓▓██▓▓██▓▀▄▓▓▓▓▓
+         ╫▓▓▓▓▓▄,▀▀▓▓▓█▌███▓▓▓@▓▓▓▓▓╬
+          ╙╙▓▓▓▓▓▓▓▓▓▓▓▓▄▓▓▓▓▓▓▓▌▓▓▓
+            ╙╨╟▓▓▓▓▓▓▓▓╢▓▓▓▓▓╫▓▓▓╜
+               `╙╜╨╫▓▓▓▓▓▓▓▓▓╜"
+                  ██▓███▓███╕
+                 ╟╫█▓▓▓▓▓██▓▓
+                 ╙▒▓▌╓æ@w▓██▀
+                   ╙▓▓▓▓▓█▀`
+                    ]▓▓▓▓▌
+                    ╫▓▓╩▒▓
+                    ]╖╙▀,/
+                    ╞▓▓▓▐▓,
+                   φ▒`█`"╙╣b
+                 ,▐▓╟▀███╖██╖,
+             ╥@H@╓▓▄▓▀████▓█▓██▓▄w
+           @╟▒▒╜╔╨▒▓@▓▓▓▓▓▓▓▓▓▓▓██▓W
+
+"""
+
+evidence_3 = {
+    'name': 'Ritual Chalice',
+    'picture': evidence_3_picture,
+    'description': "An elaborate silver chalice, with arcane decoration, the "
+                   "kind used for strange rituals.\nIs that blood residue on "
+                   "the inside?",
+    'yx': [],
 }
 
 # A list of all clues in the game.
-clues_list = [
-    clue_1,
-    clue_2,
-    clue_3,
+evidence_list = [
+    evidence_1,
+    evidence_2,
+    evidence_3,
 ]
 
-# A list that can be deleted from as clues are collected, when empty, the /
+# A list that can be added to as evidence is collected, when len == 4, the /
 # player is ready to win the game.
-clues_to_collect_list = [
-    clue_1,
-    clue_2,
-    clue_3,
+evidence_collected_list = [
+    pocket_book,
 ]
 
 # -----------------------------------------------------------------------------
@@ -510,7 +587,6 @@ clues_to_collect_list = [
 # The below font can be found at: /
 # 'https://patorjk.com/software/taag/#p=display&h=1&f=Delta%20Corps%20Priest%201&t='
 # Game title artwork to be called by 'art_printer() at game start.
-
 game_art = """
    ▄▄▄▄███▄▄▄▄   ███    █▄     ▄████████ ████████▄     ▄████████    ▄████████  
  ▄██▀▀▀███▀▀▀██▄ ███    ███   ███    ███ ███   ▀███   ███    ███   ███    ███  
@@ -554,7 +630,28 @@ game_over_art = """
                                           ███    ███        
 """
 
-# TODO: Generate art for the other two clues and the victory screen.
+# Victory screen art called by 'art_printer()'.
+victory_art = """
+▄██   ▄    ▄██████▄  ███    █▄  
+███   ██▄ ███    ███ ███    ███ 
+███▄▄▄███ ███    ███ ███    ███ 
+▀▀▀▀▀▀███ ███    ███ ███    ███ 
+▄██   ███ ███    ███ ███    ███ 
+███   ███ ███    ███ ███    ███ 
+███   ███ ███    ███ ███    ███ 
+ ▀█████▀   ▀██████▀  ████████▀  
+                                
+      ▄█     █▄   ▄█  ███▄▄▄▄   
+     ███     ███ ███  ███▀▀▀██▄ 
+     ███     ███ ███▌ ███   ███ 
+     ███     ███ ███▌ ███   ███ 
+     ███     ███ ███▌ ███   ███ 
+     ███     ███ ███  ███   ███ 
+     ███ ▄█▄ ███ ███  ███   ███ 
+      ▀███▀███▀  █▀    ▀█   █▀  
+                                
+"""
+
 # Generated with 'https://asciiart.club/'
 example_art = """
                   ╓╓@⌐
