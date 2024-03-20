@@ -678,7 +678,7 @@ def caught(
             print("You cannot get away!")
             print("The mysterious foe chokes the life out of you!\n")
             input(">>>:")
-            print("GAME OVER!")
+            art_printer(game_over_art)
             exit()
     return new_room, provided_y, provided_x, caught_flag
 
@@ -767,6 +767,11 @@ def initialize_clues():
     return game_clues, game_remaining_clues
 
 
+def art_printer(provided_art):
+    print(provided_art)
+    input(">>>: ")
+
+
 # Initializes data for use in the game, to unclutter the RTP.
 def game_initialize():
     i_mode = developer_mode()
@@ -780,6 +785,7 @@ def game_initialize():
     i_foe_y, i_foe_x = initialize_foe_position(
         i_current_map,
     )
+    art_printer(game_art)
     how_to_play()
     i_turn_count = 0
     i_initial_last_move = ''
