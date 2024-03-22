@@ -143,7 +143,7 @@ def iterate_maps(
 
 
 # TODO: Add a win condition to allow an end to the game.
-# TODO: Route 'evidence_list' / 'collected_list' into any other functions that
+# TODO: Route 'evidence_list' / found_list' into any other functions that
 #  need them.
 # Allows the game to run until a win, lose, or exit condition has been met.
 def main_loop(
@@ -193,12 +193,19 @@ def main_loop(
                 provided_foe_appear,
                 provided_d_map,
                 provided_foe_status,
+                provided_found_list,
             )
         provided_d_map = map_discover(
             current_map,
             provided_d_map,
             provided_y,
             provided_x,
+        )
+        provided_evidence_list, provided_found_list = find_evidence(
+            provided_y,
+            provided_x,
+            provided_evidence_list,
+            provided_found_list,
         )
         if provided_turn_count >= provided_foe_appear:
             provided_room, provided_y, provided_x, caught_flag = caught(
@@ -218,7 +225,6 @@ def main_loop(
                     provided_foe_x,
                     mode,
                     provided_last_move,
-                    caught_flag,
                     provided_turn_count,
                     provided_foe_status,
                     provided_y,
@@ -242,6 +248,12 @@ def main_loop(
             provided_d_map,
             provided_y,
             provided_x,
+        )
+        provided_evidence_list, provided_found_list = find_evidence(
+            provided_y,
+            provided_x,
+            provided_evidence_list,
+            provided_found_list,
         )
         provided_turn_count = turn_counter(
             provided_turn_count,
@@ -271,6 +283,7 @@ def choose_direction(
         provided_foe_appear,
         provided_d_map,
         provided_foe_status,
+        provided_found_list,
 ):
     directions = "up", "left", "right", "down",
     while True:
@@ -278,7 +291,8 @@ def choose_direction(
             provided_room,
         )
         print("\nWhich direction would you like to go in?\n"
-              "Or, type 'map' to see the map.")
+              "Or, type 'map' to see the map,and 'e' to see your collected "
+              "evidence.")
         chosen_direction = input(">>>: ")
         chosen_direction = chosen_direction.casefold()
         # Converting single letter strings into valid choices for processing.
@@ -296,6 +310,8 @@ def choose_direction(
             chosen_direction = "wait"
         if chosen_direction == "q":
             chosen_direction = "quit"
+        if chosen_direction == "e":
+            chosen_direction = "evidence"
         if chosen_direction in directions:
             if chosen_direction in provided_room[5]:
                 print("You decide to go ", chosen_direction, ".", sep="")
@@ -338,6 +354,8 @@ def choose_direction(
             new_room = provided_map["composition"][provided_y][provided_x]
             print("You decide to hide in this room and wait a while...")
             break
+        elif chosen_direction == "evidence":
+            evidence_inspect(provided_found_list)
         elif chosen_direction == "quit":
             print("See you soon!")
             exit()
@@ -467,6 +485,7 @@ def foe_appearance(
         return
     elif provided_turn_count == provided_foe_appear:
         print("\nYour mysterious foe returns to the crime scene!")
+        art_printer(killer_art)
         print("Don't let them catch up to you!")
         input(">>>:")
         return
@@ -483,7 +502,6 @@ def foe_behave(
         provided_foe_x,
         provided_mode,
         provided_last_move,
-        caught_flag,
         provided_turn_count,
         provided_foe_status,
         provided_y,
@@ -512,17 +530,19 @@ def foe_behave(
             print(provided_foe_y)
             print(provided_foe_x)
             print(provided_foe_status)
-        provided_foe_y, provided_foe_x, provided_foe_status = foe_reappear(
-            provided_turn_count,
-            provided_reappear_count,
-            provided_map,
-            provided_y,
-            provided_x,
-            provided_foe_y,
-            provided_foe_x,
-            provided_foe_status,
-            provided_mode,
-        )
+        provided_foe_y, provided_foe_x, provided_foe_status, caught_flag, \
+            reappear_flag \
+            = foe_reappear(
+                provided_turn_count,
+                provided_reappear_count,
+                provided_map,
+                provided_y,
+                provided_x,
+                provided_foe_y,
+                provided_foe_x,
+                provided_foe_status,
+                provided_mode,
+            )
         if provided_foe_status == "gone":
             print("There is no sign of the mysterious foe!")
             return provided_foe_y, provided_foe_x, provided_last_move, \
@@ -577,7 +597,11 @@ def foe_behave(
             except IndexError:
                 print("The mysterious foe bides their time...")
         else:
-            print("The mysterious foe bides their time...")
+            if reappear_flag == 1:
+                print("FOE REAPPEAR CONDITION")
+                pass
+            else:
+                print("The mysterious foe bides their time...")
         provided_last_move = choice_made
         return provided_foe_y, provided_foe_x, provided_last_move, \
             provided_foe_status, provided_reappear_count
@@ -593,7 +617,7 @@ def foe_disappear(
     if provided_foe_status == 'present':
         disappear_chance = randint(1, 6)
         if disappear_chance == 6:
-            print("The mysterious foe vanishes from sight and hearing!")
+            print("You lose track of your mysterious foe!")
             provided_foe_status = 'gone'
             reappear_count = provided_turn_count + randint(1, 3)
             if provided_mode == 'developer':
@@ -637,12 +661,16 @@ def foe_reappear(
             else:
                 break
         new_foe_status = 'present'
-        return new_foe_y, new_foe_x, new_foe_status
+        caught_flag = 1
+        reappear_flag = 1
+        return new_foe_y, new_foe_x, new_foe_status, caught_flag, reappear_flag
     else:
         new_foe_y = provided_foe_y
         new_foe_x = provided_foe_x
         new_foe_status = provided_foe_status
-        return new_foe_y, new_foe_x, new_foe_status
+        caught_flag = 0
+        reappear_flag = 0
+        return new_foe_y, new_foe_x, new_foe_status, caught_flag, reappear_flag
 
 
 # Handles situations where the player and foe end up in the same place, the /
@@ -756,10 +784,8 @@ def map_discover(
 
 
 # TODO: Add the rest of the 'evidence_system' to the game.
-# - Add a condition to see if a room is an evidence room and allow finding.
-# - Add a function that removes evidence from the master list and adds them to /
-#   the found list.
-# - Add function to be able to display collected clues and inspect.
+# - Maybe I don't need to delete from 'evidence_list' as 'found_list' has /
+# become more important in the logic of calculating game end conditions.
 # - Add function to check if all clues are gathered and trigger end conditions.
 
 # Assigns evidence to three non-starting or null rooms in the map and stores /
@@ -807,31 +833,31 @@ def assign_evidence(
     return provided_evidence_list
 
 
-# TODO: Integrate with the other functions and test.
+# TODO: Test that evidence is properly removed from 'evidence_list' when found.
 # This function should show you the evidence when you enter the same room as /
 # it, and delete that piece of evidence from the 'provided_evidence_list' so /
 # that it cannot be 'found' again.
 def find_evidence(
-        provided_current_y,
-        provided_current_x,
+        provided_y,
+        provided_x,
         provided_evidence_list,
-        provided_found_evidence,
+        provided_found_list,
 ):
-    working_yx = [provided_current_y, provided_current_x]
+    working_yx = [provided_y, provided_x]
     for item in provided_evidence_list:
         target_yx = item['yx']
         if working_yx == target_yx:
             print("You find something in the room, a {0}!".format(item['name']))
             art_printer(item['picture'])
             print(item['description'])
-            provided_found_evidence.append(item)
+            provided_found_list.append(item)
             filtered_evidence_list \
                 = delete_by_yx(provided_evidence_list.copy(), target_yx)
-            return filtered_evidence_list, provided_found_evidence
+            return filtered_evidence_list, provided_found_list
         else:
             continue
     else:
-        return provided_evidence_list, provided_found_evidence
+        return provided_evidence_list, provided_found_list
 
 
 # Called by 'find_evidence()' to delete the evidence found from the findable /
@@ -848,29 +874,40 @@ def initialize_evidence():
     return game_evidence, initial_collected_evidence
 
 
-# TODO: Integrate into choose direction and test.
 # Allows inspection of player collected evidence items.
 def evidence_inspect(provided_found_list):
-    choice_list = []
-    print("Which piece of collected evidence would you like to inspect?")
-    for index, item in enumerate(provided_found_list):
-        print("{0}. {1}".format(index + 1, item['name']))
-        choice_list.append(index)
     while True:
+        choice_list = []
+        print("Which piece of collected evidence would you like to inspect?")
+        for index, item in enumerate(provided_found_list):
+            print("{0}. {1}".format(index + 1, item['name']))
+            choice_list.append(int(index + 1))
+        print(choice_list)
+        print(type(choice_list))
         print("Type a number to inspect the item you want, 'd' to display again"
               " or 'x' to exit this menu.")
         choice = input(">>>: ")
-        choice = choice.casefold()
-        if choice in choice_list:
-            evidence_to_view = provided_found_list[choice]
-            print(evidence_to_view['name'])
-            print(evidence_to_view['picture'])
-            print(evidence_to_view['description'])
-        elif choice == 'd':
-            continue
-        elif choice == 'x':
-            break
-        else:
+        try:
+            if int(choice) in choice_list:
+                choice = int(choice) - 1
+                print("This code is running.")
+                # choice = int(choice)
+                evidence_to_view = provided_found_list[choice]
+                print(evidence_to_view['name'])
+                print(evidence_to_view['picture'])
+                print(evidence_to_view['description'])
+            elif choice.casefold() == 'd':
+                continue
+            elif choice.casefold() == 'x':
+                break
+            else:
+                print("That is not a valid choice, please enter again.")
+                continue
+        except ValueError:
+            if choice.casefold() == 'd':
+                continue
+            if choice.casefold() == 'x':
+                break
             print("That is not a valid choice, please enter again.")
             continue
 
