@@ -1,25 +1,29 @@
 # The core code for the game 'Murder Mansion'.
 
-# Functions have been ordered in the loose order they are called by the program.
 import copy
 from random import random, randint
 from murder_mansion_maps import *
 
 
-# Displays instructions to the player at game start.
-def how_to_play(provided_art):
+# Displays story and instructions to the player at game start.
+def how_to_play():
     print("\nSTORY:")
     print("The city has been rocked by a series of high-profile killings over "
-          "the last month.\nNo-one has caught the mysterious killer, but you, a"
-          " famous detective just got your lucky break.\nThe famous Carivelli "
-          "family have ended up as the killer's latest victims and you are "
-          "first on the scene.\nThere is just one major problem, no-one has "
-          "seen the killer leave!\n")
-    print("Enter the Carivelli mansion, gather the 3 pieces of evidence you "
-          "need to put the mysterious killer away, but don't get caught!\n")
-    print("Can you survive the... ")
+          "the last month.\nNo-one has caught the mysterious killer, but you, "
+          "a famous detective, have just got your lucky break.\nThe famous "
+          "Carivelli family have ended up as the killer's latest victims and "
+          "you are first on the scene.\nThere is just one problem, no-one has "
+          "seen the killer leave!")
     input(">>>: ")
-    art_printer(provided_art)
+    print("\nEnter the Carivelli mansion, gather the 3 pieces of evidence you "
+          "need to put the mysterious killer away, but don't get caught!\n"
+          "You have chased this mysterious killer across the entire city, and "
+          "now it looks like they will be your foe here as well.\n")
+    print("Can you survive the...")
+    input(">>>: ")
+    art_printer(
+        game_art,
+    )
     input(">>>: ")
     print("CONTROLS:")
     print("The following controls are available:\n"
@@ -31,38 +35,47 @@ def how_to_play(provided_art):
           "'w/wait'     - Don't move for one turn.\n"
           "'e/evidence' - Displays your collected evidence.\n"
           "'l/list'     - Re-displays your evidence in the evidence menu.\n"
-          "'1/2/3/4'    - Displays the chosen piece of evidence.\n"
+          "'1/2/3/4'    - Displays the chosen piece of evidence in the evidence"
+          " menu.\n"
           "'x/exit'     - Exits the evidence menu.\n"
           "'q/quit'     - Quits the game.")
     input(">>>:")
-    print("\n")
+    print("\nYou enter the mansion...")
+    input(">>>: ")
 
 
-# Allows the user to specify "developer" mode or not, which displays /
-# diagnostic information in some functions.
+# Allows the user to specify game mode, with "player" doing nothing, /
+# "developer" printing diagnostics, and "mapper" which allows the player to /
+# choose the game map. "developer" also activates choice of maps.
 def developer_mode():
     while True:
+        set_mode = "player"
         print("Would you like to run in developer mode? Y/ N")
+        print("1. Start in normal mode.\n"
+              "2. Start in developer mode.\n"
+              "3. Start with map choices.\n")
         choice = input(">>>: ")
-        choice = choice.casefold()
-        if choice == "y":
-            set_mode = "developer"
-            break
-        elif choice == "n":
+        if choice == "1":
             set_mode = "player"
             break
+        elif choice == "2":
+            set_mode = "developer"
+            break
+        elif choice == "3":
+            set_mode = "mapper"
+            break
         else:
-            print("That is not a valid choice, please enter again.")
+            print("That is not a valid choice, please enter again.\n")
+            continue
     return set_mode
 
 
-# TODO: Add the option to choose a game type on each map when this is ready.
 # Allows the user to choose what map/ game type they want to play.
 def choose_game(
         provided_map_list,
         provided_mode,
 ):
-    if provided_mode == 'developer':
+    if provided_mode == "developer" or provided_mode == "mapper":
         print("\nWhich map would you like to play on?\n")
         i = 1
         choices = []
@@ -74,7 +87,7 @@ def choose_game(
             i += 1
         while True:
             print("\nPlease enter your choice by typing that number. "
-                  "Or, type 'D' to redisplay the choices or 'X' to quit.")
+                  "Or, 'l/list' to redisplay the choices or 'q/quit' to quit.")
             choice = input(">>>: ")
             try:
                 if int(choice) in choices:
@@ -83,10 +96,14 @@ def choose_game(
                     break
                 else:
                     print("Please enter a choice from the list of available "
-                          "maps by typing the number of the one you want to "
-                          "play on.")
+                          "maps by typing a number.")
             except ValueError:
-                if choice.casefold() == "d":
+                choice = choice.casefold()
+                if choice == "l":
+                    choice = "list"
+                if choice == "q":
+                    choice = "quit"
+                if choice.casefold() == "list":
                     choices = []
                     for item in provided_map_list:
                         item_name = item['id']
@@ -94,9 +111,24 @@ def choose_game(
                         print(i, ". ", item_name, sep="")
                         choices.append(i)
                         i += 1
-                if choice.casefold() == "x":
+                if choice.casefold() == "quit":
                     print("Okay, see you some other time!")
                     exit()
+        while True:
+            # Peaceful mode has no enemies that appear.
+            print("\nPlease choose a game mode:\n"
+                  "1. Normal\n"
+                  "2. Peaceful\n")
+            choice = input(">>>: ")
+            if choice == "1":
+                break
+            if choice == "2":
+                altered_map = copy.deepcopy(chosen_map)
+                new_foe_appear = 999999999999999
+                altered_map['foe_appear'] = new_foe_appear
+                return altered_map
+            else:
+                print("\nThat is not valid input, please type again.")
         return chosen_map
     else:
         chosen_map = map_list[4]
@@ -148,6 +180,10 @@ def iterate_maps(
         provided_foe_appear,
         provided_d_map,
         provided_foe_status,
+        provided_foe_two_y,
+        provided_foe_two_x,
+        provided_foe_two_flag,
+        provided_foe_two_status,
 ):
     if provided_mode == "developer":
         print("\nDEVELOPER DIAGNOSTICS 'iterate_maps()'")
@@ -164,6 +200,10 @@ def iterate_maps(
                 provided_foe_appear,
                 provided_d_map,
                 provided_foe_status,
+                provided_foe_two_y,
+                provided_foe_two_x,
+                provided_foe_two_flag,
+                provided_foe_two_status,
             )
         print("\n")
 
@@ -185,6 +225,13 @@ def main_loop(
         provided_reappear_count,
         provided_evidence_list,
         provided_found_list,
+        provided_foe_two_flag,
+        provided_foe_two_y,
+        provided_foe_two_x,
+        provided_foe_two_status,
+        provided_win_condition,
+        provided_all_evidence_turn_count,
+        provided_reappear_two_count,
 ):
     # The following functions only produce output in "developer" mode.
     example_maps(
@@ -199,12 +246,17 @@ def main_loop(
         provided_foe_appear,
         provided_d_map,
         provided_foe_status,
+        provided_foe_two_y,
+        provided_foe_two_x,
+        provided_foe_two_flag,
+        provided_foe_two_status,
     )
     # Main list, some of these have "developer" mode diagnostics.
     # 'caught()' is run both after the player's turn and the foe's turn to /
     # cover all possible situations where they inhabit the same room.
     while True:
-        provided_room, provided_y, provided_x, \
+        provided_room, provided_y, provided_x, provided_win_condition, \
+            provided_all_evidence_turn_count \
             = choose_direction(
                 provided_room,
                 current_map,
@@ -218,6 +270,12 @@ def main_loop(
                 provided_foe_status,
                 provided_found_list,
                 provided_mode,
+                provided_foe_two_flag,
+                provided_foe_two_y,
+                provided_foe_two_x,
+                provided_foe_two_status,
+                provided_win_condition,
+                provided_all_evidence_turn_count,
             )
         provided_d_map = map_discover(
             current_map,
@@ -231,16 +289,52 @@ def main_loop(
             provided_evidence_list,
             provided_found_list,
         )
+        if provided_mode == "developer":
+            print("'win_condition' =", provided_win_condition)
+            print("'provided_foe_two_flag' =", provided_foe_two_flag)
         if provided_turn_count >= provided_foe_appear:
-            provided_room, provided_y, provided_x, caught_flag = caught(
-                provided_y,
-                provided_x,
-                provided_foe_y,
-                provided_foe_x,
-                current_map,
-                provided_d_map,
-                provided_foe_status,
+            # To test if the second foe should appear yet.
+            provided_foe_two_flag, provided_foe_two_status = foe_two_entry(
+                provided_win_condition,
+                provided_turn_count,
+                provided_all_evidence_turn_count,
+                provided_foe_two_flag,
+                provided_foe_two_status,
+                provided_mode,
             )
+            provided_room, provided_y, provided_x, caught_flag \
+                = caught(
+                    provided_y,
+                    provided_x,
+                    provided_foe_y,
+                    provided_foe_x,
+                    current_map,
+                    provided_d_map,
+                    provided_foe_status,
+                    provided_name="foe",
+                )
+            if provided_foe_two_flag == 1:
+                # Setting up the entry point for foe_two.
+                provided_foe_two_y, provided_foe_two_x, provided_foe_two_flag \
+                    = initialize_foe_two_position(
+                        current_map,
+                        provided_mode,
+                        provided_y,
+                        provided_x,
+                    )
+            if provided_foe_two_flag == 2:
+                # Checking to see if foe_two has 'caught' the player.
+                provided_room, provided_y, provided_x, caught_flag \
+                    = caught(
+                        provided_y,
+                        provided_x,
+                        provided_foe_two_y,
+                        provided_foe_two_x,
+                        current_map,
+                        provided_d_map,
+                        provided_foe_two_status,
+                        provided_name="accomplice",
+                    )
             provided_foe_y, provided_foe_x, provided_last_move, \
                 provided_foe_status, provided_reappear_count \
                 = foe_behave(
@@ -254,19 +348,50 @@ def main_loop(
                     provided_y,
                     provided_x,
                     provided_reappear_count,
+                    provided_name="foe",
                 )
-            provided_room, provided_y, provided_x, caught_flag = caught(
-                provided_y,
-                provided_x,
-                provided_foe_y,
-                provided_foe_x,
-                current_map,
-                provided_d_map,
-                provided_foe_status,
-            )
+            provided_room, provided_y, provided_x, caught_flag \
+                = caught(
+                    provided_y,
+                    provided_x,
+                    provided_foe_y,
+                    provided_foe_x,
+                    current_map,
+                    provided_d_map,
+                    provided_foe_status,
+                    provided_name="foe",
+                )
+            if provided_foe_two_flag == 2:
+                # Allowing foe_two behaviour.
+                provided_foe_two_y, provided_foe_two_x, provided_last_move, \
+                    provided_foe_two_status, provided_reappear_two_count \
+                    = foe_behave(
+                        current_map,
+                        provided_foe_two_y,
+                        provided_foe_two_x,
+                        mode,
+                        provided_last_move,
+                        provided_turn_count,
+                        provided_foe_two_status,
+                        provided_y,
+                        provided_x,
+                        provided_reappear_two_count,
+                        provided_name="accomplice",
+                    )
+                # Checking to again see if foe_two has 'caught' the player.
+                provided_room, provided_y, provided_x, caught_flag \
+                    = caught(
+                        provided_y,
+                        provided_x,
+                        provided_foe_two_y,
+                        provided_foe_two_x,
+                        current_map,
+                        provided_d_map,
+                        provided_foe_status,
+                        provided_name="accomplice",
+                    )
         else:
             pass
-        # Turn count updater.
         provided_d_map = map_discover(
             current_map,
             provided_d_map,
@@ -311,6 +436,12 @@ def choose_direction(
         provided_foe_status,
         provided_found_list,
         provided_mode,
+        provided_foe_two_flag,
+        provided_foe_two_y,
+        provided_foe_two_x,
+        provided_foe_two_status,
+        provided_win_condition,
+        provided_all_evidence_turn_count,
 ):
     foe_close(
         provided_foe_y,
@@ -318,17 +449,33 @@ def choose_direction(
         provided_y,
         provided_x,
         provided_foe_status,
+        provided_name="foe",
     )
+    if provided_foe_two_flag == 2:
+        foe_close(
+            provided_foe_two_y,
+            provided_foe_two_x,
+            provided_y,
+            provided_x,
+            provided_foe_two_status,
+            provided_name="accomplice",
+        )
     directions = "up", "left", "right", "down", "outside",
-    win_condition = evidence_count(provided_found_list)
-    if win_condition == 1:
+    provided_win_condition, provided_all_evidence_turn_count \
+        = evidence_count(
+            provided_found_list,
+            provided_turn_count,
+            provided_win_condition,
+            provided_all_evidence_turn_count,
+        )
+    if provided_win_condition == 1:
         print("\nYou have collected enough evidence!\n"
               "Get to the exit at the bottom of the map!")
     while True:
         display_available(
             provided_room,
         )
-        print("Which direction would you like to go in?\n"
+        print("\nWhich direction would you like to go in?\n"
               "'u/up', 'l/left', 'r/right', 'd/down', 'o/outside', 'm/map', "
               "'e/evidence', 'q/quit''")
         chosen_direction = input(">>>: ")
@@ -376,7 +523,7 @@ def choose_direction(
                         provided_map["composition"][provided_y][provided_x]
                     break
                 elif chosen_direction == "outside":
-                    if win_condition == 1:
+                    if provided_win_condition == 1:
                         you_win(provided_found_list)
                     else:
                         print("\nYou can't leave yet, you haven't gathered "
@@ -385,7 +532,8 @@ def choose_direction(
                             provided_map["composition"][provided_y][provided_x]
                         continue
             else:
-                print("A solid wall blocks your progress in that direction!")
+                print("You decide to go ", chosen_direction, ".", sep="")
+                print("\nA solid wall blocks your progress in that direction!")
         elif chosen_direction == "map":
             map_printer(
                 provided_map['id'],
@@ -398,39 +546,48 @@ def choose_direction(
                 provided_foe_appear,
                 provided_d_map,
                 provided_foe_status,
+                provided_foe_two_y,
+                provided_foe_two_x,
+                provided_foe_two_flag,
+                provided_foe_two_status,
             )
         elif chosen_direction == "wait":
             new_room = provided_map["composition"][provided_y][provided_x]
             print("You decide to hide in this room and wait a while...")
             break
         elif chosen_direction == "evidence":
-            evidence_inspect(provided_found_list, provided_mode)
+            evidence_inspect(
+                provided_found_list,
+                provided_mode
+            )
         elif chosen_direction == "quit":
-            print("Are you sure you want to quit? 'y/yes', 'n/no'")
+            print("\nAre you sure you want to quit? 'y/yes', 'n/no'")
             quit_choice = input(">>>: ")
             quit_choice = quit_choice.casefold()
             if quit_choice == 'y':
                 quit_choice = 'yes'
             if quit_choice == 'yes':
-                print("Exiting game, see you next time!")
+                print("\nExiting game, see you next time!")
                 exit()
             else:
-                print("I didn't think you would quit so easily!")
+                print("\nI didn't think you would quit so easily!")
                 pass
         else:
             print("That is not a valid direction.")
-    return new_room, provided_y, provided_x
+    return new_room, provided_y, provided_x, provided_win_condition, \
+        provided_all_evidence_turn_count
 
 
 # Displays available directions you can take from a room.
 def display_available(
         provided_room,
 ):
+    print_string = ""
     print("\nThe following directions are available:")
-    # TODO: Fix the last comma appearing with the '.join' method
     for direction in provided_room[5]:
-        print(direction, end=", ")
-    print("\n")
+        print_string += direction + ", "
+    print_string = print_string[:-2]
+    print(print_string)
 
 
 # Streamlines 'display_position()' in previous builds and can also be used to /
@@ -445,6 +602,10 @@ def position_check(
         provided_turn_count,
         provided_foe_appear,
         provided_foe_status,
+        provided_foe_two_y,
+        provided_foe_two_x,
+        provided_foe_two_flag,
+        provided_foe_two_status,
 ):
     if provided_y == working_y and provided_x == working_x:
         middle_room_object = "X"
@@ -454,6 +615,14 @@ def position_check(
                 middle_room_object = " "
             else:
                 middle_room_object = "!"
+        else:
+            middle_room_object = " "
+    elif provided_foe_two_y == working_y and provided_foe_two_x == working_x:
+        if provided_foe_two_flag == 2:
+            if provided_foe_two_status == 'gone':
+                middle_room_object = " "
+            else:
+                middle_room_object = "?"
         else:
             middle_room_object = " "
     else:
@@ -474,12 +643,15 @@ def map_printer(
         provided_foe_appear,
         provided_d_map,
         provided_foe_status,
+        provided_foe_two_y,
+        provided_foe_two_x,
+        provided_foe_two_flag,
+        provided_foe_two_status,
 ):
     if provided_turn_count == 0:
-        print("Welcome to the ", provided_map_id.title(), sep="")
+        print("\nWelcome to the ", provided_map_id.title(), sep="")
         print("---------------------------------------------------------------"
               "--------------------")
-        print("The danger level is:", provided_danger_level, "\n")
     else:
         print("\nYou take a look at your map...")
         print("---------------------------------------------------------------"
@@ -507,6 +679,10 @@ def map_printer(
                             provided_turn_count,
                             provided_foe_appear,
                             provided_foe_status,
+                            provided_foe_two_y,
+                            provided_foe_two_x,
+                            provided_foe_two_flag,
+                            provided_foe_two_status,
                         )
                     new_room_object = room_object[i][:5] + middle_object \
                         + room_object[i][5:]
@@ -523,9 +699,6 @@ def map_printer(
     return provided_y, provided_x
 
 
-# TODO: Add a second late game foe to the 'foe_system' triggered by all clues.
-
-
 # Provides co-ordinates for where the foe start the game on each map.
 def initialize_foe_position(
         provided_map,
@@ -533,6 +706,64 @@ def initialize_foe_position(
     initial_foe_y = provided_map['foe_start'][0]
     initial_foe_x = provided_map['foe_start'][1]
     return initial_foe_y, initial_foe_x
+
+
+# Sets a valid start position for the second foe when joining the game.
+def initialize_foe_two_position(provided_map,
+                                provided_mode,
+                                provided_y,
+                                provided_x,
+                                ):
+    while True:
+        new_foe_two_y = randint(0, len(provided_map['composition']) - 1)
+        new_foe_two_x \
+            = randint(0, len(provided_map['composition'][new_foe_two_y]) - 1)
+        if provided_mode == 'developer':
+            print("\nDEVELOPER DIAGNOSTICS 'initialize_foe_two_position()'")
+            print("'new_foe_two_y' =", new_foe_two_y)
+            print("'new_foe_two_x' =", new_foe_two_x)
+            print("\n")
+        if new_foe_two_y == provided_y and new_foe_two_x == provided_x:
+            continue
+        elif provided_map['composition'][new_foe_two_y][new_foe_two_x] \
+                == null_room:
+            continue
+        else:
+            break
+    new_foe_two_flag = 2
+    return new_foe_two_y, new_foe_two_x, new_foe_two_flag
+
+
+# Handles when the second foe will appear in the game.
+def foe_two_entry(
+        provided_win_condition,
+        provided_turn_count,
+        provided_all_evidence_turn_count,
+        provided_foe_two_flag,
+        provided_foe_two_status,
+        provided_mode,
+):
+    if provided_mode == "developer":
+        print("\nDEVELOPER DIAGNOSTIC 'foe_two_entry()'")
+        print("'evidence_turn_count' =", provided_all_evidence_turn_count)
+        print("'turn count' =", provided_turn_count)
+    while True:
+        if provided_win_condition == 1:
+            if provided_turn_count == provided_all_evidence_turn_count:
+                print("\nThe foe's accomplice enters the scene!")
+                art_printer(killer_art)
+                print("Now there are two of them after you!")
+                input(">>>: ")
+                new_foe_two_status = "present"
+                new_foe_two_flag = 1
+                return new_foe_two_flag, new_foe_two_status
+            elif provided_turn_count > provided_all_evidence_turn_count:
+                break
+            else:
+                break
+        else:
+            break
+    return provided_foe_two_flag, provided_foe_two_status
 
 
 # Allows the foe to appear in the game with a message to the player.
@@ -555,7 +786,7 @@ def foe_appearance(
         return provided_foe_status
 
 
-# TODO: Add features to make the foe more intelligent.
+# TODO: Add features to make the foe more intelligent like a 'chase_mode'.
 # Determines the direction the foe takes each turn and ensures it is a valid /
 # direction, the foe does not move directly after a player escape.
 def foe_behave(
@@ -569,6 +800,7 @@ def foe_behave(
         provided_y,
         provided_x,
         provided_reappear_count,
+        provided_name,
 ):
     opposites = {
         'up': 'down',
@@ -587,6 +819,7 @@ def foe_behave(
                 provided_foe_status,
                 provided_reappear_count,
                 provided_mode,
+                provided_name,
             )
         if provided_mode == 'developer':
             print("\nDEVELOPER DIAGNOSTICS 'foe_behave()'")
@@ -606,9 +839,11 @@ def foe_behave(
                 provided_foe_x,
                 provided_foe_status,
                 provided_mode,
+                provided_name,
             )
         if provided_foe_status == "gone":
-            print("There is no sign of the mysterious foe!")
+            print("There is no sign of the mysterious ", provided_name, "!",
+                  sep="")
             return provided_foe_y, provided_foe_x, provided_last_move, \
                 provided_foe_status, provided_reappear_count
         if caught_flag != 1:
@@ -631,23 +866,29 @@ def foe_behave(
                         choice_made = foe_room[5][foe_choice]
                         print("'choice_made' = ", choice_made)
                         print("\n")
-
-                random_float = random()
-                foe_choice = int(random_float * available_directions)
-                choice_made = foe_room[5][foe_choice]
-
-                # An attempt to mitigate the foe alternating too much between /
-                # opposite directions which results in poor map coverage.
-                opposite = opposites['{0}'.format(choice_made)]
-                if opposite == provided_last_move:
-                    go_opposite = random().__round__()
-                    if go_opposite == 1:
+                while True:
+                    random_float = random()
+                    foe_choice = int(random_float * available_directions)
+                    choice_made = foe_room[5][foe_choice]
+                    if choice_made == "outside":
                         continue
                     else:
-                        pass
+                        break
+                # An attempt to mitigate the foe alternating too much between /
+                # opposite directions which results in poor map coverage.
+                if choice_made != "outside":
+                    opposite = opposites['{0}'.format(choice_made)]
+                    if opposite == provided_last_move:
+                        go_opposite = random().__round__()
+                        if go_opposite == 1:
+                            continue
+                        else:
+                            pass
+                else:
+                    pass
 
-                print("The mysterious foe decides to go ", choice_made, "!",
-                      sep="")
+                print("The mysterious ", provided_name, " decides to go ",
+                      choice_made, "!", sep="")
                 while True:
                     if choice_made == "up":
                         provided_foe_y -= 1
@@ -662,7 +903,8 @@ def foe_behave(
                         provided_foe_y += 1
                         break
             except IndexError:
-                print("The mysterious foe bides their time...")
+                print("The mysterious ", provided_name, " bides their time...",
+                      sep="")
         else:
             if reappear_flag == 1:
                 if provided_mode == "developer":
@@ -671,7 +913,8 @@ def foe_behave(
                     print("\n")
                 pass
             else:
-                print("The mysterious foe bides their time...")
+                print("The mysterious ", provided_name, " bides their time...",
+                      sep="")
         provided_last_move = choice_made
         return provided_foe_y, provided_foe_x, provided_last_move, \
             provided_foe_status, provided_reappear_count
@@ -683,11 +926,15 @@ def foe_disappear(
         provided_foe_status,
         provided_reappear_count,
         provided_mode,
+        provided_name,
 ):
     if provided_foe_status == 'present':
         disappear_chance = randint(1, 6)
         if disappear_chance == 6:
-            print("\nYou lose track of your mysterious foe!\n")
+            print("\nYou lose track of the mysterious ", provided_name, "!",
+                  sep="")
+            art_printer(foe_disappear_art)
+            print(">>>: ")
             provided_foe_status = 'gone'
             reappear_count = provided_turn_count + randint(1, 3)
             if provided_mode == 'developer':
@@ -713,6 +960,7 @@ def foe_reappear(
         provided_foe_x,
         provided_foe_status,
         provided_mode,
+        provided_name,
 ):
     if provided_mode == 'developer':
         print("\nDEVELOPER DIAGNOSTICS foe_reappear()'")
@@ -720,7 +968,10 @@ def foe_reappear(
         print("'provided_reappear_count' =", provided_reappear_count)
         print("\n")
     if provided_turn_count == provided_reappear_count:
-        print("\nThe mysterious foe reappears all of a sudden!\n")
+        print("\nThe mysterious ", provided_name, " reappears all of a sudden!"
+                                                  "\n", sep="")
+        art_printer(foe_return_art)
+        print(">>>: ")
         while True:
             new_foe_y = randint(0, len(provided_map['composition']) - 1)
             new_foe_x \
@@ -757,13 +1008,15 @@ def foe_close(
         provided_y,
         provided_x,
         provided_foe_status,
+        provided_name,
 ):
     if provided_foe_status == 'present':
         y_difference = abs(provided_foe_y - provided_y)
         if y_difference <= 1:
             x_difference = abs(provided_foe_x - provided_x)
             if x_difference <= 1:
-                print("\nThe mysterious foe is close!\nLook out!")
+                print("\nThe mysterious ", provided_name, " is close!"
+                                                          "\nLook out!", sep="")
 
 
 # Handles situations where the player and foe end up in the same place, the /
@@ -776,6 +1029,7 @@ def caught(
         provided_map,
         provided_d_map,
         provided_foe_status,
+        provided_name,
 ):
     if provided_foe_status == 'gone':
         new_room = provided_map["composition"][provided_y][provided_x]
@@ -784,7 +1038,7 @@ def caught(
     new_room = provided_map["composition"][provided_y][provided_x]
     caught_flag = 0
     if provided_y == provided_foe_y and provided_x == provided_foe_x:
-        print("The mysterious foe catches up to you!")
+        print("The mysterious ", provided_name, " catches up to you!", sep="")
         input(">>>:")
         print("They reach out their hands...")
         input(">>>:")
@@ -801,7 +1055,8 @@ def caught(
             caught_flag = 1
         else:
             print("You cannot get away!")
-            print("The mysterious foe chokes the life out of you!\n")
+            print("The mysterious ", provided_name, " chokes the life out of "
+                                                    "you!\n", sep="")
             input(">>>:")
             art_printer(game_over_art)
             exit()
@@ -954,7 +1209,10 @@ def find_evidence(
 
 # Called by 'find_evidence()' to delete the evidence found from the findable /
 # list by filtering it out by its matching ['yx'] value.
-def delete_by_yx(provided_evidence_list, provided_target_yx):
+def delete_by_yx(
+        provided_evidence_list,
+        provided_target_yx
+):
     return list(filter(lambda d: d.get('yx')
                 != provided_target_yx, provided_evidence_list))
 
@@ -990,6 +1248,7 @@ def evidence_inspect(provided_found_list, provided_mode):
                 print(evidence_to_view['name'])
                 print(evidence_to_view['picture'])
                 print(evidence_to_view['description'])
+                input(">>>: ")
             else:
                 print("That is not a valid choice, please enter again.")
                 continue
@@ -1008,15 +1267,28 @@ def evidence_inspect(provided_found_list, provided_mode):
 
 
 # Returns a 'win_condition' value of 1 if the 'found_list' is at len 4.
-def evidence_count(provided_found_list):
+def evidence_count(
+        provided_found_list,
+        provided_turn_count,
+        provided_win_condition,
+        provided_all_evidence_turn_count,
+):
     while True:
-        if len(provided_found_list) == 4:
-            win_condition = 1
-            break
+        if provided_win_condition != 1:
+            if len(provided_found_list) == 4:
+                new_win_condition = 1
+                evidence_turn_count = turn_counter(provided_turn_count)
+                evidence_turn_count -= 1
+                break
+            else:
+                new_win_condition = 0
+                evidence_turn_count = 999999999999999
+                break
         else:
-            win_condition = 0
+            new_win_condition = provided_win_condition
+            evidence_turn_count = provided_all_evidence_turn_count
             break
-    return win_condition
+    return new_win_condition, evidence_turn_count
 
 
 # Prints art provided to it, art is kept in 'game_maps_test.py'.
@@ -1058,10 +1330,16 @@ def game_initialize():
         i_current_map,
         i_mode,
     )
-    how_to_play(game_art)
+    how_to_play()
     i_turn_count = 0
     i_initial_last_move = ''
     i_foe_status = "gone"
+    i_foe_two_status = "gone"
+    i_foe_two_flag = 0
+    i_foe_two_y = 0
+    i_foe_two_x = 0
+    i_win_condition = 0
+    i_all_evidence_turn_count = 999999999999999
     map_printer(
         i_current_map['id'],
         i_current_map['danger'],
@@ -1073,18 +1351,28 @@ def game_initialize():
         i_foe_appear,
         i_d_map,
         i_foe_status,
+        i_foe_two_y,
+        i_foe_two_x,
+        i_foe_two_flag,
+        i_foe_two_status,
     )
     i_reappear_count = 999999999999999
+    i_reappear_two_count = 999999999999999
+
     return i_mode, i_current_map, i_current_room, i_current_y, i_current_x, \
         i_foe_appear, i_d_map, i_foe_y, i_foe_x, i_turn_count, \
         i_initial_last_move, i_foe_status, i_reappear_count, i_evidence_list, \
-        i_game_found_evidence
+        i_game_found_evidence, i_foe_two_flag, i_foe_two_y, i_foe_two_x, \
+        i_foe_two_status, i_win_condition, i_all_evidence_turn_count, \
+        i_reappear_two_count
 
 
 # RTP, this code calls the functions to set up the game and get it going.
 mode, current_map, current_room, current_y, current_x, foe_appear, \
     d_map, foe_y, foe_x, turn_count, initial_last_move, foe_status, \
-    initial_reappear_count, game_evidence_list, game_found_evidence \
+    initial_reappear_count, game_evidence_list, game_found_evidence, \
+    foe_two_flag, foe_two_y, foe_two_x, foe_two_status, win_condition,\
+    all_evidence_turn_count, reappear_two_count\
     = game_initialize()
 main_loop(
     current_room,
@@ -1102,4 +1390,11 @@ main_loop(
     initial_reappear_count,
     game_evidence_list,
     game_found_evidence,
+    foe_two_flag,
+    foe_two_y,
+    foe_two_x,
+    foe_two_status,
+    win_condition,
+    all_evidence_turn_count,
+    reappear_two_count,
 )
