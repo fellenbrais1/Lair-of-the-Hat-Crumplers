@@ -1,5 +1,6 @@
-# Maps and map components that can be used for games.
+# Maps, map components, and art used in 'murder_mansion.py'.
 
+# Room components.
 wall_object = " "
 
 top_wall = " ---------"
@@ -15,7 +16,7 @@ room_null = "        "
 
 # -----------------------------------------------------------------------------
 
-# A list of the room components that could be imported etc.
+# A total list of the room components.
 room_components = [
     top_wall,
     top_wall_open,
@@ -31,10 +32,8 @@ room_components = [
 
 # -----------------------------------------------------------------------------
 
-# These are lists of the components each type of room is made out of, all /
-# needed possibilities are represented here.
-# Index item 5 can be used to determine which directions it is possible to go /
-# in while in any specific room.
+# These are lists of the components each type of room is made out of.
+# Index item 5 determines which directions it is possible to go from a room.
 closed = [
     top_wall,
     side_wall,
@@ -190,7 +189,7 @@ null_room = [
 
 # -----------------------------------------------------------------------------
 
-# A list of all available room types that could be imported etc.
+# A list of all available room types.
 available_rooms = [
     closed,
     open_top,
@@ -211,6 +210,7 @@ available_rooms = [
     null_room,
 ]
 
+# Specific map exit rooms.
 understruts_entry = [
     top_wall_open,
     side_wall,
@@ -259,6 +259,9 @@ mansion_entry = [
 # A list of specific map exit rooms.
 specific_rooms = [
     understruts_entry,
+    hat_factory_entry,
+    snake_temple_entry,
+    test_map_entry,
     mansion_entry,
 ]
 
@@ -271,7 +274,6 @@ specific_rooms = [
 # equal.
 
 # map_01: "understruts"
-# Definition of which rooms a row consists of from left to right for 'map_01'.
 map_01_row_0 = open_right_bottom, open_left_right, open_left_bottom, \
                null_room,
 map_01_row_1 = open_top, null_room, open_top_bottom, open_bottom,
@@ -279,18 +281,14 @@ map_01_row_2 = open_right, open_left_right_bottom, open_top_left, \
                open_top_bottom,
 map_01_row_3 = null_room, open_top_right, open_left_right, understruts_entry,
 
-# A composition of the rows in 'map_01' for 'map_printer()' to use.
 map_01_composition = map_01_row_0, map_01_row_1, map_01_row_2, map_01_row_3
 
 # map_01_d: discoverable "understruts"
-# Definition of which rooms a row consists of from left to right for 'map_01_d'.
-# These will be used to print an empty map that will be updated as you go.
 map_01_row_0_d = null_room, null_room, null_room, null_room,
 map_01_row_1_d = null_room, null_room, null_room, null_room,
 map_01_row_2_d = null_room, null_room, null_room, null_room,
 map_01_row_3_d = null_room, null_room, null_room, understruts_entry,
 
-# A composition of the rows in 'map_01_d' for 'map_printer()' to use.
 map_01_d_composition = map_01_row_0_d, map_01_row_1_d, map_01_row_2_d, \
                        map_01_row_3_d
 
@@ -303,7 +301,7 @@ map_02_row_2 = open_top_bottom, open_top_bottom, open_top_right, \
                open_top_left_bottom
 map_02_row_3 = open_top_bottom, open_top_right, open_left_right, \
                open_top_left_bottom
-map_02_row_4 = hat_factory_entry, open_left_right, open_left_right,\
+map_02_row_4 = hat_factory_entry, open_left_right, open_left_right, \
                open_top_left
 
 map_02_composition = map_02_row_0, map_02_row_1, map_02_row_2, map_02_row_3, \
@@ -402,7 +400,7 @@ map_05_d_composition = map_05_row_0_d, map_05_row_1_d, map_05_row_2_d, \
 
 # -----------------------------------------------------------------------------
 
-# Creating dictionaries where multiple bits of data can be accessed later
+# Dictionaries for use for each game map.
 map_01 = {
     'id': "understruts",
     'composition': map_01_composition,
@@ -465,7 +463,7 @@ map_05 = {
 
 # -----------------------------------------------------------------------------
 
-# A list of maps for reference and for iterating through if needed.
+# List of maps for reference and for iterating through if needed.
 map_list = [
     map_01,
     map_02,
@@ -625,6 +623,7 @@ evidence_collected_list = [
 
 # -----------------------------------------------------------------------------
 
+# Art used by 'art_printer()' in 'murder_mansion.py'.
 killer_art = """
                                  ▄█████▄
                               ████████████L
@@ -651,10 +650,6 @@ killer_art = """
                     ▀███████████▄╓ ╙╨H, ,╥████████████       
 """
 
-
-# The below font can be found at: /
-# 'https://patorjk.com/software/taag/#p=display&h=1&f=Delta%20Corps%20Priest%201&t='
-# Game title artwork to be called by 'art_printer() at game start.
 game_art = """
    ▄▄▄▄███▄▄▄▄   ███    █▄     ▄████████ ████████▄     ▄████████    ▄████████  
  ▄██▀▀▀███▀▀▀██▄ ███    ███   ███    ███ ███   ▀███   ███    ███   ███    ███  
@@ -676,7 +671,6 @@ game_art = """
                                                                                
 """
 
-# Art printed for 'game over' called by 'art_printer()'.
 game_over_art = """
    ▄██████▄     ▄████████   ▄▄▄▄███▄▄▄▄      ▄████████      
   ███    ███   ███    ███ ▄██▀▀▀███▀▀▀██▄   ███    ███      
@@ -698,7 +692,6 @@ game_over_art = """
                                           ███    ███        
 """
 
-# Victory screen art called by 'art_printer()'.
 victory_art = """
 ▄██   ▄    ▄██████▄  ███    █▄  
 ███   ██▄ ███    ███ ███    ███ 
@@ -720,29 +713,6 @@ victory_art = """
                                 
 """
 
-# Generated with 'https://asciiart.club/'
-example_art = """
-                  ╓╓@⌐
-                ╙╢▒▒▒▌
-                  ]████
-                   ▀████
-                    ▀████
-                     ╙████⌐
-                      ╘████▄
-                       ▐▀▒░▒╢╣@@
-                       ╓▒▒▒▒▒▄╜`
-                      ]╫▓Ñ▓▓▓▓▌
-                           ▓╣▓▓▒
-                            ▓▓▓▓╖
-                             ▓▓▓▓▓
-                              ╙▓▓▓▌
-                               ▐▓▓▓▄
-                                `▓▓▓▓
-                                  ▓▓▓L
-                                   ▓▓▓.
-                                    ╙▓▓W
-                                     ▐▓▓
-                                      ╚▓▌
-                                        ▓▌
-                                         `
-"""
+# Pictures generated with 'https://asciiart.club/'
+# The ASCII font can be found at: /
+# 'https://patorjk.com/software/taag/#p=display&h=1&f=Delta%20Corps%20Priest%201&t='

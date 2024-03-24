@@ -1,10 +1,9 @@
-# This is a system to make maps and display them for the player with /
-# the ability to move around the map and track the player's position.
+# The core code for the game 'Murder Mansion'.
 
 # Functions have been ordered in the loose order they are called by the program.
 import copy
 from random import random, randint
-from game_maps_test import *
+from murder_mansion_maps import *
 
 
 # Displays instructions to the player at game start.
@@ -61,41 +60,47 @@ def developer_mode():
 # Allows the user to choose what map/ game type they want to play.
 def choose_game(
         provided_map_list,
+        provided_mode,
 ):
-    print("\nWhich map would you like to play on?\n")
-    i = 1
-    choices = []
-    for item in provided_map_list:
-        item_name = item['id']
-        item_name = item_name.title()
-        print(i, ". ", item_name, sep="")
-        choices.append(i)
-        i += 1
-    while True:
-        print("\nPlease enter your choice by typing that number. "
-              "Or, type 'D' to redisplay the choices or 'X' to quit.")
-        choice = input(">>>: ")
-        try:
-            if int(choice) in choices:
-                choice = int(choice)
-                chosen_map = map_list[choice - 1]
-                break
-            else:
-                print("Please enter a choice from the list of available maps "
-                      "by typing the number of the one you want to play on.")
-        except ValueError:
-            if choice.casefold() == "d":
-                choices = []
-                for item in provided_map_list:
-                    item_name = item['id']
-                    item_name = item_name.title()
-                    print(i, ". ", item_name, sep="")
-                    choices.append(i)
-                    i += 1
-            if choice.casefold() == "x":
-                print("Okay, see you some other time!")
-                exit()
-    return chosen_map
+    if provided_mode == 'developer':
+        print("\nWhich map would you like to play on?\n")
+        i = 1
+        choices = []
+        for item in provided_map_list:
+            item_name = item['id']
+            item_name = item_name.title()
+            print(i, ". ", item_name, sep="")
+            choices.append(i)
+            i += 1
+        while True:
+            print("\nPlease enter your choice by typing that number. "
+                  "Or, type 'D' to redisplay the choices or 'X' to quit.")
+            choice = input(">>>: ")
+            try:
+                if int(choice) in choices:
+                    choice = int(choice)
+                    chosen_map = map_list[choice - 1]
+                    break
+                else:
+                    print("Please enter a choice from the list of available "
+                          "maps by typing the number of the one you want to "
+                          "play on.")
+            except ValueError:
+                if choice.casefold() == "d":
+                    choices = []
+                    for item in provided_map_list:
+                        item_name = item['id']
+                        item_name = item_name.title()
+                        print(i, ". ", item_name, sep="")
+                        choices.append(i)
+                        i += 1
+                if choice.casefold() == "x":
+                    print("Okay, see you some other time!")
+                    exit()
+        return chosen_map
+    else:
+        chosen_map = map_list[4]
+        return chosen_map
 
 
 # Sets up the map and starting co-ordinates when the game starts.
@@ -901,7 +906,7 @@ def assign_evidence(
                     continue
                 if item['yx'] in initial_evidence_yx:
                     continue
-                if provided_map['composition'][working_y][working_x]\
+                if provided_map['composition'][working_y][working_x] \
                         == null_room:
                     continue
                 if provided_mode == 'developer':
@@ -1038,6 +1043,7 @@ def game_initialize():
     i_mode = developer_mode()
     i_current_map = choose_game(
         map_list,
+        i_mode,
     )
     i_current_room, i_current_y, i_current_x, i_foe_appear, i_d_map \
         = initialize_map(

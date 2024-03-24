@@ -217,6 +217,20 @@ available_rooms = [
     null_room,
 ]
 
+mansion_entry = [
+    open_top,
+    side_wall,
+    side_wall,
+    side_wall,
+    open_bottom,
+    ['up', 'exit', ],
+]
+
+# A list of specific map exit rooms.
+specific_rooms = [
+    mansion_entry,
+]
+
 # The map building process:
 # Each row of the map has to be built out of the different rooms.
 # Each row has to have the same number of rooms otherwise it stops working.
@@ -279,7 +293,7 @@ map_05_row_4 = open_top_right_bottom, open_left_right_bottom, \
 map_05_row_5 = open_top_right, open_top_left, null_room, \
                open_top_right_bottom, open_top_left, open_top_right, \
                open_top_left_bottom
-map_05_row_6 = null_room, null_room, null_room, open_top_bottom, null_room, \
+map_05_row_6 = null_room, null_room, null_room, mansion_entry, null_room, \
                null_room, open_top
 
 map_05_composition = map_05_row_0, map_05_row_1, map_05_row_2, map_05_row_3, \
@@ -301,7 +315,7 @@ map_05_row_4_d = null_room, null_room, null_room, null_room, null_room, \
                  null_room, null_room
 map_05_row_5_d = null_room, null_room, null_room, null_room, null_room, \
                  null_room, null_room
-map_05_row_6_d = null_room, null_room, null_room, open_top_bottom, null_room, \
+map_05_row_6_d = null_room, null_room, null_room, mansion_entry, null_room, \
                  null_room, null_room
 
 map_05_d_composition = map_05_row_0_d, map_05_row_1_d, map_05_row_2_d, \
