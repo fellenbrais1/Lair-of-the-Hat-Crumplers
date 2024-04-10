@@ -476,8 +476,8 @@ def choose_direction(
             provided_room,
         )
         print("\nWhich direction would you like to go in?\n"
-              "'u/up', 'l/left', 'r/right', 'd/down', 'o/outside', 'm/map', "
-              "'e/evidence', 'q/quit''")
+              "'u/up', 'l/left', 'r/right', 'd/down', 'o/outside', 'w/wait', "
+              "'m/map', 'e/evidence', 'q/quit''")
         chosen_direction = input(">>>: ")
         chosen_direction = chosen_direction.casefold()
         # Converting single letter strings into valid choices for processing.
