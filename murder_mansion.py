@@ -14,17 +14,17 @@ def how_to_play():
           "Carivelli family have ended up as the killer's latest victims and "
           "you are first on the scene.\nThere is just one problem, no-one has "
           "seen the killer leave!")
-    input(">>>: ")
+    input("PRESS ENTER: ")
     print("\nEnter the Carivelli mansion, gather the 3 pieces of evidence you "
           "need to put the mysterious killer away, but don't get caught!\n"
           "You have chased this mysterious killer across the entire city, and "
           "now it looks like they will be your foe here as well.\n")
     print("Can you survive the...")
-    input(">>>: ")
+    input("PRESS ENTER: ")
     art_printer(
         game_art,
     )
-    input(">>>: ")
+    input("PRESS ENTER: ")
     print("CONTROLS:")
     print("The following controls are available:\n"
           "'u/up'       - Go up if possible.\n"
@@ -39,9 +39,9 @@ def how_to_play():
           " menu.\n"
           "'x/exit'     - Exits the evidence menu.\n"
           "'q/quit'     - Quits the game.")
-    input(">>>:")
+    input("PRESS ENTER: ")
     print("\nYou enter the mansion...")
-    input(">>>: ")
+    input("PRESS ENTER: ")
 
 
 # Allows the user to specify game mode, with "player" doing nothing, /
@@ -753,7 +753,7 @@ def foe_two_entry(
                 print("\nThe foe's accomplice enters the scene!")
                 art_printer(killer_art)
                 print("Now there are two of them after you!")
-                input(">>>: ")
+                input("PRESS ENTER: ")
                 new_foe_two_status = "present"
                 new_foe_two_flag = 1
                 return new_foe_two_flag, new_foe_two_status
@@ -779,7 +779,7 @@ def foe_appearance(
         print("\nYour mysterious foe returns to the crime scene!")
         art_printer(killer_art)
         print("Don't let them catch up to you!")
-        input(">>>:")
+        input("PRESS ENTER: ")
         new_foe_status = 'present'
         return new_foe_status
     else:
@@ -934,7 +934,7 @@ def foe_disappear(
             print("\nYou lose track of the mysterious ", provided_name, "!",
                   sep="")
             art_printer(foe_disappear_art)
-            print(">>>: ")
+            print("PRESS ENTER: ")
             provided_foe_status = 'gone'
             reappear_count = provided_turn_count + randint(1, 3)
             if provided_mode == 'developer':
@@ -971,7 +971,7 @@ def foe_reappear(
         print("\nThe mysterious ", provided_name, " reappears all of a sudden!"
                                                   "\n", sep="")
         art_printer(foe_return_art)
-        print(">>>: ")
+        print("PRESS ENTER: ")
         while True:
             new_foe_y = randint(0, len(provided_map['composition']) - 1)
             new_foe_x \
@@ -1039,9 +1039,9 @@ def caught(
     caught_flag = 0
     if provided_y == provided_foe_y and provided_x == provided_foe_x:
         print("The mysterious ", provided_name, " catches up to you!", sep="")
-        input(">>>:")
+        input("PRESS ENTER: ")
         print("They reach out their hands...")
-        input(">>>:")
+        input("PRESS ENTER: ")
         caught_chance = random().__round__()
         if caught_chance == 1:
             print("But you manage to slip away!")
@@ -1057,7 +1057,7 @@ def caught(
             print("You cannot get away!")
             print("The mysterious ", provided_name, " chokes the life out of "
                                                     "you!\n", sep="")
-            input(">>>:")
+            input("PRESS ENTER: ")
             art_printer(game_over_art)
             exit()
     return new_room, provided_y, provided_x, caught_flag
@@ -1196,7 +1196,7 @@ def find_evidence(
             print("\nYou find something in the room, a {0}!"
                   .format(item['name']))
             art_printer(item['picture'])
-            input(">>>: ")
+            input("PRESS ENTER: ")
             provided_found_list.append(item)
             filtered_evidence_list \
                 = delete_by_yx(provided_evidence_list.copy(), target_yx)
@@ -1239,7 +1239,7 @@ def evidence_inspect(provided_found_list, provided_mode):
             print(type("'choice_list type' =", choice_list))
         print("\n'1/2/3/4' inspect the item you want, 'l/list' to display "
               "again or 'x/exit' to exit this menu.\n")
-        choice = input(">>>: ")
+        choice = input("PRESS ENTER: ")
         try:
             if int(choice) in choice_list:
                 choice = int(choice) - 1
@@ -1248,7 +1248,7 @@ def evidence_inspect(provided_found_list, provided_mode):
                 print(evidence_to_view['name'])
                 print(evidence_to_view['picture'])
                 print(evidence_to_view['description'])
-                input(">>>: ")
+                input("PRESS ENTER: ")
             else:
                 print("That is not a valid choice, please enter again.")
                 continue
@@ -1305,7 +1305,7 @@ def you_win(provided_found_list):
     print("\nThat is more than enough to find out the killer's identity and "
           "put them away for good!")
     art_printer(victory_art)
-    input(">>>: ")
+    input("PRESS ENTER: ")
     print("Thank you for playing!")
     exit()
 

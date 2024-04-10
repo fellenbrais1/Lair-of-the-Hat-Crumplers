@@ -534,7 +534,7 @@ evidence_1_picture = """
 evidence_1 = {
     'name': 'Sacrificial Knife',
     'picture': evidence_1_picture,
-    'description': "This knife has seen some use, and recently at that.\nThe"
+    'description': "This knife has seen some use, and recently at that.\nThe "
                    "edges have been dulled through action and sticky black dots"
                    " adorn the blade.",
     'yx': [],
