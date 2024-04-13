@@ -1,5 +1,5 @@
-# Defining the default settings when initialising a new game
-# This test doesn't work for now, there is still more I need to learn here
+# Defining the default settings when initialising a new game.
+# This test doesn't work for now, there is still more I need to learn here.
 
 import operator
 from random import randint
@@ -71,7 +71,7 @@ characters_data = {
         'speed': 10,
         'magic': 10,
         'initiative': 10,
-    }
+    },
 }
 
 e_1 = {

@@ -7,8 +7,12 @@ from time import sleep
 
 def battle_options():
     """
+    Allows a user to choose the next action they will take in battle.
 
-    :return:
+    Also determines the action the active enemy will take in battle. This
+    function runs in a loop broken by an 'Escape' action.
+
+    :return: Function prints messages and returns 'None'.
     """
 
     available_actions = [

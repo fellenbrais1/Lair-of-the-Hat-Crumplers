@@ -39,9 +39,9 @@ room_components = [
     room_null,
 ]
 
-# These are lists of the components each type of room is made out of, all /
+# These are lists of the components each type of room is made out of, all \
 # needed possibilities are represented here.
-# Index item 5 can be used to determine which directions it is possible to go /
+# Index item 5 can be used to determine which directions it is possible to go \
 # in while in any specific room.
 closed = [
     top_wall,
@@ -234,7 +234,7 @@ specific_rooms = [
 # The map building process:
 # Each row of the map has to be built out of the different rooms.
 # Each row has to have the same number of rooms otherwise it stops working.
-# Pad empty spaces with 'null_room's to make the row lengths of all the rows /
+# Pad empty spaces with 'null_room's to make the row lengths of all the rows \
 # equal.
 
 # map_01: "understruts"

@@ -31,9 +31,9 @@ room_components = [
 
 # -----------------------------------------------------------------------------
 
-# These are lists of the components each type of room is made out of, all /
+# These are lists of the components each type of room is made out of, all \
 # needed possibilities are represented here.
-# Index item 5 can be used to determine which directions it is possible to go /
+# Index item 5 can be used to determine which directions it is possible to go \
 # in while in any specific room.
 closed = [
     top_wall,
@@ -267,7 +267,7 @@ specific_rooms = [
 # The map building process:
 # Each row of the map has to be built out of the different rooms.
 # Each row has to have the same number of rooms otherwise it stops working.
-# Pad empty spaces with 'null_room's to make the row lengths of all the rows /
+# Pad empty spaces with 'null_room's to make the row lengths of all the rows \
 # equal.
 
 # map_01: "understruts"
@@ -402,7 +402,7 @@ map_05_d_composition = map_05_row_0_d, map_05_row_1_d, map_05_row_2_d, \
 
 # -----------------------------------------------------------------------------
 
-# Creating dictionaries where multiple bits of data can be accessed later
+# Creating dictionaries where multiple bits of data can be accessed later.
 map_01 = {
     'id': "understruts",
     'composition': map_01_composition,
@@ -476,7 +476,7 @@ map_list = [
 
 # -----------------------------------------------------------------------------
 
-# The pocket book is always in your inventory to make the list of collected /
+# The pocket book is always in your inventory to make the list of collected \
 # evidence non-empty.
 pocket_book_picture = """
 
@@ -617,7 +617,7 @@ evidence_list = [
     evidence_3,
 ]
 
-# A list that can be added to as evidence is collected, when len == 4, the /
+# A list that can be added to as evidence is collected, when len == 4, the \
 # player is ready to win the game.
 evidence_collected_list = [
     pocket_book,
