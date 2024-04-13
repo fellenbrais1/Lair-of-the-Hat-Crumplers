@@ -300,9 +300,9 @@ map_05_composition = map_05_row_0, map_05_row_1, map_05_row_2, map_05_row_3, \
                      map_05_row_4, map_05_row_5, map_05_row_6
 
 # TODO: Work on this discoverable map system and make it work in 'map_maker.py'
-# murder mansion discoverable map
+# Murder Mansion discoverable map.
 # The intention for this map is to show the player and then update this map \
-# with new rooms by updating it from map_05
+# with new rooms by updating it from map_05.
 map_05_row_0_d = null_room, null_room, null_room, null_room, null_room, \
                  null_room, null_room
 map_05_row_1_d = null_room, null_room, null_room, null_room, null_room, \
@@ -322,7 +322,7 @@ map_05_d_composition = map_05_row_0_d, map_05_row_1_d, map_05_row_2_d, \
                        map_05_row_3_d, map_05_row_4_d, map_05_row_5_d, \
                        map_05_row_6_d
 
-# Creating dictionaries where multiple bits of data can be accessed later
+# Creating dictionaries where multiple bits of data can be accessed later.
 map_01 = {
     'id': "understruts",
     'composition': map_01_composition,

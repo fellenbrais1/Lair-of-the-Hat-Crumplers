@@ -1,10 +1,10 @@
-# Experimental text based adventure 'Lair of the Hat-Crumplers'
+# Experimental text based adventure 'Lair of the Hat-Crumplers'.
 
 # Defining these assets, so they can be re-defined later in the code \
-# class selection/ character names
+# class selection/ character names.
 char_1_class = char_2_class = char_3_class = 0
 
-# Defining the char_class list
+# Defining the char_class list.
 char_class = [
     "Crimper",
     "Measurer",
@@ -13,7 +13,7 @@ char_class = [
     "Trichomancer",
 ]
 
-# The character selection text to be displayed
+# The character selection text to be displayed.
 char_selection = ("1.Crimper - A mighty crimper of edges and disarmer of "
                   "traps.\n"
                   "2.Measurer - A mighty combatant who measures up their "
@@ -23,7 +23,7 @@ char_selection = ("1.Crimper - A mighty crimper of edges and disarmer of "
                   "5.Trichomancer - A wielder of powerful scalp-itching "
                   "magic.\n")
 
-# Introduction
+# Introduction.
 print("\nWelcome, player, to the chilling tale of the \"Lair of the "
       "Hat-Crumplers\", prepare for danger\n"
       "amazement, wonder, and much much more!\n\n"
@@ -46,7 +46,7 @@ print("A team of three of the kingdom's finest should be able to enter the "
       "dungeons and\nstop the Hat-Crumplers once and for all. Will you be the "
       "ones to end their reign of terror?\n")
 
-# Choice0, starting the game
+# Choice 0, starting the game.
 choice = ""
 while choice != "Y" or "N":
     print("Are you ready to choose your characters?\n")
@@ -64,8 +64,7 @@ while choice != "Y" or "N":
         continue
 
 # Made this code more efficient by using a for range to initialize all the \
-# characters and their information assigning it all to a list
-
+# characters and their information assigning it all to a list.
 char_1_name = char_2_name = char_3_name = ""
 
 char_name_list = [
@@ -137,6 +136,7 @@ for i in range(0, 3):
           + ".\n")
     i += 1
 
+# COMMENTED OUT FOR NOW
 # # Character 1
 # char_1_name = input("What is the name of your first character?:\t")
 # char_1_name = char_1_name.capitalize()
@@ -239,7 +239,7 @@ for i in range(0, 3):
 #       + char_3_class
 #       + ".\n")
 
-# Defining the text displayed from char_list
+# Defining the text displayed from char_list.
 char_list = char_name_list[0] \
             + ", the mighty and incomparable " \
             + char_class_list[0] \
@@ -252,11 +252,11 @@ char_list = char_name_list[0] \
             + char_class_list[2] \
             + " in the western court.\n".format(char_class)
 
-# Party composition text and start
+# Party composition text and start.
 print("\nYour party is composed of:\n"
       + char_list)
 
-# Choice1
+# Choice 1.
 choice = ""
 while choice != "Y" or "N":
     print("Are you ready to begin your adventure? It's not too late to quit,\n"
@@ -286,14 +286,13 @@ while choice != "Y" or "N":
         print("\nI'm sorry, please choose between 'Y' and 'N'.\n")
         continue
 
-# The hat-crumplers' dastardly hat-crumpling trap
+# The hat-crumplers' dastardly hat-crumpling trap.
 input()
 print("Suddenly, a hat-crumpling trap springs from the sides of the corridor!\n"
       "You have mere seconds before it ruins your hats!")
 input()
 
-# Refined code for checking if one of characters is a 'Crimper' or not
-
+# Refined code for checking if one of characters is a 'Crimper' or not.
 if char_class[0] in char_class_list:
     print("Ah good! You have a "
           + char_class[0]

@@ -161,10 +161,12 @@ characters_data['c_1']['current_HP'] \
 print(characters_data['c_1']['name'], 'now has',
       characters_data['c_1']['current_HP'], 'HP!')
 
+# COMMENTED OUT FOR NOW
 # for value in active_character_object:
 
 print()
 
+# COMMENTED OUT FOR NOW
 # while True:
 #     i = 0
 #     for i in range(len(battlers)):

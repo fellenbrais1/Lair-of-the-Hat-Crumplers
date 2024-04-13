@@ -1,10 +1,15 @@
-# Coding challenge to create a loop and let users select actions each time round
+# Coding challenge to create a loop and let users select actions each time \
+# round.
 
 from random import randint
 from time import sleep
 
 
 def battle_options():
+    """
+
+    :return:
+    """
 
     available_actions = [
         "Attack",

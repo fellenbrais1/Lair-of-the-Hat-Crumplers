@@ -6,12 +6,18 @@
 import copy
 from game_maps import *
 # TODO: Uncomment this later for use in the 'foe_system'.
+
+# COMMENTED OUT FOR NOW
 # from random import randint
 
 
 # Allowing the user to specify "developer" mode or not, which displays /
 # diagnostic information.
 def developer_mode():
+    """
+
+    :return:
+    """
     while True:
         print("Would you like to run in developer mode? Y/ N")
         choice = input(">>>: ")
@@ -29,7 +35,14 @@ def developer_mode():
 
 # TODO: Add the option to choose a game type on each map when this is ready.
 # Allowing the user to choose what map/ game type they want to play.
-def choose_game(provided_map_list):
+def choose_game(
+        provided_map_list
+):
+    """
+
+    :param provided_map_list:
+    :return:
+    """
     print("Which map would you like to play on?\n")
     i = 1
     choices = []
@@ -68,7 +81,14 @@ def choose_game(provided_map_list):
 
 
 # Sets up the map and starting co-ordinates when the game starts.
-def initialize_map(provided_current_map):
+def initialize_map(
+        provided_current_map
+):
+    """
+
+    :param provided_current_map:
+    :return:
+    """
     initial_y = provided_current_map["start_pos"][0]
     initial_x = provided_current_map["start_pos"][1]
     initial_room = provided_current_map["composition"][initial_y][initial_x]
@@ -76,7 +96,14 @@ def initialize_map(provided_current_map):
 
 
 # Displays some examples of what rooms should look like in "developer" mode.
-def example_maps(provided_mode):
+def example_maps(
+        provided_mode
+):
+    """
+
+    :param provided_mode:
+    :return:
+    """
     if provided_mode == "developer":
         # As examples of what some of these look like:
         print("'closed' room:")
@@ -93,8 +120,14 @@ def example_maps(provided_mode):
 # Shows all or some of the maps in 'map_list' when in "developer" mode.
 def iterate_maps(
         provided_mode,
-        provided_map_list,
+        provided_map_list
 ):
+    """
+
+    :param provided_mode:
+    :param provided_map_list:
+    :return:
+    """
     # Iterate through all items from 'map_list' if you need to, this would /
     # probably be done only for debugging, and so never be done in the game:
     if provided_mode == "developer":
@@ -116,15 +149,24 @@ def main_loop(
         provided_y,
         provided_x,
         provided_mode,
-        provided_map_list,
+        provided_map_list
 ):
+    """
+
+    :param provided_room:
+    :param provided_y:
+    :param provided_x:
+    :param provided_mode:
+    :param provided_map_list:
+    :return:
+    """
     # The following functions only run in "developer" mode.
     example_maps(
-        provided_mode,
+        provided_mode
     )
     iterate_maps(
         provided_mode,
-        provided_map_list,
+        provided_map_list
     )
     # Main list, some of these have "developer" mode diagnostics.
     while True:
@@ -133,7 +175,7 @@ def main_loop(
                 provided_room,
                 current_map,
                 provided_y,
-                provided_x,
+                provided_x
             )
         if provided_mode == "developer":
             print(current_room)
@@ -148,12 +190,20 @@ def choose_direction(
         provided_room,
         provided_map,
         provided_y,
-        provided_x,
+        provided_x
 ):
+    """
+
+    :param provided_room:
+    :param provided_map:
+    :param provided_y:
+    :param provided_x:
+    :return:
+    """
     directions = "up", "left", "right", "down",
     while True:
         display_available(
-            provided_room,
+            provided_room
         )
         print("\nWhich direction would you like to go in?\n"
               "Or, type 'map' to see the map.")
@@ -205,10 +255,10 @@ def choose_direction(
 
 # Displays available directions you can take from a room.
 def display_available(
-        provided_room,
+        provided_room
 ):
     print("The following directions are available:")
-    # TODO: Fix the last comma appearing with the '.join' method
+    # TODO: Fix the last comma appearing with the '.join' method.
     for direction in provided_room[5]:
         print(direction, end=", ")
 
@@ -216,8 +266,21 @@ def display_available(
 # Displays where you are on the map with an 'X'.
 # This works now using code discussed with Google Gemini, I don't fully /
 # understand the conversion between tuples and lists yet as I was working with /
-# lists before and not tuples(?)
-def display_position(provided_map, provided_y, provided_x, provided_mode):
+# lists before and not tuples(?).
+def display_position(
+        provided_map,
+        provided_y,
+        provided_x,
+        provided_mode
+):
+    """
+
+    :param provided_map:
+    :param provided_y:
+    :param provided_x:
+    :param provided_mode:
+    :return:
+    """
     altered_map = copy.deepcopy(provided_map)
 
     if provided_mode == "developer":
@@ -257,8 +320,15 @@ def display_position(provided_map, provided_y, provided_x, provided_mode):
 def map_printer(
         map_provided,
         map_id_provided,
-        danger_level,
+        danger_level
 ):
+    """
+
+    :param map_provided:
+    :param map_id_provided:
+    :param danger_level:
+    :return:
+    """
     print("\nYou take a look at your map...")
     print("-----------------------------------------------------------------")
     print("You are in the", map_id_provided.title())
@@ -277,8 +347,9 @@ def map_printer(
     print("-----------------------------------------------------------------")
 
 
-# TODO: Make and implement the 'foe_system'
-# TODO: foe_system
+# TODO: Make and implement the 'foe_system'.
+# TODO: foe_system.
+# COMMENTED OUT FOR NOW
 # To be run with the altered map from 'display_position()' later
 # def display_foes_position(provided_map, provided_foe_y, provided_foe_x):
 #     altered_map = provided_map
@@ -300,7 +371,8 @@ def map_printer(
 #     return altered_map
 
 
-# TODO: foe_system
+# TODO: foe_system.
+# COMMENTED OUT FOR NOW
 # def foe_behave(provided_map, foe_y, foe_x):
 #     foe_room = provided_map["composition"][foe_y][foe_x]
 #     available_directions = len(foe_room[5])
@@ -330,13 +402,14 @@ def map_printer(
 #     return new_foe_room
 
 
-# TODO: foe_system
+# TODO: foe_system.
+# COMMENTED OUT FOR NOW
 # def caught():
 #     if current_room == foe_room:
 #         print("The mysterious foe catches up to you!")
 
 
-# TODO: Add a 'turns_taken' function to determine when the foe will appear and /
+# TODO: Add a 'turns_taken' function to determine when the foe will appear and \
 # TODO: other things like how fast it will move etc.
 
 
@@ -349,5 +422,5 @@ main_loop(
     current_y,
     current_x,
     mode,
-    map_list,
+    map_list
 )

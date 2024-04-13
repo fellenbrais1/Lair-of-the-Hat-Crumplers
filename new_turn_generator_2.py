@@ -1,9 +1,9 @@
 # This is a bit of an experiment, basically it imports character data from \
 # 'data_test.py' and uses it to generate an order that characters and enemies \
 # can take in a battle. I have added a very basic system of changing the \
-# health of the actors as well, though this doesn't do anything yet
+# health of the actors as well, though this doesn't do anything yet.
 # There is probably some redundancy in the data lists and dictionaries that \
-# could be cleaned up later
+# could be cleaned up later.
 
 import operator
 from random import randint
@@ -16,7 +16,7 @@ while battle:
 
     for item in battlers:
         # In a real game, this type of assignment would be done everytime the \
-        # character's speed changes in some way
+        # character's speed changes in some way.
         item['init_mod'] = item['speed'] * 2 / 1.5
         item['init_mod'] = item['init_mod'].__round__()
         item['init'] = randint(0, 20) + item['init_mod']
@@ -81,7 +81,7 @@ while battle:
                         condition = False
                         end_of_turn = False
 
-# This is another list that will be used to apply certain affects to actors
+# This is another list that will be used to apply certain affects to actors.
 status_effects = [
     'KO',
     'Sleep',

@@ -1,13 +1,16 @@
-# This test doesn't work for now, there is still more I need to learn here
+# This test doesn't work for now, there is still more I need to learn here.
 
 from data_test import battlers
 from random import randint
 import operator
 
 
-# Initiative order calculation
-
+# Initiative order calculation.
 def initiative_generator():
+    """
+
+    :return:
+    """
     active_turn_list = []
     for battler in battlers:
         battler_initiative = battler['ref'], battler['name'], \
@@ -19,9 +22,12 @@ def initiative_generator():
     return active_turn_list
 
 
-# active character in turn generation
-
+# Active character in turn generation.
 def turn_order():
+    """
+
+    :return:
+    """
     while True:
         i = 0
         for i in range(len(battlers)):

@@ -1,8 +1,8 @@
 # A few tests to run all the functions in a loop without calling one another /
 # so far none of these methods work, please comment out others to try each one /
-# out
+# out.
 
-# I have actually solved the issue now in 'module_test_beta.py'
+# I have actually solved the issue now in 'module_test_beta.py'.
 
 from data_test import battlers
 from random import randint
@@ -10,9 +10,13 @@ import operator
 
 
 def main_loop():
-    # METHOD ONE, DOESN'T WORK
+    """
+
+    :return:
+    """
+    # METHOD ONE, DOESN'T WORK.
     # Just continuously runs init() and then prints "Next turn!" from /
-    # print_statuses() for some reason without calling the other functions
+    # print_statuses() for some reason without calling the other functions.
 
     while True:
         init()
@@ -20,10 +24,11 @@ def main_loop():
         print_stats(battlers="")
         print_statuses(battlers="")
 
-    # METHOD TWO, DOESN'T WORK
+    # METHOD TWO, DOESN'T WORK.
     # Also just continuously runs init() and then prints "Next turn!" from /
-    # print_statuses() for some reason without calling the other functions
+    # print_statuses() for some reason without calling the other functions.
 
+    # COMMENTED OUT FOR NOW
     # while True:
     #     a = b = c = d = True
     #     while a:
@@ -39,7 +44,7 @@ def main_loop():
     #         print_statuses(battlers="")
     #         d = False
 
-    # METHOD THREE, DOESN'T WORK
+    # METHOD THREE, DOESN'T WORK.
     # This was a recommended solution online, but I must not be using it /
     # correctly as it triggers my first actual stack overflow! Hooray! I /
     # got this not to overflow, but it just does the same as the other two /
@@ -47,6 +52,7 @@ def main_loop():
     # fix this but all with no good results, it looks like the formatting of /
     # functions is wrong, and it can't be easily iterated through.
 
+    # COMMENTED OUT FOR NOW
     # functions = (
     #     init(),
     #     battle_turn(battlers_battle=""),
@@ -59,6 +65,10 @@ def main_loop():
 
 
 def init():
+    """
+
+    :return:
+    """
     print_string = ""
     init_list = []
     for battler in battlers:
@@ -91,6 +101,11 @@ def init():
 
 
 def battle_turn(battlers_sorted):
+    """
+
+    :param battlers_sorted:
+    :return:
+    """
     battlers = battlers_sorted
     for battler in battlers:
         print("\nThe active character is: ", battler['name'])
@@ -121,6 +136,11 @@ def battle_turn(battlers_sorted):
 
 
 def print_stats(battlers):
+    """
+
+    :param battlers:
+    :return:
+    """
     stat_list = []
     for battler in battlers:
         stats = []
@@ -138,6 +158,11 @@ def print_stats(battlers):
 
 
 def print_statuses(battlers):
+    """
+
+    :param battlers:
+    :return:
+    """
     statuses_list = []
     for battler in battlers:
         statuses = []

@@ -1,6 +1,6 @@
 # This doesn't quite work yet, I think my design is poor. It would be a lot \
 # cleaner to do everything with the base dictionary instead of making a load \
-# of extra lists etc to handle the data
+# of extra lists etc. to handle the data.
 
 import operator
 from random import randint
@@ -13,7 +13,7 @@ while battle:
 
     for item in battlers:
         # In a real game, this type of assignment would be done everytime the \
-        # character's speed changes in some way
+        # character's speed changes in some way.
         if 'slow' in item['statuses']:
             item['speed'] //= 4
             item['speed'].__round__()
@@ -73,7 +73,7 @@ while battle:
                 i = 0
                 condition = False
 
-# This is another list that will be used to apply certain affects to actors
+# This is another list that will be used to apply certain affects to actors.
 status_effects = [
     'KO',
     'Sleep',
