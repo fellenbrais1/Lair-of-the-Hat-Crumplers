@@ -4,15 +4,18 @@
 
 # I have actually solved the issue now in 'module_test_beta.py'.
 
-from data_test import battlers
+from data_test import initial_battlers
 from random import randint
 import operator
 
 
 def main_loop():
     """
+    Main loop handles the sequence of function in the battle system.
 
-    :return:
+    Calls other functions in order for turn operation and then goes back round.
+
+    :return: Function passes data on to other functions, and returns 'None'.
     """
     # METHOD ONE, DOESN'T WORK.
     # Just continuously runs init() and then prints "Next turn!" from /
@@ -66,12 +69,15 @@ def main_loop():
 
 def init():
     """
+    Determines active character initiative scores in battle handling.
 
-    :return:
+    Determines the score based on 'init_mod' and statuses, and reverse sorts the
+    list of battlers to determine them in order of high to low initiative.
+    :return: Function reverse sorts 'battlers' and returns 'battlers_sorted'.
     """
     print_string = ""
     init_list = []
-    for battler in battlers:
+    for battler in initial_battlers:
         if 'KO' in battler['statuses']:
             battler['init_mod'] = 0
         elif 'haste' in battler['statuses']:
@@ -85,8 +91,8 @@ def init():
         data = battler['name'], battler['init'], battler['statuses']
         init_list.append(data)
     else:
-        battlers_sorted = sorted(battlers, key=operator.itemgetter('init'),
-                                 reverse=True)
+        battlers_sorted = sorted(initial_battlers, key=operator
+                                 .itemgetter('init'), reverse=True)
         for battler in battlers_sorted:
             print_string += str.ljust(battler['name'] + "'s initiative: ", 30) \
                             + str(battler['init']) + "\n"
@@ -102,9 +108,13 @@ def init():
 
 def battle_turn(battlers_sorted):
     """
+    Determines attack and damage calculation for the active character.
 
-    :param battlers_sorted:
-    :return:
+    In battle handling characters take damage and apply new HP totals.
+
+    :param battlers_sorted: A list of active battlers in battle handling sorted
+    by their initiative scores.
+    :return: Function prints messages and returns 'battlers'.
     """
     battlers = battlers_sorted
     for battler in battlers:
@@ -137,9 +147,12 @@ def battle_turn(battlers_sorted):
 
 def print_stats(battlers):
     """
+    Prints the stats of the active characters in battle handling.
 
-    :param battlers:
-    :return:
+    Prints all active character stats from their dictionary list.
+
+    :param battlers: A list of active characters for battle handling.
+    :return: Function prints messages and returns 'battlers'.
     """
     stat_list = []
     for battler in battlers:
@@ -159,9 +172,12 @@ def print_stats(battlers):
 
 def print_statuses(battlers):
     """
+    Allows the printing of battler status effects as a list.
 
-    :param battlers:
-    :return:
+    Looks at each battler's dictionary and prints statuses in a list.
+
+    :param battlers: A list of active characters for battle handling.
+    :return: Function prints messages and returns 'battlers'.
     """
     statuses_list = []
     for battler in battlers:

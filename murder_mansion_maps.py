@@ -270,7 +270,7 @@ specific_rooms = [
 # The map building process:
 # Each row of the map has to be built out of the different rooms.
 # Each row has to have the same number of rooms otherwise it stops working.
-# Pad empty spaces with 'null_room's to make the row lengths of all the rows /
+# Pad empty spaces with 'null_room's to make the row lengths of all the rows \
 # equal.
 
 # map_01: "understruts"
@@ -474,7 +474,7 @@ map_list = [
 
 # -----------------------------------------------------------------------------
 
-# The pocket book is always in your inventory to make the list of collected /
+# The pocket book is always in your inventory to make the list of collected \
 # evidence non-empty.
 pocket_book_picture = """
                    ,,,,▄▄▄▄▄▄▄
@@ -611,7 +611,7 @@ evidence_list = [
     evidence_3,
 ]
 
-# A list that can be added to as evidence is collected, when len == 4, the /
+# A list that can be added to as evidence is collected, when len == 4, the \
 # player is ready to win the game.
 evidence_collected_list = [
     pocket_book,
@@ -746,5 +746,5 @@ foe_return_art = """
 """
 
 # Pictures generated with 'https://asciiart.club/'
-# The ASCII font can be found at: /
+# The ASCII font can be found at: \
 # 'https://patorjk.com/software/taag/#p=display&h=1&f=Delta%20Corps%20Priest%201&t='

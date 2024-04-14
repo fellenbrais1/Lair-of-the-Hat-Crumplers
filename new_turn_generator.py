@@ -1,6 +1,6 @@
 # This test doesn't work for now, there is still more I need to learn here.
 
-from data_test import battlers
+from data_test import initial_battlers
 from random import randint
 import operator
 
@@ -8,11 +8,15 @@ import operator
 # Initiative order calculation.
 def initiative_generator():
     """
+    Generates a reverse sorted list of battlers based on initiative scores.
 
-    :return:
+    Makes use of battlers data from 'data_test.py'.
+
+    :return: Function sorts list of battlers and returns it as
+    'active_turn_list'.
     """
     active_turn_list = []
-    for battler in battlers:
+    for battler in initial_battlers:
         battler_initiative = battler['ref'], battler['name'], \
                              battler['initiative']
         active_turn_list.append(battler_initiative)
@@ -25,8 +29,11 @@ def initiative_generator():
 # Active character in turn generation.
 def turn_order():
     """
+    Determines the turn order of battlers based on their initiative scores.
 
-    :return:
+    Puts battlers in order of their initiative for use in battle handling.
+
+    :return: Function prints messages and returns 'None'.
     """
     while True:
         i = 0
@@ -41,7 +48,7 @@ def turn_order():
                 i = 0
 
 
-for item in battlers:
+for item in initial_battlers:
     item['initiative'] = randint(0, 10)
 
 if __name__ == " __main__":

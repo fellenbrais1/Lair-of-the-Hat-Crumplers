@@ -38,11 +38,13 @@ def save_game():
             writer.writerows(chardata2)
             writer.writerows(chardata3)
             writer.writerows(chardata4)
+
             # COMMENTED OUT FOR NOW
             # file.write(charname_1 + " " + charclass_1 + "\n")
             # file.write(charname_2 + " " + charclass_2 + "\n")
             # file.write(charname_3 + " " + charclass_3 + "\n")
             # file.write(charname_4 + " " + charclass_4 + "\n")
+
             file.close()
             print("Your game is now saved, try to load it in the other program!")
             complete = True

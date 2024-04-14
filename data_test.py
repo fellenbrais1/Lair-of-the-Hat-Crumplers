@@ -1,7 +1,7 @@
 # These dictionaries and master dictionaries are used in \
 # 'new_turn_generator_2.py'.
 
-# For now, only 'ref', 'name', 'init', and 'init_mod' are being made use of
+# For now, only 'ref', 'name', 'init', and 'init_mod' are being made use of.
 # 'init' refers to initiative, or relative speed in this case, and the \
 # 'init_mod' is a modifier that determines 'init' reassignment between rounds \
 # of fighting.

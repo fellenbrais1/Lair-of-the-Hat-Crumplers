@@ -4,14 +4,14 @@
 
 import operator
 from random import randint
-from data_test import character_base_data, party_data, battlers, \
+from data_test import character_base_data, party_data, initial_battlers, \
     battlers_data as bd
 
 battle = True
 
 while battle:
 
-    for item in battlers:
+    for item in initial_battlers:
         # In a real game, this type of assignment would be done everytime the \
         # character's speed changes in some way.
         if 'slow' in item['statuses']:
@@ -24,7 +24,7 @@ while battle:
         item['init'] = randint(0, 20) + item['init_mod']
 
     active_turn_list = []
-    for battler in battlers:
+    for battler in initial_battlers:
         if 'KO' in battler['statuses']:
             continue
         else:

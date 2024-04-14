@@ -7,14 +7,14 @@
 
 import operator
 from random import randint
-from data_test import character_base_data, party_data, battlers, \
+from data_test import character_base_data, party_data, initial_battlers, \
     battlers_data as bd
 
 battle = True
 
 while battle:
 
-    for item in battlers:
+    for item in initial_battlers:
         # In a real game, this type of assignment would be done everytime the \
         # character's speed changes in some way.
         item['init_mod'] = item['speed'] * 2 / 1.5
@@ -22,7 +22,7 @@ while battle:
         item['init'] = randint(0, 20) + item['init_mod']
 
     active_turn_list = []
-    for battler in battlers:
+    for battler in initial_battlers:
         if 'KO' not in battler['statuses']:
             battler_initiative = battler['ref'], battler['name'], \
                                  battler['init'], battler['init_mod'], \
@@ -38,7 +38,7 @@ while battle:
     condition = True
     while condition:
         i = 0
-        for i in range(len(battlers)):
+        for i in range(len(initial_battlers)):
             active_character_dict = active_turn_list[i]
             print("The active character is: ", active_character_dict[1])
             input(">>>")
@@ -65,15 +65,15 @@ while battle:
                       bd[character_ref]['current_HP'], 'HP!')
             input(">>>")
             i += 1
-            if i == len(battlers):
+            if i == len(initial_battlers):
                 end_of_turn = True
                 while end_of_turn:
                     for item in active_turn_list:
                         if item in del_char_list:
                             active_turn_list.remove(item)
-                        for battler in battlers:
+                        for battler in initial_battlers:
                             if battler == character_ref:
-                                battlers.remove(battler)
+                                initial_battlers.remove(battler)
                             break
                     else:
                         print("\nNext turn!")

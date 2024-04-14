@@ -1,8 +1,15 @@
-from data_test import battlers, battlers_data
+from data_test import initial_battlers, battlers_data
 from random import randint
 
 
 def print_statuses():
+    """
+    Allows the printing of battler status effects as a list.
+
+    Looks at each battler's dictionary and prints statuses in a list.
+
+    :return: Function prints messages and returns 'None'.
+    """
     a = []
     b = []
     c = []
@@ -24,6 +31,14 @@ def print_statuses():
 
 
 def init(active_name):
+    """
+    Determines the initiative score for the active character.
+
+    Initiative score is determined by the characters speed and statuses.
+
+    :param active_name: The character who will is being actively processed.
+    :return: Function prints messages and returns 'None'.
+    """
     r = active_name
     if 'slow' in r['statuses']:
         r['init_mod'] \

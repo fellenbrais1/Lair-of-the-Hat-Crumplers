@@ -4,6 +4,13 @@ import operator
 
 
 def main_loop():
+    """
+    Main loop handles the sequence of function in the battle system.
+
+    Calls other functions in order for turn operation and then goes back round.
+
+    :return: Function passes data on to other functions, and returns 'None'.
+    """
     party = start(initial_battlers)
     while True:
         modified_party = initiative_calc(party)
@@ -16,6 +23,15 @@ def main_loop():
 
 
 def start(party_list):
+    """
+    Starts and initializes the 'Battle Test' system.
+
+    Allows the user to specify loading game data (not implemented) or to use a
+    set of default data from 'data_test.py'
+
+    :param party_list: A list of active characters for battle handling.
+    :return: Function prints messages and returns 'party'.
+    """
     print("Welcome to the battle test system.")
     input('>>>')
     print("Would you like to import save file data?")
@@ -41,6 +57,14 @@ def start(party_list):
 
 # Not sure how this works yet, but just an idea for now.
 def data_import(accessed_file):
+    """
+    Imports data from 'data_test.py' and allows data to be mined for use.
+
+    Data is taken from the 'data_test.py' and read for use in this program.
+
+    :param accessed_file: In this case, 'data_test.py'
+    :return: Function prints messages, and returns 'party'.
+    """
     file = accessed_file
     try:
         file.open(file, 'r')
@@ -55,6 +79,15 @@ def data_import(accessed_file):
 
 
 def initiative_calc(party_list):
+    """
+    Calculates the initiative scores for all active characters in party.
+
+    The initiative score is based off of character init_mod and statues.
+
+    :param party_list: A list of active characters for battle handling.
+    :return: Function modifies the 'party_list', prints messages, and returns
+    'modified_party'.
+    """
     for member in party_list:
         if 'KO' in member['statuses']:
             member['init_mod'] = -100
@@ -72,12 +105,29 @@ def initiative_calc(party_list):
 
 
 def sort_party(party_list):
+    """
+    Party is reverse sorted based on initiative scores.
+
+    Reverse sorting was necessary to achieve usable results for battle
+    handling.
+
+    :param party_list: A list of active characters for battle handling.
+    :return: Function sorts and returns 'sorted_party'.
+    """
     sorted_party = sorted(party_list, key=operator.itemgetter('init'),
                           reverse=True)
     return sorted_party
 
 
 def print_init(party_list):
+    """
+    Prints the active battlers and their initiative scores.
+
+    This also includes any enemies present in battle handling.
+
+    :param party_list: A list of active characters for battle handling.
+    :return: Function prints messages and returns 'sorted_party'.
+    """
     print_string = ""
     for member in party_list:
         print_string += str.ljust(member['name'] + "'s initiative: ", 30) \
@@ -94,6 +144,15 @@ def print_init(party_list):
 
 
 def battle_turn(party_list):
+    """
+    Determines attack and damage calculation for the active character.
+
+    In battle handling characters take damage and apply new HP totals.
+
+    :param party_list: A list of active characters for battle handling.
+    :return: Function prints messages, calls 'print_stats()', and returns
+    'party'.
+    """
     for member in party_list:
         print("\nThe active character is: ", member['name'])
         input(">>>")
@@ -124,6 +183,14 @@ def battle_turn(party_list):
 
 
 def print_stats(party_list):
+    """
+    Prints the stats of the active characters in battle handling.
+
+    Prints all active character stats from their dictionary list.
+
+    :param party_list: A list of active characters for battle handling.
+    :return: Function prints messages, and returns 'sorted_party'
+    """
     stat_list = []
     for member in party_list:
         stats = []
@@ -142,6 +209,14 @@ def print_stats(party_list):
 
 
 def print_statuses(party_list):
+    """
+    Allows the printing of battler status effects as a list.
+
+    Looks at each battler's dictionary and prints statuses in a list.
+
+    :param party_list: A list of active characters for battle handling.
+    :return: Function prints messages and returns 'sorted_party'.
+    """
     statuses_list = []
     for member in party_list:
         statuses = []
@@ -159,6 +234,14 @@ def print_statuses(party_list):
 
 
 def next_turn(party_list):
+    """
+    Makes the next turn of the battle handling system come around.
+
+    'party_list' is redefined as 'party' again before being returned.
+
+    :param party_list: A list of active characters for battle handling.
+    :return: Function prints messages and returns 'party'.
+    """
     print("\nNext turn!\n")
     party = party_list
     return party
