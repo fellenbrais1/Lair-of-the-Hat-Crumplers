@@ -1184,7 +1184,7 @@ def foe_disappear(
             print("\nYou lose track of the mysterious ", provided_name, "!",
                   sep="")
             art_printer(foe_disappear_art)
-            print("PRESS ENTER: ")
+            input("PRESS ENTER: ")
             provided_foe_status = 'gone'
             reappear_count = provided_turn_count + randint(1, 3)
             if provided_mode == 'developer':
@@ -1242,7 +1242,7 @@ def foe_reappear(
         print("\nThe mysterious ", provided_name, " reappears all of a sudden!"
                                                   "\n", sep="")
         art_printer(foe_return_art)
-        print("PRESS ENTER: ")
+        input("PRESS ENTER: ")
         while True:
             new_foe_y = randint(0, len(provided_map['composition']) - 1)
             new_foe_x \
