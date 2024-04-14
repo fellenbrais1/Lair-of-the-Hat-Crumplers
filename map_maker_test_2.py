@@ -10,7 +10,7 @@ from game_maps_test import *
 # Displays instructions to the player at game start.
 def how_to_play(provided_art):
     """
-     Prints a list of instructions for the player.
+    Prints a list of instructions for the player.
 
     The instructions contain the story of the game and controls.
     Also calls 'art_printer()' to print game title art.
@@ -52,7 +52,7 @@ def how_to_play(provided_art):
 # diagnostic information in some functions.
 def developer_mode():
     """
-    Allows functions to print diagnostic data if 'develop mode; is enabled.
+    Allows functions to print diagnostic data if 'develop mode' is enabled.
 
     Modes are 'player' (normal), and 'developer' (prints diagnostics).
 
@@ -128,7 +128,7 @@ def initialize_map(provided_current_map):
 
     Data is mined from the 'provided_current_map' for use here.
 
-    :param provided_current_map:
+    :param provided_current_map: The current game map.
     :return: 'initial_room', 'initial_y', initial_x', initial_foe_appear',
     'initial_d_map' forming the player's starting room and yx co-ordinates and
     the foe's starting room and turn to appear in game.
@@ -517,7 +517,7 @@ def display_available(provided_room):
     """
     Allows the display of all available directions to take from current room.
 
-    Available directions are printed in a comma seperated string for the user.
+    Available directions are printed in a comma separated string for the user.
 
     :param provided_room: The current room.
     :return: Function prints messages and returns 'None'.
