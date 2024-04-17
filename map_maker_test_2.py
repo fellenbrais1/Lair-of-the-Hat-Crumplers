@@ -8,7 +8,7 @@ from game_maps_test import *
 
 
 # Displays instructions to the player at game start.
-def how_to_play(provided_art):
+def how_to_play(provided_art: str) -> None:
     """
     Prints a list of instructions for the player.
 
@@ -16,7 +16,6 @@ def how_to_play(provided_art):
     Also calls 'art_printer()' to print game title art.
 
     :param provided_art: The art that will be printed by 'art_printer()'
-    :return: Function prints messages and returns 'None'.
     """
     print("\nSTORY:")
     print("The city has been rocked by a series of high-profile killings over "
@@ -50,7 +49,7 @@ def how_to_play(provided_art):
 
 # Allows the user to specify "developer" mode or not, which displays \
 # diagnostic information in some functions.
-def developer_mode():
+def developer_mode() -> str:
     """
     Allows functions to print diagnostic data if 'develop mode' is enabled.
 
@@ -75,7 +74,7 @@ def developer_mode():
 
 # TODO: Add the option to choose a game type on each map when this is ready.
 # Allows the user to choose what map/ game type they want to play.
-def choose_game(provided_map_list):
+def choose_game(provided_map_list: list) -> dict:
     """
     Allows the user to choose which map to play on for the game.
 
@@ -122,7 +121,7 @@ def choose_game(provided_map_list):
 
 
 # Sets up the map and starting co-ordinates when the game starts.
-def initialize_map(provided_current_map):
+def initialize_map(provided_current_map: dict) -> tuple:
     """
     Allows the player's starting room and yx co-ordinate to be generated.
 
@@ -143,14 +142,13 @@ def initialize_map(provided_current_map):
 
 
 # Displays some examples of what rooms should look like in "developer" mode.
-def example_maps(provided_mode):
+def example_maps(provided_mode: str) -> None:
     """
     Prints example maps while in 'developer mode'.
 
     Code does not do anything in 'player mode'.
 
     :param provided_mode: Mode provided by 'developer_mode()'.
-    :return: prints example maps for the user and returns 'None'.
     """
     if provided_mode == "developer":
         print("\nDEVELOPER DIAGNOSTICS 'example_maps()'")
@@ -172,15 +170,15 @@ def example_maps(provided_mode):
 
 # Shows all or some of the maps in 'map_list' when in "developer" mode.
 def iterate_maps(
-        provided_mode,
-        provided_map_list,
-        provided_foe_y,
-        provided_foe_x,
-        provided_turn_count,
-        provided_foe_appear,
-        provided_d_map,
-        provided_foe_status
-):
+        provided_mode: str,
+        provided_map_list: list,
+        provided_foe_y: int,
+        provided_foe_x: int,
+        provided_turn_count: int,
+        provided_foe_appear: int,
+        provided_d_map: tuple,
+        provided_foe_status: str
+) -> None:
     """
     Prints all maps in the game files in developer mode.
 
@@ -195,7 +193,6 @@ def iterate_maps(
     :param provided_foe_appear: The turn where the foe will appear in the game.
     :param provided_d_map: The discoverable map for use in the game.
     :param provided_foe_status: Whether the foe is present or has disappeared.
-    :return: Function sends data on to 'map_printer()' and returns 'None'.
     """
     if provided_mode == "developer":
         print("\nDEVELOPER DIAGNOSTICS 'iterate_maps()'")
@@ -218,22 +215,22 @@ def iterate_maps(
 
 # Allows the game to run until a win, lose, or exit condition has been met.
 def main_loop(
-        provided_room,
-        provided_y,
-        provided_x,
-        provided_mode,
-        provided_map_list,
-        provided_foe_y,
-        provided_foe_x,
-        provided_turn_count,
-        provided_foe_appear,
-        provided_d_map,
-        provided_last_move,
-        provided_foe_status,
-        provided_reappear_count,
-        provided_evidence_list,
-        provided_found_list
-):
+        provided_room: tuple,
+        provided_y: int,
+        provided_x: int,
+        provided_mode: str,
+        provided_map_list: list,
+        provided_foe_y: int,
+        provided_foe_x: int,
+        provided_turn_count: int,
+        provided_foe_appear: int,
+        provided_d_map: tuple,
+        provided_last_move: str,
+        provided_foe_status: str,
+        provided_reappear_count: int,
+        provided_evidence_list: list,
+        provided_found_list: list
+) -> None:
     """
     The main loop of the program that enables the game to progress.
 
@@ -369,19 +366,19 @@ def main_loop(
 
 # Allows the player to move around between the rooms of a map.
 def choose_direction(
-        provided_room,
-        provided_map,
-        provided_y,
-        provided_x,
-        provided_foe_y,
-        provided_foe_x,
-        provided_turn_count,
-        provided_foe_appear,
-        provided_d_map,
-        provided_foe_status,
-        provided_found_list,
-        provided_mode
-):
+        provided_room: tuple,
+        provided_map: dict,
+        provided_y: int,
+        provided_x: int,
+        provided_foe_y: int,
+        provided_foe_x: int,
+        provided_turn_count: int,
+        provided_foe_appear: int,
+        provided_d_map: tuple,
+        provided_foe_status: str,
+        provided_found_list: list,
+        provided_mode: str
+) -> tuple:
     """
     Allows a player or foe to choose a direction to move in and move in it.
 
@@ -513,7 +510,7 @@ def choose_direction(
 
 
 # Displays available directions you can take from a room.
-def display_available(provided_room):
+def display_available(provided_room: tuple) -> None:
     """
     Allows the display of all available directions to take from current room.
 
@@ -532,16 +529,16 @@ def display_available(provided_room):
 # Streamlines 'display_position()' in previous builds and can also be used to \
 # display the enemy position as well.
 def position_check(
-        provided_y,
-        provided_x,
-        working_y,
-        working_x,
-        provided_foe_y,
-        provided_foe_x,
-        provided_turn_count,
-        provided_foe_appear,
-        provided_foe_status
-):
+        provided_y: int,
+        provided_x: int,
+        working_y: int,
+        working_x: int,
+        provided_foe_y: int,
+        provided_foe_x: int,
+        provided_turn_count: int,
+        provided_foe_appear: int,
+        provided_foe_status: str
+) -> str:
     """
     Function to check the position of the player and the foe character.
 
@@ -578,17 +575,17 @@ def position_check(
 # Prints a map by adding rows of room elements to a print string for each row \
 # of rooms in the current map.
 def map_printer(
-        provided_map_id,
-        provided_danger_level,
-        provided_y,
-        provided_x,
-        provided_foe_y,
-        provided_foe_x,
-        provided_turn_count,
-        provided_foe_appear,
-        provided_d_map,
-        provided_foe_status
-):
+        provided_map_id: str,
+        provided_danger_level: str,
+        provided_y: int,
+        provided_x: int,
+        provided_foe_y: int,
+        provided_foe_x: int,
+        provided_turn_count: int,
+        provided_foe_appear: int,
+        provided_d_map: tuple,
+        provided_foe_status: str
+) -> tuple:
     """
     Prints the map's room objects row by row.
 
@@ -600,7 +597,7 @@ def map_printer(
     :param provided_y: The current y co-ordinate.
     :param provided_x: The current x co-ordinate.
     :param provided_foe_y: The current foe y co-ordinate.
-    :param provided_foe_x: The current foe x co-orindate.
+    :param provided_foe_x: The current foe x co-ordinate.
     :param provided_turn_count: The current turn number of the game.
     :param provided_foe_appear: The turn the foe is set to appear on this map.
     :param provided_d_map: The current game discoverable map.
@@ -659,7 +656,7 @@ def map_printer(
 
 
 # Provides co-ordinates for where the foe start the game on each map.
-def initialize_foe_position(provided_map):
+def initialize_foe_position(provided_map: dict) -> tuple:
     """
     Allows the placement of the foe at the start of the game.
 
@@ -675,10 +672,10 @@ def initialize_foe_position(provided_map):
 
 # Allows the foe to appear in the game with a message to the player.
 def foe_appearance(
-        provided_turn_count,
-        provided_foe_appear,
-        provided_foe_status
-):
+        provided_turn_count: int,
+        provided_foe_appear: int,
+        provided_foe_status: str
+) -> str:
     """
     Determines when the foe appears in the game.
 
@@ -709,17 +706,17 @@ def foe_appearance(
 # Determines the direction the foe takes each turn and ensures it is a valid \
 # direction, the foe does not move directly after a player escape.
 def foe_behave(
-        provided_map,
-        provided_foe_y,
-        provided_foe_x,
-        provided_mode,
-        provided_last_move,
-        provided_turn_count,
-        provided_foe_status,
-        provided_y,
-        provided_x,
-        provided_reappear_count
-):
+        provided_map: dict,
+        provided_foe_y: int,
+        provided_foe_x: int,
+        provided_mode: str,
+        provided_last_move: str,
+        provided_turn_count: int,
+        provided_foe_status: str,
+        provided_y: int,
+        provided_x: int,
+        provided_reappear_count: int
+) -> tuple:
     """
     Determines the moves made and behaviour of the foe.
 
@@ -738,7 +735,7 @@ def foe_behave(
     :param provided_x: The current x co-ordinate.
     :param provided_reappear_count:
     :return: 'provided_foe_y', 'provided_foe_x', 'provided_last_move',
-    'provided_foe_status', 'provided_reappear_count' for use in later fuctions.
+    'provided_foe_status', 'provided_reappear_count' for use in later functions.
     """
     opposites = {
         'up': 'down',
@@ -849,11 +846,11 @@ def foe_behave(
 
 # Allows the foe to randomly disappear and surprise the player around the map.
 def foe_disappear(
-        provided_turn_count,
-        provided_foe_status,
-        provided_reappear_count,
-        provided_mode
-):
+        provided_turn_count: int,
+        provided_foe_status: str,
+        provided_reappear_count: int,
+        provided_mode: str
+) -> tuple:
     """
     Handles the disappearance of the foe.
 
@@ -887,16 +884,16 @@ def foe_disappear(
 
 # Determines the new room assignment for when the foe reappears in the game.
 def foe_reappear(
-        provided_turn_count,
-        provided_reappear_count,
-        provided_map,
-        provided_y,
-        provided_x,
-        provided_foe_y,
-        provided_foe_x,
-        provided_foe_status,
-        provided_mode
-):
+        provided_turn_count: int,
+        provided_reappear_count: int,
+        provided_map: dict,
+        provided_y: int,
+        provided_x: int,
+        provided_foe_y: int,
+        provided_foe_x: int,
+        provided_foe_status: str,
+        provided_mode: str
+) -> tuple:
     """
     Allows the reappearance of the foe after they have disappeared.
 
@@ -955,12 +952,12 @@ def foe_reappear(
 # Determines whether the foe is close to the player when present and prints a \
 # warning for the player.
 def foe_close(
-        provided_foe_y,
-        provided_foe_x,
-        provided_y,
-        provided_x,
-        provided_foe_status
-):
+        provided_foe_y: int,
+        provided_foe_x: int,
+        provided_y: int,
+        provided_x: int,
+        provided_foe_status: str
+) -> None:
     """
     Alerts the player if the foe is close to the player character.
 
@@ -971,7 +968,6 @@ def foe_close(
     :param provided_y: The current y co-ordinate.
     :param provided_x: The current x co-ordinate.
     :param provided_foe_status: Whether the foe is present or has disappeared.
-    :return: Function prints messages and returns 'None'.
     """
     if provided_foe_status == 'present':
         y_difference = abs(provided_foe_y - provided_y)
@@ -984,14 +980,14 @@ def foe_close(
 # Handles situations where the player and foe end up in the same place, the \
 # player either dies or gets away from the foe.
 def caught(
-        provided_y,
-        provided_x,
-        provided_foe_y,
-        provided_foe_x,
-        provided_map,
-        provided_d_map,
-        provided_foe_status
-):
+        provided_y: int,
+        provided_x: int,
+        provided_foe_y: int,
+        provided_foe_x: int,
+        provided_map: dict,
+        provided_d_map: tuple,
+        provided_foe_status: str
+) -> tuple:
     """
     Determines handling if the player and foe occupy the same room.
 
@@ -1044,11 +1040,11 @@ def caught(
 # Forcibly moves the player by one valid space if they manage to get away from \
 # the foe, the foe does not move again that turn in this case.
 def forced_move(
-        provided_map,
-        provided_d_map,
-        provided_y,
-        provided_x
-):
+        provided_map: dict,
+        provided_d_map: tuple,
+        provided_y: int,
+        provided_x: int
+) -> tuple:
     """
     Moves the player to a valid neighboring room in case of player and foe
     interaction where the player can escape.
@@ -1095,7 +1091,7 @@ def forced_move(
 
 
 # Provides an integer for the turn the game is on.
-def turn_counter(provided_turn_count):
+def turn_counter(provided_turn_count: int) -> int:
     """
     Counts the current turn number of the game.
 
@@ -1110,11 +1106,11 @@ def turn_counter(provided_turn_count):
 
 # Allows the map of the level to be discovered room by room upon visit.
 def map_discover(
-        provided_map,
-        provided_d_map,
-        provided_y,
-        provided_x
-):
+        provided_map: dict,
+        provided_d_map: tuple,
+        provided_y: int,
+        provided_x: int
+) -> tuple:
     """
     Allows the discoverable (blank) map to updated with new rooms when found.
 
@@ -1142,10 +1138,10 @@ def map_discover(
 # Assigns evidence to three non-starting or null rooms in the map and stores \
 # the co-ordinates to the list of lists 'evidence_yx'.
 def assign_evidence(
-        provided_evidence_list,
-        provided_map,
-        provided_mode
-):
+        provided_evidence_list: list,
+        provided_map: dict,
+        provided_mode: str
+) -> list:
     """
     Assigns evidence items to valid rooms at game start.
 
@@ -1204,11 +1200,11 @@ def assign_evidence(
 # it, and delete that piece of evidence from the 'provided_evidence_list' so \
 # that it cannot be 'found' again.
 def find_evidence(
-        provided_y,
-        provided_x,
-        provided_evidence_list,
-        provided_found_list
-):
+        provided_y: int,
+        provided_x: int,
+        provided_evidence_list: list,
+        provided_found_list: list
+) -> tuple:
     """
     Allows handling when player finds a piece of evidence in the game.
 
@@ -1243,14 +1239,14 @@ def find_evidence(
 # Called by 'find_evidence()' to delete the evidence found from the findable \
 # list by filtering it out by its matching ['yx'] value.
 def delete_by_yx(
-        provided_evidence_list,
-        provided_target_yx
-):
+        provided_evidence_list: list,
+        provided_target_yx: tuple
+) -> list:
     """
     Deletes a found piece of evidence from the game's evidence list.
 
-    Uses an inline expression to delete from the list so it cannot be discovered
-    in the game again.
+    Uses an inline expression to delete from the list, so it cannot be
+    discovered in the game again.
 
     :param provided_evidence_list: The list of evidence in the game.
     :param provided_target_yx: The current room co-ordinates of the evidence.
@@ -1261,7 +1257,7 @@ def delete_by_yx(
 
 
 # Initialize the evidence to be used in the game from 'game_maps_test.py'.
-def initialize_evidence():
+def initialize_evidence() -> tuple:
     """
     Allows the game evidence to be initialized.
 
@@ -1276,9 +1272,9 @@ def initialize_evidence():
 
 # Allows inspection of player collected evidence items.
 def evidence_inspect(
-        provided_found_list,
-        provided_mode
-):
+        provided_found_list: list,
+        provided_mode: str
+) -> None:
     """
     Allows the player to inspect their found evidence and pocket book.
 
@@ -1287,7 +1283,6 @@ def evidence_inspect(
 
     :param provided_found_list: list of evidence the player has found in game.
     :param provided_mode: Mode generated by 'developer_mode()'.
-    :return: Function prints messages and returns 'None'.
     """
     while True:
         choice_list = []
@@ -1329,7 +1324,7 @@ def evidence_inspect(
 
 
 # Returns a 'win_condition' value of 1 if the 'found_list' is at len 4.
-def evidence_count(provided_found_list):
+def evidence_count(provided_found_list: list) -> int:
     """
     Counts the evidence found by the player, triggering win condition.
 
@@ -1350,20 +1345,19 @@ def evidence_count(provided_found_list):
 
 
 # Prints art provided to it, art is kept in 'game_maps_test.py'.
-def art_printer(provided_art):
+def art_printer(provided_art: str) -> None:
     """
     Function to print ASCII art from the game's data files.
 
     Art is listed at the bottom of the game data files.
 
     :param provided_art: The art to be printed.
-    :return: Function prints messages and returns 'None'.
     """
     print(provided_art)
 
 
 # Handles the output in the case of a game win.
-def you_win(provided_found_list):
+def you_win(provided_found_list: list) -> None:
     """
     Handles a player win situation.
 
@@ -1386,7 +1380,7 @@ def you_win(provided_found_list):
 
 
 # Initializes data for use in the game, to unclutter the RTP.
-def game_initialize():
+def game_initialize() -> tuple:
     """
     Sets up game data starting values for use in the game.
 

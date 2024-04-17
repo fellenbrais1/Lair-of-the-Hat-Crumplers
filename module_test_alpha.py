@@ -14,30 +14,26 @@ from random import randint
 import operator
 
 
-def main_loop():
+def main_loop() -> None:
     """
     Main loop handles the sequence of function in the battle system.
 
-    This does not quite work yet. DO NOT USE.
-    :return: Function passes data on to 'init()' and returns 'None'.
+    This does not quite work yet. DO NOT USE..
     """
     while True:
         init()
         active_turn()
-        battle_turn(active_turn_list="")
-        print_stats(active_turn_list="")
-        print_statuses(active_turn_list="")
+        battle_turn(active_turn_list=[""])
+        print_stats(active_turn_list=[""])
+        print_statuses(active_turn_list=[""])
 
 
 # This function assigns initiative values to each participant in the battle.
-def init():
+def init() -> None:
     """
     Determines the initiative score for the active character.
 
     Initiative score is determined by the characters speed and statuses.
-
-    :return: Function prints messages, calls 'active_turn()', and returns
-    'None'.
     """
     print_string = ""
     init_list = []
@@ -73,15 +69,12 @@ def init():
 
 # This function sorts the 'active_turn_list' based on the initiative values \
 # generated in the prior function.
-def active_turn():
+def active_turn() -> None:
     """
     Determines which player will act next in the turn order.
 
     This order is a reverse sorted list of the battlers based on their
     initiative score.
-
-    :return: Function prints a sorted list, calls 'battle_turn()', and returns
-    'None'.
     """
     active_turn_list = []
     for battler in initial_battlers:
@@ -99,15 +92,13 @@ def active_turn():
 # future to handle only damage and assigning the 'KO' status, another function \
 # should be made to handle the choices player characters and enemies will make \
 # and that can call this one when needed.
-def battle_turn(active_turn_list):
+def battle_turn(active_turn_list: list) -> None:
     """
     Determines attack and damage calculation for the active character.
 
     In battle handling characters take damage and apply new HP totals.
 
     :param active_turn_list: The ordered list of active battlers.
-    :return: Function prints messages, calls 'print_stats()', and returns
-    'None'.
     """
     i = 0
     condition = True
@@ -147,14 +138,13 @@ def battle_turn(active_turn_list):
 # This is a debugging function to check changes to stats are being applied, \
 # but could be repurposed to produce character stats as displayed in a stats \
 # screen or menu etc.
-def print_stats(active_turn_list):
+def print_stats(active_turn_list: list) -> None:
     """
     Prints the stats of the active character in battle handling.
 
     Prints all active character stats from their dictionary list.
 
     :param active_turn_list: A list of active characters for battle handling.
-    :return: Function prints messages and returns 'None'.
     """
     stat_list = []
     for i in range(len(active_turn_list) + 1):
@@ -181,14 +171,13 @@ def print_stats(active_turn_list):
 # This is a debugging function to check changes to statuses are being applied, \
 # but could be called later as a 'check party status' action in a menu or in \
 # a battle etc.
-def print_statuses(active_turn_list):
+def print_statuses(active_turn_list: list) -> None:
     """
     Allows the printing of battler status effects as a list.
 
     Looks at each battler's dictionary and prints statuses in a list.
 
     :param active_turn_list: List of active characters in battle handling.
-    :return: Function prints messages and returns 'None'.
     """
     statuses_list = []
     for i in range(len(active_turn_list) + 1):

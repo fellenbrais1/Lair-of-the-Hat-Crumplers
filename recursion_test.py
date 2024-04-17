@@ -9,13 +9,11 @@ from random import randint
 import operator
 
 
-def main_loop():
+def main_loop() -> None:
     """
     Main loop handles the sequence of function in the battle system.
 
     Calls other functions in order for turn operation and then goes back round.
-
-    :return: Function passes data on to other functions, and returns 'None'.
     """
     # METHOD ONE, DOESN'T WORK.
     # Just continuously runs init() and then prints "Next turn!" from /
@@ -23,9 +21,9 @@ def main_loop():
 
     while True:
         init()
-        battle_turn(battlers_sorted="")
-        print_stats(battlers="")
-        print_statuses(battlers="")
+        battle_turn(battlers_sorted=[""])
+        print_stats(battlers=[""])
+        print_statuses(battlers=[""])
 
     # METHOD TWO, DOESN'T WORK.
     # Also just continuously runs init() and then prints "Next turn!" from /
@@ -67,7 +65,7 @@ def main_loop():
     #         function()
 
 
-def init():
+def init() -> list:
     """
     Determines active character initiative scores in battle handling.
 
@@ -106,7 +104,7 @@ def init():
         return battlers_sorted
 
 
-def battle_turn(battlers_sorted):
+def battle_turn(battlers_sorted: list) -> list:
     """
     Determines attack and damage calculation for the active character.
 
@@ -145,7 +143,7 @@ def battle_turn(battlers_sorted):
         return battlers
 
 
-def print_stats(battlers):
+def print_stats(battlers: list) -> list:
     """
     Prints the stats of the active characters in battle handling.
 
@@ -170,7 +168,7 @@ def print_stats(battlers):
     return battlers
 
 
-def print_statuses(battlers):
+def print_statuses(battlers: list) -> list:
     """
     Allows the printing of battler status effects as a list.
 

@@ -13,7 +13,7 @@ from game_maps import *
 
 # Allowing the user to specify "developer" mode or not, which displays \
 # diagnostic information.
-def developer_mode():
+def developer_mode() -> str:
     """
     Allows functions to print diagnostic data if 'develop mode; is enabled.
 
@@ -38,7 +38,7 @@ def developer_mode():
 
 # TODO: Add the option to choose a game type on each map when this is ready.
 # Allowing the user to choose what map/ game type they want to play.
-def choose_game(provided_map_list):
+def choose_game(provided_map_list: list) -> dict:
     """
     Allows the user to choose which map to play on for the game.
 
@@ -86,7 +86,7 @@ def choose_game(provided_map_list):
 
 
 # Sets up the map and starting co-ordinates when the game starts.
-def initialize_map(provided_current_map):
+def initialize_map(provided_current_map: dict) -> tuple:
     """
     Allows the player's starting room and yx co-ordinate to be generated.
 
@@ -103,7 +103,7 @@ def initialize_map(provided_current_map):
 
 
 # Displays some examples of what rooms should look like in "developer" mode.
-def example_maps(provided_mode):
+def example_maps(provided_mode: str) -> None:
     """
     Prints example maps while in 'developer mode'.
 
@@ -127,9 +127,9 @@ def example_maps(provided_mode):
 
 # Shows all or some of the maps in 'map_list' when in "developer" mode.
 def iterate_maps(
-        provided_mode,
-        provided_map_list
-):
+        provided_mode: str,
+        provided_map_list: list
+) -> None:
     """
     Prints all of the maps in developer mode.
 
@@ -158,12 +158,12 @@ def iterate_maps(
 # TODO: Add win, lose, exit conditions to allow an end to the game.
 # Allows the game to run until a win, lose, or exit condition has been met.
 def main_loop(
-        provided_room,
-        provided_y,
-        provided_x,
-        provided_mode,
-        provided_map_list
-):
+        provided_room: tuple,
+        provided_y: int,
+        provided_x: int,
+        provided_mode: str,
+        provided_map_list: list
+) -> None:
     """
     The main loop of the program that enables the game to progress.
 
@@ -203,11 +203,11 @@ def main_loop(
 
 # Allows the player to move around between the rooms of a map.
 def choose_direction(
-        provided_room,
-        provided_map,
-        provided_y,
-        provided_x
-):
+        provided_room: tuple,
+        provided_map: dict,
+        provided_y: int,
+        provided_x: int
+) -> tuple:
     """
     Allows the display of available directions and a move in one direction.
 
@@ -276,14 +276,13 @@ def choose_direction(
 
 
 # Displays available directions you can take from a room.
-def display_available(provided_room):
+def display_available(provided_room: tuple) -> None:
     """
     Displays available directions from the current room.
 
     These directions are printed to the output.
 
     :param provided_room: The current room.
-    :return: Function prints messages and returns 'None'.
     """
     print("The following directions are available:")
     # TODO: Fix the last comma appearing with the '.join' method.
@@ -296,11 +295,11 @@ def display_available(provided_room):
 # understand the conversion between tuples and lists yet as I was working with \
 # lists before and not tuples(?).
 def display_position(
-        provided_map,
-        provided_y,
-        provided_x,
-        provided_mode
-):
+        provided_map: dict,
+        provided_y: int,
+        provided_x: int,
+        provided_mode: str
+) -> dict:
     """
     Displays the position of the player or the foe when printing the map.
 
@@ -351,10 +350,10 @@ def display_position(
 # on until all parts of the rooms in a row are printed, then it will move on \
 # to the next row until finished.
 def map_printer(
-        map_provided,
-        map_id_provided,
-        danger_level
-):
+        map_provided: dict,
+        map_id_provided: str,
+        danger_level: str
+) -> None:
     """
     Prints the map's room objects row by row.
 
@@ -364,7 +363,6 @@ def map_printer(
     :param map_provided: The current map.
     :param map_id_provided: The map id mined from the map data.
     :param danger_level: The danger level mined from the map data.
-    :return: Function prints messages and returns 'None'.
     """
     print("\nYou take a look at your map...")
     print("-----------------------------------------------------------------")

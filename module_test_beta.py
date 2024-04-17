@@ -3,14 +3,13 @@ from random import randint
 import operator
 
 
-def main_loop(provided_battlers):
+def main_loop(provided_battlers: dict) -> None:
     """
     Main loop handles the sequence of function in the battle system.
 
     Calls other functions in order for turn operation and then goes back round.
 
     :param: provided_battlers: A list of active characters for battle handling.
-    :return: Function passes data on to other functions, and returns 'None'.
     """
     while True:
         init(provided_battlers)
@@ -23,15 +22,14 @@ def main_loop(provided_battlers):
         print_statuses(initial_battlers)
 
 
-def init(provided_battlers):
+def init(provided_battlers: dict) -> dict:
     """
     Determines the initiative scores for active characters in battle handling.
 
     Initiative score is determined by the characters speed and statuses.
 
     :param provided_battlers: A list of active characters for battle handling.
-    :return: Function prints messages, calls 'active_turn()', and returns
-    'provided_battlers'.
+    :return: returns 'provided_battlers'.
     """
     init_list = []
     for battler in provided_battlers:
@@ -51,7 +49,7 @@ def init(provided_battlers):
         return provided_battlers
 
 
-def print_init(provided_battlers):
+def print_init(provided_battlers: dict) -> dict:
     """
     Prints the initiative scores for the active character.
 
@@ -75,7 +73,7 @@ def print_init(provided_battlers):
     return provided_battlers
 
 
-def battle_turn(provided_battlers):
+def battle_turn(provided_battlers: dict) -> dict:
     """
     Determines attack and damage calculation for the active character.
 
@@ -113,7 +111,7 @@ def battle_turn(provided_battlers):
         return provided_battlers
 
 
-def print_stats(provided_battlers):
+def print_stats(provided_battlers: dict) -> dict:
     """
     Prints the stats of the active characters in battle handling.
 
@@ -138,7 +136,7 @@ def print_stats(provided_battlers):
     return provided_battlers
 
 
-def print_statuses(provided_battlers):
+def print_statuses(provided_battlers: dict) -> dict:
     """
     Allows the printing of battler status effects as a list.
 

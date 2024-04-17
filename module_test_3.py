@@ -4,14 +4,11 @@ import operator
 from odict import odict
 
 
-def init():
+def init() -> None:
     """
     Determines the initiative score for the active character.
 
     Initiative score is determined by the characters speed and statuses.
-
-    :return: Function prints messages, calls 'active_turn()', and returns
-    'None'.
     """
     print_string = ""
     init_list = []
@@ -48,15 +45,12 @@ def init():
         active_turn()
 
 
-def active_turn():
+def active_turn() -> None:
     """
     Determines which player will act next in the turn order.
 
     This order is a reverse sorted list of the battlers based on their
     initiative score.
-
-    :return: Function prints a sorted list, calls 'battle_turn()', and returns
-    'None'.
     """
     active_turn_list = []
     for battler in initial_battlers:
@@ -71,15 +65,13 @@ def active_turn():
     battle_turn(active_turn_list)
 
 
-def battle_turn(active_turn_list):
+def battle_turn(active_turn_list: list) -> None:
     """
-    Determines attack and damage calalation the active character.
+    Determines attack and damage calculation the active character.
 
     In battle handling characters take damage and apply new HP totals.
 
     :param active_turn_list: The ordered list of active battlers.
-    :return: Function prints messages, calls 'print_stats()', and returns
-    'None'.
     """
     condition = True
     while condition:
@@ -115,14 +107,13 @@ def battle_turn(active_turn_list):
                 print_stats(active_turn_list)
 
 
-def print_stats(active_turn_list):
+def print_stats(active_turn_list: list) -> None:
     """
     Prints the stats of the active character in battle handling.
 
     Prints all active character stats from their dictionary list.
 
     :param active_turn_list: The characters active in battle handling.
-    :return: Function prints messages and returns 'None'.
     """
     od = odict(bd)
     stats = []
@@ -169,7 +160,7 @@ def print_stats(active_turn_list):
     print_statuses()
 
 
-def print_statuses():
+def print_statuses() -> None:
     """
     Allows the printing of battler status effects as a list.
 

@@ -1,28 +1,25 @@
 import operator
 from data_test import initial_battlers
-from module_test import init, print_statuses
+from module_test import init
 
 
-def main_loop():
+def main_loop() -> None:
     """
     Main loop handles the sequence of function in the battle system.
 
     This does not quite work yet. DO NOT USE.
-    :return: Function passes data on to 'init()' and returns 'None'.
     """
     for battler in initial_battlers:
         active_name = battler
         init(active_name)
 
 
-def active_turn():
+def active_turn() -> None:
     """
     Determines which player will act next in the turn order.
 
     This order is a reverse sorted list of the battlers based on their
     initiative score.
-
-    :return: Function sorts a list, prints it, and returns 'None'.
     """
     active_turn_list = []
     for battler in initial_battlers:

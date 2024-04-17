@@ -3,7 +3,7 @@ from random import randint
 import operator
 
 
-def main_loop():
+def main_loop() -> None:
     """
     Main loop handles the sequence of function in the battle system.
 
@@ -22,7 +22,7 @@ def main_loop():
         party = next_turn(sorted_party)
 
 
-def start(party_list):
+def start(party_list: list) -> list:
     """
     Starts and initializes the 'Battle Test' system.
 
@@ -56,7 +56,7 @@ def start(party_list):
 
 
 # Not sure how this works yet, but just an idea for now.
-def data_import(accessed_file):
+def data_import(accessed_file) -> list:
     """
     Imports data from 'data_test.py' and allows data to be mined for use.
 
@@ -78,7 +78,7 @@ def data_import(accessed_file):
         return party
 
 
-def initiative_calc(party_list):
+def initiative_calc(party_list: list) -> list:
     """
     Calculates the initiative scores for all active characters in party.
 
@@ -104,7 +104,7 @@ def initiative_calc(party_list):
         return modified_party
 
 
-def sort_party(party_list):
+def sort_party(party_list: list) -> list:
     """
     Party is reverse sorted based on initiative scores.
 
@@ -119,7 +119,7 @@ def sort_party(party_list):
     return sorted_party
 
 
-def print_init(party_list):
+def print_init(party_list: list) -> list:
     """
     Prints the active battlers and their initiative scores.
 
@@ -143,7 +143,7 @@ def print_init(party_list):
     return sorted_party
 
 
-def battle_turn(party_list):
+def battle_turn(party_list: list) -> list:
     """
     Determines attack and damage calculation for the active character.
 
@@ -182,7 +182,7 @@ def battle_turn(party_list):
         return party
 
 
-def print_stats(party_list):
+def print_stats(party_list: list) -> list:
     """
     Prints the stats of the active characters in battle handling.
 
@@ -208,7 +208,7 @@ def print_stats(party_list):
     return sorted_party
 
 
-def print_statuses(party_list):
+def print_statuses(party_list: list) -> list:
     """
     Allows the printing of battler status effects as a list.
 
@@ -233,7 +233,7 @@ def print_statuses(party_list):
     return sorted_party
 
 
-def next_turn(party_list):
+def next_turn(party_list: list) -> list:
     """
     Makes the next turn of the battle handling system come around.
 

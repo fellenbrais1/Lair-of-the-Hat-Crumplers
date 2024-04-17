@@ -1,10 +1,10 @@
 # An experimental program to load user game data from a CSV file.
 # It does not work yet.
 
-import csv
+# import csv
 
 
-def load_game():
+def load_game() -> None:
     """
     Opens a CSV file to access abd load user game data.
 

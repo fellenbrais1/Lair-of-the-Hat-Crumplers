@@ -748,3 +748,21 @@ foe_return_art = """
 # Pictures generated with 'https://asciiart.club/'
 # The ASCII font can be found at: \
 # 'https://patorjk.com/software/taag/#p=display&h=1&f=Delta%20Corps%20Priest%201&t='
+
+# Colour constants for use in art_printer().
+BLACK = '\u001b[30m'
+RED = '\u001b[31m'
+GREEN = '\u001b[32m'
+YELLOW = '\u001b[33m'
+BLUE = '\u001b[34m'
+MAGENTA = '\u001b[35m'
+CYAN = '\u001b[36m'
+WHITE = '\u001b[37m'
+RESET = '\u001b[0m'
+
+BOLD = '\u001b[1m'
+UNDERLINE = '\u001b[4m'
+REVERSE = '\u001b[7m'
+
+# Change the default print colour here.
+default_colour = BOLD

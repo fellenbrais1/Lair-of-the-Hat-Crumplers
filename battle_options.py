@@ -5,7 +5,7 @@ from random import randint
 from time import sleep
 
 
-def battle_options():
+def battle_options() -> None:
     """
     Allows a user to choose the next action they will take in battle.
 
