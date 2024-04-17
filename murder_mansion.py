@@ -1630,7 +1630,7 @@ def evidence_inspect(
             print(type("'choice_list type' =", choice_list))
         print("\n'1/2/3/4' inspect the item you want, 'l/list' to display "
               "again or 'x/exit' to exit this menu.\n")
-        choice = input("PRESS ENTER: ")
+        choice = input(">>>: ")
         try:
             if int(choice) in choice_list:
                 choice = int(choice) - 1
